@@ -1,0 +1,39 @@
+# Site settings
+name: Tobi7's Blog
+email: 469464794@qq.com
+author: Tobi7
+url: https://tobi7.github.io/
+resume_site: www.baidu.com
+github: https://github.com/Tobi7/
+baseurl: ""
+description: one blog
+meta_description: one blog
+motto: 努力不一定成功 但是不努力一定会很舒服.
+banner: banner
+
+#permalink: /:categories/:year/:month/:day/:title/
+permalink: /:year/:month/:day/:title/
+paginate: 10
+
+exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
+
+github_username: Tobi7
+highlighter: Pygments
+
+# Build settings
+markdown: kramdown
+
+baidu_analysis: 94be4b0f9fc5d94cc0d0415ea6761ae9
+
+FB:
+  comments :
+    provider : duoshuo
+    duoshuo:
+        short_name : luoyan35714
+    disqus :
+        short_name : freudkang
+    # facebook :
+    #   appid : 123
+    #   num_posts: 5
+    #   width: 580
+    #   colorscheme: light

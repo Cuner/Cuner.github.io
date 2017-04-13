@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <description>test_description</description>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 13 Apr 2017 15:08:31 +0800</pubDate>
+    <lastBuildDate>Thu, 13 Apr 2017 15:08:31 +0800</lastBuildDate>
+    <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>如何使用LessOrMore这个Jekyll模版</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#致谢&quot; id=&quot;markdown-toc-致谢&quot;&gt;致谢&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#使用&quot; id=&quot;markdown-toc-使用&quot;&gt;使用&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#下载&quot; id=&quot;markdown-toc-下载&quot;&gt;下载&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#配置&quot; id=&quot;markdown-toc-配置&quot;&gt;配置&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#如何写文章&quot; id=&quot;markdown-toc-如何写文章&quot;&gt;如何写文章&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#执行&quot; id=&quot;markdown-toc-执行&quot;&gt;执行&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#效果&quot; id=&quot;markdown-toc-效果&quot;&gt;效果&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#为什么重复造轮子&quot; id=&quot;markdown-toc-为什么重复造轮子&quot;&gt;为什么重复造轮子&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#关于作者&quot; id=&quot;markdown-toc-关于作者&quot;&gt;关于作者&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#关于打赏&quot; id=&quot;markdown-toc-关于打赏&quot;&gt;关于打赏&lt;/a&gt;    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#支付宝&quot; id=&quot;markdown-toc-支付宝&quot;&gt;支付宝&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;#微信&quot; id=&quot;markdown-toc-微信&quot;&gt;微信&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;致谢&quot;&gt;致谢&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;感谢&lt;a href=&quot;http://lesscss.cn/&quot;&gt;Less官网&lt;/a&gt;的样式，本Jekyll框架的样式都是基于Less官网的样式直接拷贝过来的。只是重构了JS，并且加入了Jekyll语法而已。&lt;/li&gt;
+  &lt;li&gt;感谢&lt;a href=&quot;https://github.com/&quot;&gt;Github&lt;/a&gt;提供的代码维护和发布平台&lt;/li&gt;
+  &lt;li&gt;感谢&lt;a href=&quot;https://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt;团队做出如此优秀的产品&lt;/li&gt;
+  &lt;li&gt;感谢&lt;a href=&quot;https://github.com/mattvh/solar-theme-jekyll&quot;&gt;Solar&lt;/a&gt;的原作者&lt;a href=&quot;http://www.webmaster-source.com/&quot;&gt;Matt Harzewski&lt;/a&gt;，在&lt;code&gt;2014.11&lt;/code&gt;-&lt;code&gt;2016.09&lt;/code&gt;的两年间，我的博客选用了此样式模版&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;使用&quot;&gt;使用&lt;/h1&gt;
+
+&lt;h2 id=&quot;下载&quot;&gt;下载&lt;/h2&gt;
+
+&lt;p&gt;使用git从&lt;a href=&quot;https://github.com/luoyan35714/LessOrMore.git&quot;&gt;LessOrMore&lt;/a&gt;主页下载项目&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git clone https://github.com/luoyan35714/LessOrMore.git&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;配置&quot;&gt;配置&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;LessOrMore&lt;/code&gt;项目需要配置的只有一个文件&lt;code&gt;_config.yml&lt;/code&gt;，打开之后按照如下进行配置。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;特别注意&lt;code&gt;baseurl&lt;/code&gt;的配置。如果是&lt;code&gt;***.github.io&lt;/code&gt;项目，不修改为空’‘的话，会导致JS,CSS等静态资源无法找到的错误&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;name: 博客名称
+email: 邮箱地址
+author: 作者名
+url: 个人网站
+### baseurl修改为项目名，如果项目是&amp;#39;***.github.io&amp;#39;，则设置为空&amp;#39;&amp;#39;
+baseurl: &amp;quot;/LessOrMore&amp;quot;
+resume_site: 个人简历网站
+github: github地址
+github_username: github用户名称
+FB:
+  comments :
+    provider : duoshuo
+    duoshuo:
+        short_name : 多说账户
+    disqus :
+        short_name : Disqus账户&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;如何写文章&quot;&gt;如何写文章&lt;/h2&gt;
+
+&lt;p&gt;在&lt;code&gt;LessOrMore/_posts&lt;/code&gt;目录下新建一个文件，可以创建文件夹并在文件夹中添加文件，方便维护。在新建文件中粘贴如下信息，并修改以下的&lt;code&gt;titile&lt;/code&gt;,&lt;code&gt;date&lt;/code&gt;,&lt;code&gt;categories&lt;/code&gt;,&lt;code&gt;tag&lt;/code&gt;的相关信息，添加&lt;code&gt;* content {:toc}&lt;/code&gt;为目录相关信息，在进行正文书写前需要在目录和正文之间输入至少2行空行。然后按照正常的Markdown语法书写正文。&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;---
+layout: post
+#标题配置
+title:  标题
+#时间配置
+date:   2016-08-27 01:08:00 +0800
+#大类配置
+categories: document
+#小类配置
+tag: 教程
+---
+
+* content
+{:toc}
+
+
+我是正文。我是正文。我是正文。我是正文。我是正文。我是正文。&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;执行&quot;&gt;执行&lt;/h2&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;jekyll server&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h2 id=&quot;效果&quot;&gt;效果&lt;/h2&gt;
+&lt;p&gt;打开浏览器并输入URL&lt;code&gt;http://localhost:4000/&lt;/code&gt;,回车。&lt;/p&gt;
+
+&lt;h1 id=&quot;为什么重复造轮子&quot;&gt;为什么重复造轮子&lt;/h1&gt;
+
+&lt;p&gt;很明显，我在重复造轮子。在13年接触到GIT，14年末接触到Jekyll，然后搭建了自己的博客，当时是选用了&lt;a href=&quot;http://jekyllthemes.org/&quot;&gt;JekyllThemes&lt;/a&gt;上的&lt;a href=&quot;https://github.com/mattvh/solar-theme-jekyll&quot;&gt;Solar&lt;/a&gt;主题，一直到现在。不过中间一直感觉页面风格还是偏暗，阅读不方便。并且有一些小的细节做的不是很好。在页面的跨平台浏览上有一些瑕疵。并且不区分一级标题和二级标题，导致没有重点强调。诸如此类，用了2年，用的越多，越发吃力，中间就一直在寻找新的能够让我一眼认定的主题。&lt;/p&gt;
+
+&lt;p&gt;虽然设计好看的主题很多。但是真正适合拿来做博客的却不多。中间一直没有找到合适的主题。直到有一天看到Less官网的主题之后，豁然觉得这就是我的博客想要的样子。简单而又不平凡。所以就决定了要把博客迁移到这个主题，然后拿了两天晚上来把这个主题做出来。&lt;/p&gt;
+
+&lt;p&gt;重复造了轮子，但是这个是迄今为止自己觉得最适合我的博客的轮子，所以是值得的！&lt;/p&gt;
+
+&lt;h1 id=&quot;关于作者&quot;&gt;关于作者&lt;/h1&gt;
+
+&lt;p&gt;热爱开源，热爱折腾的Java程序猿。更多个人信息和联系方式可以参照&lt;a href=&quot;http://www.hifreud.com/Resume.io/&quot;&gt;我的简介&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h1 id=&quot;关于打赏&quot;&gt;关于打赏&lt;/h1&gt;
+
+&lt;p&gt;如果你也像我一样在寻觅一个简洁的博客主题。不妨试下LessOrMore。&lt;/p&gt;
+
+&lt;p&gt;当然你也可以为了我的工作打赏！以激励我做出更好的东西。&lt;/p&gt;
+
+&lt;h2 id=&quot;支付宝&quot;&gt;支付宝&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/styles/images/zhifubao.PNG&quot; alt=&quot;支付宝二维码付款给Freud&quot; width=&quot;310&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;微信&quot;&gt;微信&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/styles/images/weixin.png&quot; alt=&quot;微信二维码付款给Freud&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sat, 27 Aug 2016 01:08:00 +0800</pubDate>
+        <link>http://localhost:4000/2016/08/27/how-to-use-this-jekyll-theme/</link>
+        <guid isPermaLink="true">http://localhost:4000/2016/08/27/how-to-use-this-jekyll-theme/</guid>
+        
+        <category>教程</category>
+        
+        
+        <category>document</category>
+        
+      </item>
+    
+      <item>
+        <title>我面试过的上百个候选者中成功的人总会做的事情</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#充分的准备知道哪些事情是想要让面试官知道的&quot; id=&quot;markdown-toc-充分的准备知道哪些事情是想要让面试官知道的&quot;&gt;充分的准备，知道哪些事情是想要让面试官知道的。&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#了解你的听众组织你的回答语言&quot; id=&quot;markdown-toc-了解你的听众组织你的回答语言&quot;&gt;了解你的听众，组织你的回答语言。&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#保持冷静记住这次面试是双向的&quot; id=&quot;markdown-toc-保持冷静记住这次面试是双向的&quot;&gt;保持冷静，记住这次面试是双向的。&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;本文翻译自&lt;a href=&quot;https://www.linkedin.com/&quot;&gt;Linked In&lt;/a&gt;，作者Minal Mehta&lt;/p&gt;
+
+&lt;p&gt;原文地址 &lt;a href=&quot;http://www.linkedin.com/pulse/20141002164029-1473578-how-to-win-an-interview-before-it-starts?midToken=AQH6jyhMOpWb0g&amp;amp;trk=eml-b2_content_ecosystem_digest-recommended_articles-74-null&amp;amp;fromEmail=fromEmail&amp;amp;ut=3Sa86TzhqLj6s1&quot;&gt;I’ve Interviewed 100s of Candidates and the Ones I Hire Always Do This&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;面试是很有压力的一件事，通常，你只有不到一个小时的时间来使面试官相信你是所有候选者中最合适那一个。这个面试官很有可能还会在当天面试其他的候选者并且还有其他的事情要做。那你如何才能够脱颖而出呢。&lt;/p&gt;
+
+&lt;h1 id=&quot;充分的准备知道哪些事情是想要让面试官知道的&quot;&gt;充分的准备，知道哪些事情是想要让面试官知道的。&lt;/h1&gt;
+
+&lt;p&gt;通过上百个我做组织的面试者们，我发现最合适的那些面试者永远都是表达最清晰的。&lt;/p&gt;
+
+&lt;p&gt;所有人都知道充足的准备是必要的，但是如何准备是极其重要的，许多人会准备一份面试题和答案的合集，这导致一部分人在遇到合集以外的问题的时候会恐慌（我见过许多人恐慌或者说“这是一个好问题”，当我面试别人或者帮助那些学生准备面试的时候）&lt;/p&gt;
+
+&lt;p&gt;以下是我的建议：以最近的记忆最清晰的工作流程开始。通过阅读他们的信息或者询问那些你知道的在这工作的朋友来调查面试的公司和职位，了解他们正在寻找一个拥有什么样能力和文化的人&lt;/p&gt;
+
+&lt;p&gt;了解自己，你自己最擅长什么？怎么让你自身如何与公司正在找的人相匹配？这个过程会让你有一个清晰的定位，知道这个公司的职位是不是真的适合你。假设是的，你的自身能力跟这个职位相匹配，你同样知道自己的不足在哪。&lt;/p&gt;
+
+&lt;p&gt;从你过往工作经历中找出你突出的贡献，那些你已经确定了你的能力和工作要求相交集的部分。并且，找出一些事情来证明你可以改善你不足的方面。通常，你想出来的这几件事件可以重新组装利用来彰显不同方面的能力。&lt;/p&gt;
+
+&lt;h1 id=&quot;了解你的听众组织你的回答语言&quot;&gt;了解你的听众，组织你的回答语言。&lt;/h1&gt;
+
+&lt;p&gt;我推荐使用排序的组织来确保你的面试官可以理解你的表述。我是STAR方法的忠实粉丝：Situation处境（场景再现），Task任务（必须要做到的），Action行动（你实际做的），Result结果（发生了什么）&lt;/p&gt;
+
+&lt;p&gt;场景再现是最重要的，虽然你很清楚发生了什么，但是面试官不知道，花些时间来确保他们可以设身处地的知道当时的情况。如果你不这么做，剩下的故事将是对牛弹琴。&lt;/p&gt;
+
+&lt;p&gt;我个人也一直将同样的方法用在各种面试中。“如果你处在一个特定的情境下，你会怎么做？” 花点时间去建立一个共享的空间，让面试官了解情况，然后你们才能一起来聊需要做什么。&lt;/p&gt;
+
+&lt;h1 id=&quot;保持冷静记住这次面试是双向的&quot;&gt;保持冷静，记住这次面试是双向的。&lt;/h1&gt;
+
+&lt;p&gt;深呼吸然后记住这只是一次谈话，面试官给你一个评价是很重要的，但是同样重要的是你也要给面试官一个评价，并且确认这是你想要工作的地方。&lt;/p&gt;
+</description>
+        <pubDate>Sat, 20 Dec 2014 20:05:00 +0800</pubDate>
+        <link>http://localhost:4000/2014/12/20/I-ve-Interviewed-100s-of-Candidates-and-the-Ones-I-Hire-Always-Do-This/</link>
+        <guid isPermaLink="true">http://localhost:4000/2014/12/20/I-ve-Interviewed-100s-of-Candidates-and-the-Ones-I-Hire-Always-Do-This/</guid>
+        
+        <category>interview</category>
+        
+        
+        <category>翻译文章</category>
+        
+      </item>
+    
+      <item>
+        <title>Welcome to Jekyll!</title>
+        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#诫子书&quot; id=&quot;markdown-toc-诫子书&quot;&gt;诫子书&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;First POST build by Jekyll.&lt;/p&gt;
+
+&lt;h2 id=&quot;诫子书&quot;&gt;诫子书&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/styles/images/jiezishu.jpg&quot; alt=&quot;诫子书&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#&quot;&gt;诸葛亮&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;夫君子之行，静以修身，俭以养德。非淡泊(澹泊)无以明志，非宁静无以致远。夫学须静也，才须学也。非学无以广才，非志无以成学。淫慢则不能励精，险躁则不能冶性。
+年与时驰，意与日去，遂成枯落，多不接世，悲守穷庐，将复何及！&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 17 Nov 2014 13:31:01 +0800</pubDate>
+        <link>http://localhost:4000/2014/11/17/welcome-to-jekyll/</link>
+        <guid isPermaLink="true">http://localhost:4000/2014/11/17/welcome-to-jekyll/</guid>
+        
+        <category>jekyll</category>
+        
+        
+        <category>jekyll</category>
+        
+      </item>
+    
+  </channel>
+</rss>
