@@ -9,16 +9,16 @@ redirect_from:
 ---
 ## 一、Spring AOP代理的相关属性
 
-- ### 开启AOP自动代理
+- 开启AOP自动代理
 ```
 <aop:aspect-autoproxy />
 ```
 
-- ### proxy-target-class:强调spring应该使用那种代理方式：JDK动态代理和CGLIB
+- proxy-target-class:强调spring应该使用那种代理方式：JDK动态代理和CGLIB
   - JDK动态代理：代理对象必须为某个接口的实现，它是通过在运行期间创建一个接口的实现类来完成对目标对象的代理【默认属性值为false，即使用的是JDK动态代理】
   - CGLIB代理：原理类似于JDK代理，不同之处在于运行期间生成的代理对象是针对目标类扩展的子类，CGLIB是高效代码生成包，底层是依靠ASM（字节码编辑类库）操作字节码实现的，性能比JDK强。
   - 使用CGLIB代理会出现的问题:无法通知Final方法，因为他们不允许被覆盖；还需要将CGLIB二进制包放入classpath下面；强制使用CGLIB代理需要将proxy-target-class设置为true
-- ### expose-proxy:目标对象内部的自我调用将无法实施切面中的增强
+- expose-proxy:目标对象内部的自我调用将无法实施切面中的增强
 
 
 ## 二、AOP代理无法切入同类调用方法的问题
