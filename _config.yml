@@ -24,7 +24,7 @@ sass:
 url: # the base hostname & protocol for your site, e.g. http://example.com
 baseurl: # the subpath of your site, e.g. /blog
 title: Tobi7
-description: "Tobi7's blog"
+description: "No zero day."
 keywords: 'jekyll,theme,gem-based,blog'
 author:
   name:
