@@ -10,6 +10,7 @@ redirect_from:
 ## 一、Spring AOP代理的相关属性
 
 - 开启AOP自动代理
+
 ```
 <aop:aspect-autoproxy />
 ```
