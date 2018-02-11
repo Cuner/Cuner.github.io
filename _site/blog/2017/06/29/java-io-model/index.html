@@ -13,20 +13,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <!-- Begin Jekyll SEO tag v2.4.0 -->
-<title>Tags | Tobi7</title>
+<title>java网络编程 | Tobi7</title>
 <meta name="generator" content="Jekyll v3.5.2" />
-<meta property="og:title" content="Tags" />
+<meta property="og:title" content="java网络编程" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="This page shows a list of tags used in this blog." />
-<meta property="og:description" content="This page shows a list of tags used in this blog." />
-<link rel="canonical" href="http://localhost:4000/blog/tags/" />
-<meta property="og:url" content="http://localhost:4000/blog/tags/" />
+<meta name="description" content="java网络编程" />
+<meta property="og:description" content="java网络编程" />
+<link rel="canonical" href="http://localhost:4000/blog/2017/06/29/java-io-model/" />
+<meta property="og:url" content="http://localhost:4000/blog/2017/06/29/java-io-model/" />
 <meta property="og:site_name" content="Tobi7" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-06-29T00:00:00+08:00" />
 <script type="application/ld+json">
-{"description":"This page shows a list of tags used in this blog.","@type":"WebPage","url":"http://localhost:4000/blog/tags/","headline":"Tags","@context":"http://schema.org"}</script>
+{"description":"java网络编程","@type":"BlogPosting","url":"http://localhost:4000/blog/2017/06/29/java-io-model/","headline":"java网络编程","dateModified":"2017-06-29T00:00:00+08:00","datePublished":"2017-06-29T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2017/06/29/java-io-model/"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-<meta name="keywords" content="" />
+<meta name="keywords" content="网络IO" />
 
 
 
@@ -110,46 +112,48 @@
             <div class="unit-body">
                 <div class="unit-inner unit-body-inner">
                     <div class="entry-content">
-                        <article class="unit-article layout-page">
+                        <article class="unit-article layout-post">
     <div class="unit-inner unit-article-inner">
-        <div class="content">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
             <header>
                 <div class="unit-head">
                     <div class="unit-inner unit-head-inner">
-                        <h1 class="entry-title">Posts By Tag</h1>
+                        <h1 class="entry-title" itemprop="name">java网络编程</h1>
                     </div>
                 </div>
             </header>
-
             <div class="bd article-content">
                 <div class="entry-content">
-                    
+                    <div class="meta">
+                        <p class="date-publish">
+                            Published:
+                            <time itemprop="datePublished" class="date-pub updated"
+                                title="2017-06-29T00:00:00+08:00" datetime="2017-06-29T00:00:00+08:00">June 29, 2017 </time>
+                            by
+                            <a class="author" href="/" rel="author" title="Show Author">
+                                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                                    <span itemprop="name"></span>
+                                </span>
+                            </a>
+                            
+                            
+                        </p>
+                        <ul class="list-category list-linear">
+                            <li class="list-head">Categories: </li>
+                             
+     
+        <li>
+            <a href="/blog/categories/#网络IO" title="网络IO">
+            网络IO <span>2</span></a>
+        </li>
+    
 
 
 
-<ul class="tag_box tags inline">
-    
-    
-    
-        
-        <li>
-            <a href="/blog/tags/#aop" title="aop">aop <span>1</span></a>
-        </li>
-    
-        
-        <li>
-            <a href="/blog/tags/#hbase" title="hbase">hbase <span>2</span></a>
-        </li>
-    
-        
-        <li>
-            <a href="/blog/tags/#hdfs" title="hdfs">hdfs <span>1</span></a>
-        </li>
-    
-        
-        <li>
-            <a href="/blog/tags/#mysql" title="mysql">mysql <span>2</span></a>
-        </li>
+                        </ul>
+                        <ul class="list-tag list-linear">
+                            <li class="list-head">Tags: </li>
+                             
     
         
         <li>
@@ -160,144 +164,105 @@
 
 
 
+                        </ul>
+                    </div>
+                    <div itemprop="articleBody">
+                        <h2 id="heading-一nio">一、NIO</h2>
+
+<ul>
+  <li>通道和缓冲区(Channels and Buffer):标准的IO基于字节流和字符流进行操作的，而NIO是基于通道（Channel）和缓冲区（Buffer）进行操作，数据总是从通道读取到缓冲区中，或者从缓冲区写入到通道中。</li>
 </ul>
 
+<center><img src="/assets/images/post/2017-06-29-java-io-model/nio-channel-buffer.jpg" width="500" /></center>
 
-    
-    <h3 id="aop">aop</h3>
-    <ul class="post-list">
-        
-        
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/06/29/spring-aop-proxy/">Spring AOP代理</a>
-            
-            <span class="date">Jun 29, 2017</span></li>
-        
-    
+<ul>
+  <li>选择器(Seletor):Java NIO的选择器允许一个单独的线程来监视多个输入通道，你可以使用一个选择器注册多个通道，并设置感兴趣的通道事件，然后使用一个单独的线程来“选择”已准备好的通道：这些通道里已经有可以处理的输入，或备写入的通道。这种选择机制，使得一个单独的线程很容易来管理多个通道。</li>
+</ul>
 
+<center><img src="/assets/images/post/2017-06-29-java-io-model/nio-selector.jpg" width="500" /></center>
 
+<ul>
+  <li>非阻塞模式:Java IO的各种流是阻塞的。这意味着，当一个线程调用read() 或 write()时，该线程被阻塞，直到有一些数据被读取，或数据完全写入。该线程在此期间不能再干任何事情了。 Java NIO的非阻塞模式，使一个线程从某通道发送请求读取数据，但是它仅能得到目前可用的数据，如果目前没有数据可用时，就什么都不会获取。而不是保持线程阻塞，所以直至数据变的可以读取之前，该线程可以继续做其他的事情。 非阻塞写也是如此。一个线程请求写入一些数据到某通道，但不需要等待它完全写入，这个线程同时可以去做别的事情。 线程通常将非阻塞IO的空闲时间用于在其它通道上执行IO操作，所以一个单独的线程现在可以管理多个输入和输出通道（channel）。 Java NIO可以让你异步的使用IO，例如：当线程从通道读取数据到缓冲区时，线程还是可以进行其他事情。当数据被写入到缓冲区时，线程可以继续处理它。从缓冲区写入通道也类似。</li>
+</ul>
 
+<p>PS:NIO解析数据可能比从一个阻塞流中读取数据更复杂。</p>
 
+<center><img src="/assets/images/post/2017-06-29-java-io-model/nio-data-read.jpg" width="500" /></center>
+
+<h2 id="heading-二网络编程三类模型">二、网络编程三类模型</h2>
+
+<ul>
+  <li>BIO(blocking IO):</li>
+</ul>
+
+<p>传统的BIO网络编程是同步阻塞型的， 传统的同步阻塞模型开发中，ServerSocket负责绑定IP地址，启动监听端口；等待Socket发起连接操作。通常使用一个独立的线程来负责监听客户端的连接，当连接成功后，服务端需要创建一个新的线程负责双方的通信，双方通过输入和输出流进行同步阻塞式通信，即一连接一线程模型。这类网络模型在高并发的场景下，会实例出大量的线程，导致系统资源的耗费。你有少量的连接使用非常高的带宽，一次发送大量的数据，也许典型的IO服务器实现可能非常契合。</p>
+
+<center><img src="/assets/images/post/2017-06-29-java-io-model/bio-connection-thread.jpg" width="500" /></center>
+
+<ul>
+  <li>NIO(NO Blocking IO):</li>
+</ul>
+
+<p>NIO网络编程是同步非阻塞型的，等同于多路复用的IO模型。如果需要管理同时打开的成千上万个连接，这些连接每次只是发送少量的数据，例如聊天服务器，实现NIO的服务器可能是一个优势。同样，如果你需要维持许多打开的连接到其他计算机上，如P2P网络中，使用一个单独的线程来管理你所有出站连接，可能是一个优势。仅用单个线程来处理多个Channels的好处是，只需要更少的线程来处理通道。事实上，可以只用一个线程处理所有的通道。对于操作系统来说，线程之间上下文切换的开销很大，而且每个线程都要占用系统的一些资源（如内存）。因此，使用的线程越少越好。 但是，需要记住，现代的操作系统和CPU在多任务方面表现的越来越好，所以多线程的开销随着时间的推移，变得越来越小了。实际上，如果一个CPU有多个内核，不使用多任务可能是在浪费CPU能力。</p>
+
+<center><img src="/assets/images/post/2017-06-29-java-io-model/nio-connection-thread.jpg" width="500" /></center>
+
+<ul>
+  <li>AIO(Asynchronous IO)</li>
+</ul>
+
+<p>AIO网络编程是异步非阻塞型的。以读操作为例，当发起一个读请求后，请求线程并不用关心通道中的数据何时准备就绪，也不用亲自对准备就绪后的数据进行处理，在发起读请求后请求线程可以接着做任何其他事情。此后内核将自动等待数据的到来，当通道中的数据准备就绪后，系统将自动调用事先指定好的处理器对数据进行处理。请求线程只需要调用相应的read/write方法，并且传入CompletionHandler(动作完成的处理器)就已经完成任务，后续的操作都会异步的自动完成。</p>
+
+<p>相比NIO，AIO更加适合连接数较大且IO操作较重(单次IO传输的数据较大)的场景，例如相册服务器。</p>
+
+<ul>
+  <li>三者之间的比较
+    <ul>
+      <li>BIO，同步阻塞式IO，简单理解：一个连接一个线程</li>
+      <li>NIO，同步非阻塞IO，简单理解：一个线程</li>
+      <li>AIO，异步非阻塞IO，简单理解：一个有效请求一个线程</li>
     </ul>
+  </li>
+</ul>
 
-    
-    <h3 id="hbase">hbase</h3>
-    <ul class="post-list">
-        
-        
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/12/25/hbase-search-index/">HBASE的索引查询</a>
-            
-            <span class="date">Dec 25, 2017</span></li>
-        
-    
+<h2 id="heading-三举例">三、举例</h2>
 
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/12/20/hbase-construction-theory/">HBASE原理与架构</a>
-            
-            <span class="date">Dec 20, 2017</span></li>
-        
-    
+<p>1.上班期间，公司内部1500余人口打开聊天工具进行工作交流，假设1s内一共进行50次通信，我们来看看这三种IO模型的资源消耗：【NIO最为适合】</p>
+<ul>
+  <li>BIO:服务器根据1500个连接需要分配1500个线程(考虑到BIO读写相互阻塞，这里应该是1500*2个线程)，这些线程各自独立完成读写操作</li>
+  <li>NIO:服务器根据连接创建通道，并且通过selector来管理这1500个通道，同时使用一个线程来监听来自这1500个通道的读写操作，这一个线程要保证在1s内完成50次读写操作（可以增加线程来管理这些通道，避免读写操作耗时较长影响到下一次对通道的监听）</li>
+  <li>AIO:不需要建立连接，1s内需要分配50个线程来完成有效的读写请求，线程之间相互独立</li>
+</ul>
+
+<p>2.换一个场景，将TT聊天改成向相册服务器上传下载图片，这种场景AIO更为适合：如果使用NIO，需要使用有限的线程来处理这种数据量大(50张图片)的读写操作会相当耗时，严重地延后距离下一次监听读写操作的时间，而AIO使用50个有效的线程避免了这一问题</p>
 
 
-
-
-    </ul>
-
-    
-    <h3 id="hdfs">hdfs</h3>
-    <ul class="post-list">
-        
-        
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/12/05/hdfs-theory/">HDFS分布式文件系统</a>
-            
-            <span class="date">Dec 05, 2017</span></li>
-        
-    
-
-
-
-
-    </ul>
-
-    
-    <h3 id="mysql">mysql</h3>
-    <ul class="post-list">
-        
-        
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/05/15/database-master-slave-syn/">数据库主从复制</a>
-            
-            <span class="date">May 15, 2017</span></li>
-        
-    
-
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/03/29/database-lock-mechanism/">数据库锁机制</a>
-            
-            <span class="date">Mar 29, 2017</span></li>
-        
-    
-
-
-
-
-    </ul>
-
-    
-    <h3 id="网络IO">网络IO</h3>
-    <ul class="post-list">
-        
-        
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/06/29/java-io-model/">java网络编程</a>
-            
-            <span class="date">Jun 29, 2017</span></li>
-        
-    
-
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/06/22/IO-model/">网络IO模型</a>
-            
-            <span class="date">Jun 22, 2017</span></li>
-        
-    
-
-
-
-
-    </ul>
-
+                    </div>
                 </div>
             </div>
-
             <footer class="unit-foot">
                 <div class="unit-inner unit-foot-inner">
-                    <p>
-                        <a class="internal gotop" href="#page">Back to Top</a>
-                    </p>
+                    <div class="post-buttons">
+                        <a class="internal gotop" href="#page" title="Back to Top">Back to Top</a>
+                        
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" rel="prev" href="/blog/2017/06/22/IO-model/" title=" '网络IO模型'"> ← 网络IO模型</a>
+                        
+                        
+                            <a class="internal" rel="next" href="/blog/2017/06/29/spring-aop-proxy/" title="Next Post 'Spring AOP代理'">Spring AOP代理 → </a>
+                        
+                    </nav>
                 </div>
             </footer>
+            <div class="misc-content">
+                
+            </div>
         </div>
     </div>
 </article>
+
                     </div>
                 </div>
             </div>
