@@ -13,20 +13,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
 <!-- Begin Jekyll SEO tag v2.4.0 -->
-<title>Categories | Tobi7</title>
+<title>HDFS分布式文件系统 | Tobi7</title>
 <meta name="generator" content="Jekyll v3.5.2" />
-<meta property="og:title" content="Categories" />
+<meta property="og:title" content="HDFS分布式文件系统" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="This page shows a list of categories used in this blog." />
-<meta property="og:description" content="This page shows a list of categories used in this blog." />
-<link rel="canonical" href="http://localhost:4000/blog/categories/" />
-<meta property="og:url" content="http://localhost:4000/blog/categories/" />
+<meta name="description" content="HDFS分布式文件系统" />
+<meta property="og:description" content="HDFS分布式文件系统" />
+<link rel="canonical" href="http://localhost:4000/blog/2017/12/05/hdfs-theory/" />
+<meta property="og:url" content="http://localhost:4000/blog/2017/12/05/hdfs-theory/" />
 <meta property="og:site_name" content="Tobi7" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-12-05T00:00:00+08:00" />
 <script type="application/ld+json">
-{"description":"This page shows a list of categories used in this blog.","@type":"WebPage","url":"http://localhost:4000/blog/categories/","headline":"Categories","@context":"http://schema.org"}</script>
+{"description":"HDFS分布式文件系统","@type":"BlogPosting","url":"http://localhost:4000/blog/2017/12/05/hdfs-theory/","headline":"HDFS分布式文件系统","dateModified":"2017-12-05T00:00:00+08:00","datePublished":"2017-12-05T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2017/12/05/hdfs-theory/"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-<meta name="keywords" content="" />
+<meta name="keywords" content="hdfs" />
 
 
 
@@ -110,143 +112,120 @@
             <div class="unit-body">
                 <div class="unit-inner unit-body-inner">
                     <div class="entry-content">
-                        <article class="unit-article layout-page">
+                        <article class="unit-article layout-post">
     <div class="unit-inner unit-article-inner">
-        <div class="content">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
             <header>
                 <div class="unit-head">
                     <div class="unit-inner unit-head-inner">
-                        <h1 class="entry-title">Posts By Category</h1>
+                        <h1 class="entry-title" itemprop="name">HDFS分布式文件系统</h1>
                     </div>
                 </div>
             </header>
-
             <div class="bd article-content">
                 <div class="entry-content">
-                    
-
-
-
-<ul class="tag_box categories inline">
-    
-    
-     
-        <li>
-            <a href="/blog/categories/#database" title="database">
-            database <span>4</span></a>
-        </li>
+                    <div class="meta">
+                        <p class="date-publish">
+                            Published:
+                            <time itemprop="datePublished" class="date-pub updated"
+                                title="2017-12-05T00:00:00+08:00" datetime="2017-12-05T00:00:00+08:00">December 05, 2017 </time>
+                            by
+                            <a class="author" href="/" rel="author" title="Show Author">
+                                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                                    <span itemprop="name"></span>
+                                </span>
+                            </a>
+                            
+                            
+                        </p>
+                        <ul class="list-category list-linear">
+                            <li class="list-head">Categories: </li>
+                             
      
         <li>
             <a href="/blog/categories/#file" title="file">
             file <span>1</span></a>
         </li>
-     
+    
+
+
+
+                        </ul>
+                        <ul class="list-tag list-linear">
+                            <li class="list-head">Tags: </li>
+                             
+    
+        
         <li>
-            <a href="/blog/categories/#spring" title="spring">
-            spring <span>1</span></a>
+            <a href="/blog/tags/#hdfs" title="hdfs">hdfs <span>1</span></a>
         </li>
     
 
 
 
+
+                        </ul>
+                    </div>
+                    <div itemprop="articleBody">
+                        <h2 id="heading-hdfs设计理念">HDFS设计理念</h2>
+
+<p>Hadoop分布式文件系统(HDFS)被设计成适合运行在通用硬件上的分布式文件系统，HDFS是一个高度容错性的系统，适合部署在廉价的机器上。HDFS能提供高吞吐量的数据访问，非常适合大规模数据集上的应用。</p>
+
+<ul>
+  <li><b>存储超大文件:</b>运行在HDFS上的应用具有很大的数据集。HDFS上的一个典型文件大小一般都在G字节至T字节。因此，HDFS被调节以支持大文件存储。它能提供整体上高的数据传输带宽，能在一个集群里扩展到数百个节点。一个单一的HDFS实例应该能支撑数以千万计的文件。</li>
+  <li><b>一次写入、多次读取:</b>HDFS存储的数据集作为hadoop的分析对象。在数据集生成后，长时间在此数据集上进行各种分析。每次分析都将设计该数据集的大部分数据甚至全部数据，比之数据访问的低延迟问题，更关键的在于数据访问的高吞吐量，因此读取整个数据集的时间延迟比读取第一条记录的时间延迟更重要。</li>
+  <li><b>运行在普通廉价的服务器上:</b>HDFS设计理念之一就是让它能运行在普通的硬件之上，即便硬件出现故障，也可以通过容错策略(错误检测和快速、自动的恢复)来保证数据的高可用。</li>
 </ul>
 
+<h2 id="heading-hdfs基本概念">HDFS基本概念</h2>
+<p>HDFS暴露了文件系统的名字空间，用户能够以文件的形式在上面存储数据。从内部看，一个文件其实被分成一个或多个数据块，这些块存储在一组Datanode上。Namenode执行文件系统的名字空间操作，比如打开、关闭、重命名文件或目录。它也负责确定数据块到具体Datanode节点的映射。Datanode负责处理文件系统客户端的读写请求。在Namenode的统一调度下进行数据块的创建、删除和复制</p>
+<ul>
+  <li><b>数据块(block):</b>大文件会被分割成多个block进行存储，block大小默认为64MB。每一个block会在多个datanode上存储多份副本，默认是3份。</li>
+  <li><b>namenode:</b>namenode是一个中心服务器，负责管理文件目录、文件和block的对应关系以及block和datanode的对应关系。</li>
+  <li><b>datanode:</b>datanode就负责存储了，当然大部分容错机制都是在datanode上实现的。</li>
+</ul>
 
-    <h3 id="database">database</h3>
-    <ul class="post-list">
-        
-        
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/12/25/hbase-search-index/">HBASE的索引查询</a>
-            
-            <span class="date">Dec 25, 2017</span></li>
-        
-    
+<h2 id="heading-hdfs基本架构图">HDFS基本架构图</h2>
+<center><img src="/assets/images/post/2017-12-05-hdfs-theory/hdfs-construction.png" width="500px" /></center>
+<p>Rack 是指机架的意思，一个block的三个副本通常会保存到两个或者两个以上的机柜中（当然是机柜中的服务器），这样做的目的是做防灾容错。</p>
 
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/12/20/hbase-construction-theory/">HBASE原理与架构</a>
-            
-            <span class="date">Dec 20, 2017</span></li>
-        
-    
+<p>每个Datanode节点周期性地向Namenode发送心跳信号。网络割裂可能导致一部分Datanode跟Namenode失去联系。Namenode通过心跳信号的缺失来检测这一情况，并将这些近期不再发送心跳信号Datanode标记为宕机，不会再将新的IO请求发给它们。任何存储在宕机Datanode上的数据将不再有效。Datanode的宕机可能会引起一些数据块的副本系数低于指定值，Namenode不断地检测这些需要复制的数据块，一旦发现就启动复制操作。在下列情况下，可能需要重新复制：某个Datanode节点失效，某个副本遭到损坏，Datanode上的硬盘错误，或者文件的副本系数增大。</p>
 
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/05/15/database-master-slave-syn/">数据库主从复制</a>
-            
-            <span class="date">May 15, 2017</span></li>
-        
-    
+<h2 id="heading-hdfs写文件流程">HDFS写文件流程</h2>
+<center><img src="/assets/images/post/2017-12-05-hdfs-theory/hdfs-write.png" width="500px" /></center>
 
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/03/29/database-lock-mechanism/">数据库锁机制</a>
-            
-            <span class="date">Mar 29, 2017</span></li>
-        
-    
+<p>当客户端向HDFS文件写入数据的时候，一开始是写到本地临时文件中。假设该文件的副本系数设置为3，当本地临时文件累积到一个数据块的大小时，客户端会从Namenode获取一个Datanode列表用于存放副本。然后客户端开始向第一个Datanode传输数据，第一个Datanode一小部分一小部分(4 KB)地接收数据，将每一部分写入本地仓库，并同时传输该部分到列表中第二个Datanode节点。第二个Datanode也是这样，一小部分一小部分地接收数据，写入本地仓库，并同时传给第三个Datanode。最后，第三个Datanode接收数据并存储在本地。因此，Datanode能流水线式地从前一个节点接收数据，并在同时转发给下一个节点，数据以流水线的方式从前一个Datanode复制到下一个。
+【ps】另一种数据写入的方式是采用多路写，也就是同时别写入到三个Datanode里面。管道写需要时间去完成，所以它有很高的延迟，但是它能更好地利用网络带宽；多路写有着比较低的延迟，因为客户端只需要等待最慢的DataNode确认（假设其余都已成功确认）。但是写入需要共享发送服务器的网络带宽，这对于有着很高负载的系统来说是一个瓶颈。</p>
 
+<h2 id="heading-hdfs读文件流程">HDFS读文件流程</h2>
+<center><img src="/assets/images/post/2017-12-05-hdfs-theory/hdfs-read.png" width="500px" /></center>
 
-
-
-    </ul>
-
-    <h3 id="file">file</h3>
-    <ul class="post-list">
-        
-        
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/12/05/hdfs-theory/">HDFS分布式文件系统</a>
-            
-            <span class="date">Dec 05, 2017</span></li>
-        
-    
-
-
-
-
-    </ul>
-
-    <h3 id="spring">spring</h3>
-    <ul class="post-list">
-        
-        
-    
-        
-            
-                <li><a class="internal" href="/blog/2017/06/29/spring-aop-proxy/">Spring AOP代理</a>
-            
-            <span class="date">Jun 29, 2017</span></li>
-        
-    
-
-
-
-
-    </ul>
-
-
+                    </div>
                 </div>
             </div>
-
             <footer class="unit-foot">
                 <div class="unit-inner unit-foot-inner">
-                    <p>
-                        <a class="internal gotop" href="#page">Back to Top</a>
-                    </p>
+                    <div class="post-buttons">
+                        <a class="internal gotop" href="#page" title="Back to Top">Back to Top</a>
+                        
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" rel="prev" href="/blog/2017/06/29/spring-aop-proxy/" title=" 'Spring AOP代理'"> ← Spring AOP代理</a>
+                        
+                        
+                            <a class="internal" rel="next" href="/blog/2017/12/20/hbase-construction-theory/" title="Next Post 'HBASE原理与架构'">HBASE原理与架构 → </a>
+                        
+                    </nav>
                 </div>
             </footer>
+            <div class="misc-content">
+                
+            </div>
         </div>
     </div>
 </article>
+
                     </div>
                 </div>
             </div>
