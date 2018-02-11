@@ -1,218 +1,372 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title></title>
-    <description>one blog</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 13 Apr 2017 15:19:21 +0800</pubDate>
-    <lastBuildDate>Thu, 13 Apr 2017 15:19:21 +0800</lastBuildDate>
-    <generator>Jekyll v3.4.3</generator>
-    
-      <item>
-        <title>如何使用LessOrMore这个Jekyll模版</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#致谢&quot; id=&quot;markdown-toc-致谢&quot;&gt;致谢&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#使用&quot; id=&quot;markdown-toc-使用&quot;&gt;使用&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#下载&quot; id=&quot;markdown-toc-下载&quot;&gt;下载&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#配置&quot; id=&quot;markdown-toc-配置&quot;&gt;配置&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#如何写文章&quot; id=&quot;markdown-toc-如何写文章&quot;&gt;如何写文章&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#执行&quot; id=&quot;markdown-toc-执行&quot;&gt;执行&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#效果&quot; id=&quot;markdown-toc-效果&quot;&gt;效果&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#为什么重复造轮子&quot; id=&quot;markdown-toc-为什么重复造轮子&quot;&gt;为什么重复造轮子&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#关于作者&quot; id=&quot;markdown-toc-关于作者&quot;&gt;关于作者&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#关于打赏&quot; id=&quot;markdown-toc-关于打赏&quot;&gt;关于打赏&lt;/a&gt;    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#支付宝&quot; id=&quot;markdown-toc-支付宝&quot;&gt;支付宝&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#微信&quot; id=&quot;markdown-toc-微信&quot;&gt;微信&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2018-02-11T15:38:20+08:00</updated><id>http://localhost:4000/</id><title type="html">Tobi7</title><subtitle>Tobi7's blog</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Tobi7&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">Spring AOP代理</title><link href="http://localhost:4000/blog/2017/06/29/spring-aop-proxy/" rel="alternate" type="text/html" title="Spring AOP代理" /><published>2017-06-29T00:00:00+08:00</published><updated>2017-06-29T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/06/29/spring-aop-proxy</id><content type="html" xml:base="http://localhost:4000/blog/2017/06/29/spring-aop-proxy/">&lt;h2 id=&quot;heading-一spring-aop代理的相关属性&quot;&gt;一、Spring AOP代理的相关属性&lt;/h2&gt;
 
-&lt;h1 id=&quot;致谢&quot;&gt;致谢&lt;/h1&gt;
 &lt;ul&gt;
-  &lt;li&gt;感谢&lt;a href=&quot;http://lesscss.cn/&quot;&gt;Less官网&lt;/a&gt;的样式，本Jekyll框架的样式都是基于Less官网的样式直接拷贝过来的。只是重构了JS，并且加入了Jekyll语法而已。&lt;/li&gt;
-  &lt;li&gt;感谢&lt;a href=&quot;https://github.com/&quot;&gt;Github&lt;/a&gt;提供的代码维护和发布平台&lt;/li&gt;
-  &lt;li&gt;感谢&lt;a href=&quot;https://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt;团队做出如此优秀的产品&lt;/li&gt;
-  &lt;li&gt;感谢&lt;a href=&quot;https://github.com/mattvh/solar-theme-jekyll&quot;&gt;Solar&lt;/a&gt;的原作者&lt;a href=&quot;http://www.webmaster-source.com/&quot;&gt;Matt Harzewski&lt;/a&gt;，在&lt;code&gt;2014.11&lt;/code&gt;-&lt;code&gt;2016.09&lt;/code&gt;的两年间，我的博客选用了此样式模版&lt;/li&gt;
+  &lt;li&gt;
+    &lt;h3 id=&quot;heading-开启aop自动代理&quot;&gt;开启AOP自动代理&lt;/h3&gt;
+    &lt;p&gt;```&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;aop:aspect-autoproxy /&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- ### proxy-target-class:强调spring应该使用那种代理方式：JDK动态代理和CGLIB
+  - JDK动态代理：代理对象必须为某个接口的实现，它是通过在运行期间创建一个接口的实现类来完成对目标对象的代理【默认属性值为false，即使用的是JDK动态代理】
+  - CGLIB代理：原理类似于JDK代理，不同之处在于运行期间生成的代理对象是针对目标类扩展的子类，CGLIB是高效代码生成包，底层是依靠ASM（字节码编辑类库）操作字节码实现的，性能比JDK强。
+  - 使用CGLIB代理会出现的问题:无法通知Final方法，因为他们不允许被覆盖；还需要将CGLIB二进制包放入classpath下面；强制使用CGLIB代理需要将proxy-target-class设置为true
+- ### expose-proxy:目标对象内部的自我调用将无法实施切面中的增强
+
+
+## 二、AOP代理无法切入同类调用方法的问题
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;@Service
+public class Service {&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;//这个方法调用被切的方法,在外部被调用 
+public void callMethodA() {  
+    ......  
+    callMethodB();  
+    ......  
+}  
+  
+//Aop切入的方法 
+public void callMethodB() {  
+    ......  
+}   } 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;@Aspect
+@Service
+public class Aspect {
+    @After(&quot;execution(* Service.callMethodB(..))&quot;)&lt;br /&gt;
+    public void after() {&lt;br /&gt;
+        Logger.info(&quot;after call and do something.&quot;);
+    }&lt;br /&gt;
+}&lt;/p&gt;
+
+&lt;p&gt;//调用方式
+service.callMethodA();&lt;/p&gt;
+
+&lt;p&gt;//spring配置&lt;/p&gt;
+&lt;aop:aspect-autoproxy proxy-target-class=&quot;true&quot; /&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;上述的调用方式是根本无法进去切面的，在callMethodA()方法中调用callMethodB()相当于调用this.callMethodB()，此处的this指向目标对象，并不是调用代理对象的callMethodB()方法，解决方式如下两点
+- 强制使用AOP代理
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;//spring配置&lt;/p&gt;
+&lt;aop:aspectj-autoproxy proxy-target-class=&quot;true&quot; expose-proxy=&quot;true&quot; /&gt;
+
+&lt;p&gt;//调用callMethodB()
+((Service)AopContext.currentProxy()).callMethodB();&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- 通过spring上下文获取代理类
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;//spring配置&lt;/p&gt;
+&lt;aop:aspectj-autoproxy proxy-target-class=&quot;true&quot; /&gt;
+
+&lt;p&gt;//调用callMethodB()
+applicationContext.getBean(&quot;service&quot;).callMethodB();
+```
+PS:使用第一种方式的时候要注意获取代理对象时的强制转换:使用默认的JDK动态代理的方式需要转换为接口，使用CGLIB代理的方式可以直接使用实现类的类型；同时代理对象使用的方法需要是public修饰的方法；spring自带的@transactional注解在使用中也有上述问题，该注解默认使用CGLIB代理。&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Tobi7&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="aop" /><summary type="html">一、Spring AOP代理的相关属性</summary></entry><entry><title type="html">数据库主从复制</title><link href="http://localhost:4000/blog/2017/05/15/database-master-slave-syn/" rel="alternate" type="text/html" title="数据库主从复制" /><published>2017-05-15T00:00:00+08:00</published><updated>2017-05-15T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/05/15/database-master-slave-syn</id><content type="html" xml:base="http://localhost:4000/blog/2017/05/15/database-master-slave-syn/">&lt;p&gt;复制过程中一个服务器充当主服务器，而一个或多个其它服务器充当从服务器。&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-一异步复制&quot;&gt;一、异步复制&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;MySQL的异步复制是MySQL自带的数据同步功能，在公司里面也是也就最为常见的。&lt;/li&gt;
+  &lt;li&gt;Master服务器中需要开启二进制日志 binlog ，从服务器需要开启中继日志 relay-log 。&lt;/li&gt;
+  &lt;li&gt;二进制日志binlog的主要功能是：记录数据库的变更内容；二进制日志在备份还原的时候至关重要。&lt;/li&gt;
+  &lt;li&gt;中继日志relay-log则是从服务器中开启，作用是从主服务器的二进制日志中复制，并在在从服务器本地执行一次，达到与主服务器内容一致的效果。&lt;/li&gt;
+  &lt;li&gt;一般MySQL复制是放在内网中进行的，因为MySQL的同步并没有进行加密。而且相比较于在公网传输，在内网中丢包的概率较低，带宽也高。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;使用&quot;&gt;使用&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;复制过程：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;该过程的第一部分就是master记录二进制日志。在每个事务更新数据完成之前，master在二进制日志中记录这些改变。MySQL将事务串行的写入二进制日志，即使事务中的语句都是交叉执行的。在事件写入二进制日志完成后，master通知存储引擎提交事务。&lt;/li&gt;
+  &lt;li&gt;下一步就是slave将master的binary log拷贝到它自己的中继日志。首先，slave开始一个工作线程——I/O线程。I/O线程在master上打开一个普通的连接，然后开始binlog dump process（根据从服务器在日志中读取的最后一次成功更新的位置）。Binlog dump process从master的二进制日志中读取事件，如果已经跟上master，它会睡眠并等待master产生新的事件。I/O线程将这些事件写入中继日志。&lt;/li&gt;
+  &lt;li&gt;SQL slave thread（SQL从线程）处理该过程的最后一步。SQL线程从中继日志读取事件，并重放其中的事件而更新slave的数据，使其与master中的数据一致。只要该线程与I/O线程保持一致，中继日志通常会位于OS的缓存中，所以中继日志的开销很小。&lt;/li&gt;
+&lt;/ol&gt;
 
-&lt;h2 id=&quot;下载&quot;&gt;下载&lt;/h2&gt;
+&lt;p&gt;此外，在master中也有一个工作线程（I/O线程）：和其它MySQL的连接一样，slave在master中打开一个连接也会使得master开始一个线程。复制过程有一个很重要的限制——复制在slave上是串行化的，也就是说master上的并行更新操作不能在slave上并行操作。&lt;/p&gt;
 
-&lt;p&gt;使用git从&lt;a href=&quot;https://github.com/luoyan35714/LessOrMore.git&quot;&gt;LessOrMore&lt;/a&gt;主页下载项目&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/post/2017-05-15-database-master-slave-sync/master-slave-sync.png&quot; alt=&quot;master-slave-sync.png&quot; /&gt;&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;git clone https://github.com/luoyan35714/LessOrMore.git&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;配置&quot;&gt;配置&lt;/h2&gt;
-
-&lt;p&gt;&lt;code&gt;LessOrMore&lt;/code&gt;项目需要配置的只有一个文件&lt;code&gt;_config.yml&lt;/code&gt;，打开之后按照如下进行配置。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;特别注意&lt;code&gt;baseurl&lt;/code&gt;的配置。如果是&lt;code&gt;***.github.io&lt;/code&gt;项目，不修改为空’‘的话，会导致JS,CSS等静态资源无法找到的错误&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;name: 博客名称
-email: 邮箱地址
-author: 作者名
-url: 个人网站
-### baseurl修改为项目名，如果项目是&amp;#39;***.github.io&amp;#39;，则设置为空&amp;#39;&amp;#39;
-baseurl: &amp;quot;/LessOrMore&amp;quot;
-resume_site: 个人简历网站
-github: github地址
-github_username: github用户名称
-FB:
-  comments :
-    provider : duoshuo
-    duoshuo:
-        short_name : 多说账户
-    disqus :
-        short_name : Disqus账户&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;如何写文章&quot;&gt;如何写文章&lt;/h2&gt;
-
-&lt;p&gt;在&lt;code&gt;LessOrMore/_posts&lt;/code&gt;目录下新建一个文件，可以创建文件夹并在文件夹中添加文件，方便维护。在新建文件中粘贴如下信息，并修改以下的&lt;code&gt;titile&lt;/code&gt;,&lt;code&gt;date&lt;/code&gt;,&lt;code&gt;categories&lt;/code&gt;,&lt;code&gt;tag&lt;/code&gt;的相关信息，添加&lt;code&gt;* content {:toc}&lt;/code&gt;为目录相关信息，在进行正文书写前需要在目录和正文之间输入至少2行空行。然后按照正常的Markdown语法书写正文。&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;---
-layout: post
-#标题配置
-title:  标题
-#时间配置
-date:   2016-08-27 01:08:00 +0800
-#大类配置
-categories: document
-#小类配置
-tag: 教程
----
-
-* content
-{:toc}
-
-
-我是正文。我是正文。我是正文。我是正文。我是正文。我是正文。&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;执行&quot;&gt;执行&lt;/h2&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;jekyll server&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;效果&quot;&gt;效果&lt;/h2&gt;
-&lt;p&gt;打开浏览器并输入URL&lt;code&gt;http://localhost:4000/&lt;/code&gt;,回车。&lt;/p&gt;
-
-&lt;h1 id=&quot;为什么重复造轮子&quot;&gt;为什么重复造轮子&lt;/h1&gt;
-
-&lt;p&gt;很明显，我在重复造轮子。在13年接触到GIT，14年末接触到Jekyll，然后搭建了自己的博客，当时是选用了&lt;a href=&quot;http://jekyllthemes.org/&quot;&gt;JekyllThemes&lt;/a&gt;上的&lt;a href=&quot;https://github.com/mattvh/solar-theme-jekyll&quot;&gt;Solar&lt;/a&gt;主题，一直到现在。不过中间一直感觉页面风格还是偏暗，阅读不方便。并且有一些小的细节做的不是很好。在页面的跨平台浏览上有一些瑕疵。并且不区分一级标题和二级标题，导致没有重点强调。诸如此类，用了2年，用的越多，越发吃力，中间就一直在寻找新的能够让我一眼认定的主题。&lt;/p&gt;
-
-&lt;p&gt;虽然设计好看的主题很多。但是真正适合拿来做博客的却不多。中间一直没有找到合适的主题。直到有一天看到Less官网的主题之后，豁然觉得这就是我的博客想要的样子。简单而又不平凡。所以就决定了要把博客迁移到这个主题，然后拿了两天晚上来把这个主题做出来。&lt;/p&gt;
-
-&lt;p&gt;重复造了轮子，但是这个是迄今为止自己觉得最适合我的博客的轮子，所以是值得的！&lt;/p&gt;
-
-&lt;h1 id=&quot;关于作者&quot;&gt;关于作者&lt;/h1&gt;
-
-&lt;p&gt;热爱开源，热爱折腾的Java程序猿。更多个人信息和联系方式可以参照&lt;a href=&quot;http://www.hifreud.com/Resume.io/&quot;&gt;我的简介&lt;/a&gt;。&lt;/p&gt;
-
-&lt;h1 id=&quot;关于打赏&quot;&gt;关于打赏&lt;/h1&gt;
-
-&lt;p&gt;如果你也像我一样在寻觅一个简洁的博客主题。不妨试下LessOrMore。&lt;/p&gt;
-
-&lt;p&gt;当然你也可以为了我的工作打赏！以激励我做出更好的东西。&lt;/p&gt;
-
-&lt;h2 id=&quot;支付宝&quot;&gt;支付宝&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/styles/images/zhifubao.PNG&quot; alt=&quot;支付宝二维码付款给Freud&quot; width=&quot;310&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;微信&quot;&gt;微信&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;/styles/images/weixin.png&quot; alt=&quot;微信二维码付款给Freud&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Sat, 27 Aug 2016 01:08:00 +0800</pubDate>
-        <link>http://localhost:4000/2016/08/27/how-to-use-this-jekyll-theme/</link>
-        <guid isPermaLink="true">http://localhost:4000/2016/08/27/how-to-use-this-jekyll-theme/</guid>
-        
-        <category>教程</category>
-        
-        
-        <category>document</category>
-        
-      </item>
-    
-      <item>
-        <title>我面试过的上百个候选者中成功的人总会做的事情</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#充分的准备知道哪些事情是想要让面试官知道的&quot; id=&quot;markdown-toc-充分的准备知道哪些事情是想要让面试官知道的&quot;&gt;充分的准备，知道哪些事情是想要让面试官知道的。&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#了解你的听众组织你的回答语言&quot; id=&quot;markdown-toc-了解你的听众组织你的回答语言&quot;&gt;了解你的听众，组织你的回答语言。&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#保持冷静记住这次面试是双向的&quot; id=&quot;markdown-toc-保持冷静记住这次面试是双向的&quot;&gt;保持冷静，记住这次面试是双向的。&lt;/a&gt;&lt;/li&gt;
+&lt;h2 id=&quot;heading-二半同步复制&quot;&gt;二、半同步复制&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;与传统的异步复制相比，半同步复制在多个Slave节点中会选取一个节点进行半同步复制。也就是说，当Master提交一个事务的时候，在这个半同步复制的Slave端返回一个同步完成的Ack包之后，服务器才会向用户返回事务提交成功，而其他的节点则是采用传统的异步复制方式进行同步。&lt;/li&gt;
+  &lt;li&gt;半同步是复制是基于异步复制之上进行的，也就是说配置半同步复制之前需要先配置到异步复制。&lt;/li&gt;
+  &lt;li&gt;半同步复制可以保证在主节点发生故障的时候，总有一个节点的数据与主节点一样。这样在进行切换的时候，可以更加快速地把这个Slave节点设置成主节点来使用。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;本文翻译自&lt;a href=&quot;https://www.linkedin.com/&quot;&gt;Linked In&lt;/a&gt;，作者Minal Mehta&lt;/p&gt;
+&lt;h2 id=&quot;heading-三binlog-格式&quot;&gt;三、binlog 格式&lt;/h2&gt;
 
-&lt;p&gt;原文地址 &lt;a href=&quot;http://www.linkedin.com/pulse/20141002164029-1473578-how-to-win-an-interview-before-it-starts?midToken=AQH6jyhMOpWb0g&amp;amp;trk=eml-b2_content_ecosystem_digest-recommended_articles-74-null&amp;amp;fromEmail=fromEmail&amp;amp;ut=3Sa86TzhqLj6s1&quot;&gt;I’ve Interviewed 100s of Candidates and the Ones I Hire Always Do This&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;heading-statement每一条会修改数据的sql都会记录在binlog中&quot;&gt;statement:每一条会修改数据的sql都会记录在binlog中&lt;/h3&gt;
 
-&lt;p&gt;面试是很有压力的一件事，通常，你只有不到一个小时的时间来使面试官相信你是所有候选者中最合适那一个。这个面试官很有可能还会在当天面试其他的候选者并且还有其他的事情要做。那你如何才能够脱颖而出呢。&lt;/p&gt;
-
-&lt;h1 id=&quot;充分的准备知道哪些事情是想要让面试官知道的&quot;&gt;充分的准备，知道哪些事情是想要让面试官知道的。&lt;/h1&gt;
-
-&lt;p&gt;通过上百个我做组织的面试者们，我发现最合适的那些面试者永远都是表达最清晰的。&lt;/p&gt;
-
-&lt;p&gt;所有人都知道充足的准备是必要的，但是如何准备是极其重要的，许多人会准备一份面试题和答案的合集，这导致一部分人在遇到合集以外的问题的时候会恐慌（我见过许多人恐慌或者说“这是一个好问题”，当我面试别人或者帮助那些学生准备面试的时候）&lt;/p&gt;
-
-&lt;p&gt;以下是我的建议：以最近的记忆最清晰的工作流程开始。通过阅读他们的信息或者询问那些你知道的在这工作的朋友来调查面试的公司和职位，了解他们正在寻找一个拥有什么样能力和文化的人&lt;/p&gt;
-
-&lt;p&gt;了解自己，你自己最擅长什么？怎么让你自身如何与公司正在找的人相匹配？这个过程会让你有一个清晰的定位，知道这个公司的职位是不是真的适合你。假设是的，你的自身能力跟这个职位相匹配，你同样知道自己的不足在哪。&lt;/p&gt;
-
-&lt;p&gt;从你过往工作经历中找出你突出的贡献，那些你已经确定了你的能力和工作要求相交集的部分。并且，找出一些事情来证明你可以改善你不足的方面。通常，你想出来的这几件事件可以重新组装利用来彰显不同方面的能力。&lt;/p&gt;
-
-&lt;h1 id=&quot;了解你的听众组织你的回答语言&quot;&gt;了解你的听众，组织你的回答语言。&lt;/h1&gt;
-
-&lt;p&gt;我推荐使用排序的组织来确保你的面试官可以理解你的表述。我是STAR方法的忠实粉丝：Situation处境（场景再现），Task任务（必须要做到的），Action行动（你实际做的），Result结果（发生了什么）&lt;/p&gt;
-
-&lt;p&gt;场景再现是最重要的，虽然你很清楚发生了什么，但是面试官不知道，花些时间来确保他们可以设身处地的知道当时的情况。如果你不这么做，剩下的故事将是对牛弹琴。&lt;/p&gt;
-
-&lt;p&gt;我个人也一直将同样的方法用在各种面试中。“如果你处在一个特定的情境下，你会怎么做？” 花点时间去建立一个共享的空间，让面试官了解情况，然后你们才能一起来聊需要做什么。&lt;/p&gt;
-
-&lt;h1 id=&quot;保持冷静记住这次面试是双向的&quot;&gt;保持冷静，记住这次面试是双向的。&lt;/h1&gt;
-
-&lt;p&gt;深呼吸然后记住这只是一次谈话，面试官给你一个评价是很重要的，但是同样重要的是你也要给面试官一个评价，并且确认这是你想要工作的地方。&lt;/p&gt;
-</description>
-        <pubDate>Sat, 20 Dec 2014 20:05:00 +0800</pubDate>
-        <link>http://localhost:4000/2014/12/20/I-ve-Interviewed-100s-of-Candidates-and-the-Ones-I-Hire-Always-Do-This/</link>
-        <guid isPermaLink="true">http://localhost:4000/2014/12/20/I-ve-Interviewed-100s-of-Candidates-and-the-Ones-I-Hire-Always-Do-This/</guid>
-        
-        <category>interview</category>
-        
-        
-        <category>翻译文章</category>
-        
-      </item>
-    
-      <item>
-        <title>Welcome to Jekyll!</title>
-        <description>&lt;ul id=&quot;markdown-toc&quot;&gt;
-  &lt;li&gt;&lt;a href=&quot;#诫子书&quot; id=&quot;markdown-toc-诫子书&quot;&gt;诫子书&lt;/a&gt;&lt;/li&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;优点：不需要记录每一行的变化，减少了binlog日志量，节约了IO，提高性能。(相比row能节约多少性能与日志量，这个取决于应用的SQL情况，正常同一条记录修改或者插入row格式所产生的日志量还小于Statement产生的日志量，但是考虑到如果带条件的update操作，以及整表删除，alter表等操作，ROW格式会产生大量日志，因此在考虑是否使用ROW格式日志时应该跟据应用的实际情况，其所产生的日志量会增加多少，以及带来的IO性能问题。)&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;缺点：由于记录的只是执行语句，为了这些语句能在slave上正确运行，因此还必须记录每条语句在执行的时候的一些相关信息(时间等)，以保证所有语句能在slave得到和在master端执行时候相同的结果。&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;First POST build by Jekyll.&lt;/p&gt;
+&lt;h3 id=&quot;heading-row不记录sql语句上下文相关信息仅保存哪条记录被修改&quot;&gt;Row:不记录sql语句上下文相关信息，仅保存哪条记录被修改&lt;/h3&gt;
 
-&lt;h2 id=&quot;诫子书&quot;&gt;诫子书&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;优点：binlog中可以不记录执行的sql语句的上下文相关的信息，仅需要记录那一条记录被修改成什么了。所以rowlevel的日志内容会非常清楚的记录下每一行数据修改的细节。而且不会出现某些特定情况下的存储过程，或function，以及trigger的调用和触发无法被正确复制的问题&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;缺点：所有的执行的语句当记录到日志中的时候，都将以每行记录的修改来记录，这样可能会产生大量的日志内容,比如一条update语句，修改多条记录，则binlog中每一条修改都会有记录，这样造成binlog日志量会很大，特别是当执行alter table之类的语句的时候，由于表结构修改，每条记录都发生改变，那么该表每一条记录都会记录到日志中。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;/styles/images/jiezishu.jpg&quot; alt=&quot;诫子书&quot; /&gt;&lt;/p&gt;
+&lt;h3 id=&quot;heading-mixedlevel-是以上两种level的混合使用&quot;&gt;Mixedlevel: 是以上两种level的混合使用。&lt;/h3&gt;
 
-&lt;p&gt;&lt;a href=&quot;#&quot;&gt;诸葛亮&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;一般的语句修改使用statment格式保存binlog，如一些函数，statement无法完成主从复制的操作，则采用row格式保存binlog,MySQL会根据执行的每一条具体的sql语句来区分对待记录的日志形式，也就是在Statement和Row之间选择一种.新版本的MySQL中队row level模式也被做了优化，并不是所有的修改都会以row level来记录，像遇到表结构变更的时候就会以statement模式来记录。至于update或者delete等修改数据的语句，还是会记录所有行的变更。&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;夫君子之行，静以修身，俭以养德。非淡泊(澹泊)无以明志，非宁静无以致远。夫学须静也，才须学也。非学无以广才，非志无以成学。淫慢则不能励精，险躁则不能冶性。
-年与时驰，意与日去，遂成枯落，多不接世，悲守穷庐，将复何及！&lt;/p&gt;
+&lt;p&gt;注：所以当数据库在采取异步复制的同步策略时，如果当binlog的格式是Row的情况下存在【在主库更新十条记录之后，从库只更新了5条】的情况&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Tobi7&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="mysql" /><summary type="html">复制过程中一个服务器充当主服务器，而一个或多个其它服务器充当从服务器。</summary></entry><entry><title type="html">数据库锁机制</title><link href="http://localhost:4000/blog/2017/03/29/database-lock-mechanism/" rel="alternate" type="text/html" title="数据库锁机制" /><published>2017-03-29T00:00:00+08:00</published><updated>2017-03-29T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/03/29/database-lock-mechanism</id><content type="html" xml:base="http://localhost:4000/blog/2017/03/29/database-lock-mechanism/">&lt;h1 id=&quot;heading-数据库锁机制&quot;&gt;数据库锁机制&lt;/h1&gt;
 
-</description>
-        <pubDate>Mon, 17 Nov 2014 13:31:01 +0800</pubDate>
-        <link>http://localhost:4000/2014/11/17/welcome-to-jekyll/</link>
-        <guid isPermaLink="true">http://localhost:4000/2014/11/17/welcome-to-jekyll/</guid>
-        
-        <category>jekyll</category>
-        
-        
-        <category>jekyll</category>
-        
-      </item>
-    
-  </channel>
-</rss>
+&lt;h2 id=&quot;heading-为什么需要锁&quot;&gt;为什么需要锁&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;死锁问题&lt;/li&gt;
+  &lt;li&gt;并发问题导致的不正确数据的读取和存储，破坏数据一致性
+    &lt;ol&gt;
+      &lt;li&gt;丢失更新：当两个或多个事务选择同一行，然后基于最初选定的值更新该行时，由于每个事务都不知道其他事务的存在，就会发生丢失更新问题－－最后的更新覆盖了由其他事务所做的更新。例如，两个编辑人员制作了同一文档的电子副本。每个编辑人员独立地更改其副本，然后保存更改后的副本，这样就覆盖了原始文档。最后保存其更改副本的编辑人员覆盖另一个编辑人员所做的更改。如果在一个编辑人员完成并提交事务之前，另一个编辑人员不能访问同一文件，则可避免此问题&lt;/li&gt;
+      &lt;li&gt;脏读：一个事务正在对一条记录做修改，在这个事务完成并提交前，这条记录的数据就处于不一致状态；这时，另一个事务也来读取同一条记录，如果不加控制，第二个事务读取了这些“脏”数据，并据此做进一步的处理，就会产生未提交的数据依赖关系。这种现象被形象地叫做&quot;脏读&quot;。&lt;/li&gt;
+      &lt;li&gt;不可重复读：一个事务在读取某些数据后的某个时间，再次读取以前读过的数据，却发现其读出的数据已经发生了改变、或某些记录已经被删除了！这种现象就叫做“不可重复读”。&lt;/li&gt;
+      &lt;li&gt;幻读：一个事务按相同的查询条件重新读取以前检索过的数据，却发现其他事务插入了满足其查询条件的新数据，这种现象就称为“幻读”。&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;heading-锁的分类&quot;&gt;锁的分类&lt;/h2&gt;
+
+&lt;h3 id=&quot;heading-数据库维度&quot;&gt;数据库维度&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;共享锁:&lt;br /&gt;
+用于不更改或不更新数据的操作（只读操作）。共享锁允许并发事务读取同一个资源，数据资源上存在共享锁时，任何其他事务不允许修改数据&lt;/li&gt;
+  &lt;li&gt;排它锁:&lt;br /&gt;
+用于数据修改，确保不会同时多重更新同一数据。资源上存在排他锁时，其他任何事务不允许给资源上锁，当资源上有其他锁时，也无法对其加上排它锁&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;PS：只有共享锁与共享锁相互兼容，共享锁与排它锁、排它锁之间都互不兼容&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;意向锁&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;更新锁&lt;/p&gt;
+    &lt;ol&gt;
+      &lt;li&gt;用于可更新的资源中，防止多个会话在读取、锁定以及随后可能进行的资源更新时发生的死锁问题。&lt;/li&gt;
+      &lt;li&gt;通常形式的死锁：一般一个更新模式由一个事务组成，此事务读取记录，获取资源的共享锁，然后修改行，此操作要求锁转换为排它锁。如果两个事务同时获得了资源上的共享锁，然后试图同时更新数据，则一个事务尝试将锁转换为排它锁。由于一个事务的排它锁与另一事务的共享锁的不兼容，从共享锁到排它锁的转换必须要等待一段时间，发送锁等待。而第二个事务同时也试图获取排它锁进行更新。由于两个事务都要转化为排它锁，并且每个事务都要等待另一个事务释放掉共享锁，因此发生死锁&lt;/li&gt;
+      &lt;li&gt;更新锁一次只有一个事务可以获取资源的更新锁。如果事务修改资源，那么更新锁转化为排它锁，否则转化为共享锁。当资源上存在更新锁时，允许资源被读取（即更新锁与共享锁兼容），但不允许资源被修改&lt;/li&gt;
+      &lt;li&gt;一般来说，在执行UPDATE操作时，SQL SERVER会使用到更新锁而不是依次加上共享锁和排它锁，已经回避了这种通常形式的死锁，更新锁与意向锁相互兼容&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;heading-锁机制&quot;&gt;锁机制&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;DBMS&lt;/th&gt;
+      &lt;th&gt;SELECT&lt;/th&gt;
+      &lt;th&gt;UPDATE&lt;/th&gt;
+      &lt;th&gt;INSERT&lt;/th&gt;
+      &lt;th&gt;DELETE&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;MySQL(InnoDB)&lt;/td&gt;
+      &lt;td&gt;不加锁&lt;/td&gt;
+      &lt;td&gt;排它锁&lt;/td&gt;
+      &lt;td&gt;排它锁&lt;/td&gt;
+      &lt;td&gt;排它锁&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;SQL SERVER&lt;/td&gt;
+      &lt;td&gt;共享锁&lt;/td&gt;
+      &lt;td&gt;更新锁&lt;/td&gt;
+      &lt;td&gt;排它锁&lt;/td&gt;
+      &lt;td&gt;排它锁&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;这两种锁机制的区别在于MySQL的查询与更新操作互相不阻塞；而SQL SERVER的更新锁转化成排它锁之前，其查询与更新操作互相不阻塞，当更新锁要转化为排它锁时，需要等待共享锁的释放，当更新锁转化为排它锁后，查询数据需要等待排它锁的释放。&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;br /&gt;
+&lt;a href=&quot;http://blog.csdn.net/samjustin1/article/details/52210125&quot;&gt;数据库锁机制&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://blog.chinaunix.net/uid-24111901-id-2627857.html&quot;&gt;InnoDB锁机制&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;http://blog.itpub.net/13651903/viewspace-1091664/&quot;&gt;SQL SERVER锁机制&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-程序员思想维度&quot;&gt;程序员思想维度&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;悲观锁
+    &lt;ol&gt;
+      &lt;li&gt;悲观并发控制（又名“悲观锁”，Pessimistic Concurrency Control，缩写“PCC”）是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作都某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。悲观锁的实现，往往依靠数据库提供的锁机制。悲观并发控制主要用于数据争用激烈的环境，以及发生并发冲突时使用锁保护数据的成本要低于回滚事务的成本的环境中。&lt;/li&gt;
+      &lt;li&gt;悲观并发控制实际上是“先取锁再访问”的保守策略，为数据处理的安全提供了保证。但是在效率方面，处理加锁的机制会让数据库产生额外的开销，还有增加产生死锁的机会；另外，在只读型事务处理中由于不会产生冲突，也没必要使用锁，这样做只能增加系统负载；还有会降低了并行性，一个事务如果锁定了某行数据，其他事务就必须等待该事务处理完才可以处理那行数&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;乐观锁
+    &lt;ol&gt;
+      &lt;li&gt;乐观并发控制（又名“乐观锁”，Optimistic Concurrency Control，缩写“OCC”）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。&lt;/li&gt;
+      &lt;li&gt;乐观并发控制相信事务之间的数据竞争(data race)的概率是比较小的，因此尽可能直接做下去，直到提交的时候才去锁定，所以不会主动产生任何锁和死锁。但是在并发量高的情况下，可能导致某次数据修改多次重试，影响单次成功操作的时间。&lt;/li&gt;
+      &lt;li&gt;数据版本实现乐观锁：实现数据版本有两种方式，第一种是使用版本号，第二种是使用时间戳。使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;update table 
+set date=1,version=version+1
+where id=#{id} and version=#{version};
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;参考：&lt;br /&gt;
+&lt;a href=&quot;http://www.open-open.com/lib/view/open1452046967245.html&quot;&gt;乐观锁与悲观锁&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-乐观锁另一种实现方式cas&quot;&gt;乐观锁另一种实现方式CAS&lt;/h2&gt;
+
+&lt;p&gt;CAS是项乐观锁技术，当多个线程尝试使用CAS同时更新同一个变量时，只有其中一个线程能更新变量的值，而其它线程都失败，失败的线程并不会被挂起，而是被告知这次竞争中失败，并可以再次尝试。&lt;/p&gt;
+
+&lt;p&gt;CAS 操作包含三个操作数 —— 内存位置（V）、预期原值（A）和新值(B)。如果内存位置的值与预期原值相匹配，那么处理器会自动将该位置值更新为新值。否则，处理器不做任何操作。无论哪种情况，它都会在 CAS 指令之前返回该位置的值。CAS 有效地说明了“我认为位置 V 应该包含值 A；如果包含该值，则将 B 放到这个位置；否则，不要更改该位置，只告诉我这个位置现在的值即可。”这其实和乐观锁的冲突检查+数据更新的原理是一样的。&lt;/p&gt;
+
+&lt;p&gt;java.util.concurrent(J.U.C)就是建立在CAS之上的。相对于对于synchronized这种阻塞算法，CAS是非阻塞算法的一种常见实现。所以J.U.C在性能上有了很大的提升。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class AtomicInteger extends Number implements java.io.Serializable {
+    private volatile int value;  
+ 
+    public final int get() {  
+        return value;  
+    }  
+ 
+    public final int getAndIncrement() {  
+        for (;;) {  
+            int current = get();  
+            int next = current + 1;  
+            if (compareAndSet(current, next))  
+                return current;  
+        }  
+    }  
+ 
+    public final boolean compareAndSet(int expect, int update) {  
+        return unsafe.compareAndSwapInt(this, valueOffset, expect, update);  
+    }  
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;参考：&lt;br /&gt;
+&lt;a href=&quot;http://www.importnew.com/20472.html&quot;&gt;乐观锁的一种实现方式—CAS&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-案例1初审统计数据迁移&quot;&gt;案例1：初审统计数据迁移&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;迁移背景&lt;br /&gt;
+原有的统计方式采用的是实时count的方法获取统计数据，造成的问题是查询慢且无法获取长时间段的统计数据（sql超时）、无法获取某日统计数据的快照（前一天的待审核数据会变成今天的审核通过数据）&lt;/li&gt;
+  &lt;li&gt;采用迁移方式&lt;br /&gt;
+使用raptor迁移平台，扫描审核记录表，取出累计统计数据后进行加1操作，然后更新到统计表中。由于平台特性，数据迁移过程具有高并发性，由于强行采用先读取后更新的方式，会造成丢失更新的情况，于是这里考虑采用CAS&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;step 1:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;select id,passCount,rejectCount,hideCount,warnCount,waitCount 
+from book.TradeItemAuditCount 
+where type = #{type} and date = #{date} and editor = #{editor} 
+and isDeleted = 0 limit 1
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;step 2:【失败重试】&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;update book.TradeItemAuditCount 
+set passCount = #{passCount} , rejectCount = #{rejectCount} , hideCount = #{hideCount} , warnCount = #{warnCount} , waitCount = #{waitCount} , updated = #{updated}
+where id = #{id} and passCount = #{oldPassCount} and rejectCount = #{oldRejectCount} and hideCount = #{oldHideCount} and warnCount = #{oldWarnCount} and waitCount = #{oldWaitCount}
+and isDeleted = 0 limit 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;处理结果&lt;br /&gt;
+一共扫描审核结果4335668条数据，对重试次数超过100的更新操作进行记录，发现更新操作出现大部分的重试，任务本身DB写操作的qps较低【都不需要通过控制台限制速率..】&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;heading-案例2商品库存&quot;&gt;案例2：商品库存&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;商品库存与上述案例1一致，都是对数据记录进行加减操作，发现库存的更新方式如下：
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;update 库存表
+set stock=stock-1
+where id=#{id}
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;直接使用数据库的排它锁就简单的避免了并发导致的丢失更新问题，之前提到的一次只有一个事务拥有资源的排它锁，并发的更新操作都试图占有资源的排它锁，当资源上存在排它锁时，其他更新操作需要等待锁的释放&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;相比案例1的解决方案，案例2的解决方式直接使用了MySQL InnoDB更新操作本身就拥有的排它锁，不需要额外的开销，而案例1不必要的查询操作以及多次的重试操作严重影响到了数据迁移的性能，所以案例1是反面例子..&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;heading-案例3商品打标&quot;&gt;案例3：商品打标&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;随着上打标的qps上涨，出现达标更新数据丢失的情况
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;tags&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;16,32,233,22&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;itemState&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;hd&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ai:4|nd:18&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;au&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;baoming&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;处理方案
+    &lt;ol&gt;
+      &lt;li&gt;乐观锁：采用CAS
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;update TradeItem
+set extra=#{extra}
+where tradeItemId=#{tradeItemId} and extra=#{oldExtra}
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+        &lt;p&gt;这里使用长字符串做更新条件，会影响到SQL性能？？？&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;乐观锁：采用数据版本 
+ 表中新增version字段标识数据版本，作为数据更新的检查方式
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;update TradeItem
+set extra=#{extra} , version=version+1
+where tradeItemId=#{tradeItemId} and version=#{version}
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+        &lt;p&gt;此方案改造较大，还需要为表新增字段，而且采用乐观锁拥有这一律的弊端：重试带来的时间代价，一旦并发量上涨，某次更新操作的重试次数也会随之上涨，直接影响到暴露服务的响应时间。【限制重试次数能够一定程度上控制更新操作的响应时间，但是仍然会出现更新丢失的现象（让调用方进行重试操作，分摊单次请求的响应时间？）】&lt;/p&gt;
+      &lt;/li&gt;
+      &lt;li&gt;悲观锁&lt;br /&gt;
+更新丢失的根本原因是执行查询、修改两个操作之间数据被另一事务修改了，单纯的UPDATE操作其实也是进行着先查询后修改的操作，没有产生更新丢失是因为数据上存在排它锁（sql server则是更新锁），在执行期间并不允许其他修改。同理我们将要打标的商品记录加上排它锁或者更新锁就能解决问题。&lt;br /&gt;
+MySQL:
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;start transaction;
+SELECT extra
+FROM TradeItem 
+WHERE tradeItemId=#{tradeItemId}
+FOR UPDATE;
+UPDATE TradeItem 
+SET extra = bdo.AddTag(tag,extra)
+WHERE tradeItemId=#{tradeItemId};
+commit;
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+        &lt;p&gt;SQL SERVER:&lt;/p&gt;
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;BEGIN TRANSACTION --开始一个事务
+SELECT extra
+FROM TradeItem WITH (UPDLOCK)
+WHERE tradeItemId=#{tradeItemId}
+UPDATE TradeItem 
+SET extra = bdo.AddTag(tag,extra)
+WHERE tradeItemId=#{tradeItemId}
+COMMIT TRANSACTION --提交事务
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+        &lt;p&gt;该方案避免了重试带来的开销，同时使用排它锁（更新锁）也没有额外增加锁的开销【直接把commit写到sql里面会被raptor拦截，只能使用dateSource.getConnection设置自动提交为false后提交】&lt;/p&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;heading-悲观锁乐观锁的取舍&quot;&gt;悲观锁乐观锁的取舍&lt;/h2&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Tobi7&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="mysql" /><summary type="html">数据库锁机制</summary></entry></feed>

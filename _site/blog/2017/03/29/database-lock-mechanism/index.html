@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>数据库锁机制 | Tobi7</title>
+<meta name="generator" content="Jekyll v3.5.2" />
+<meta property="og:title" content="数据库锁机制" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="数据库锁机制" />
+<meta property="og:description" content="数据库锁机制" />
+<link rel="canonical" href="http://localhost:4000/blog/2017/03/29/database-lock-mechanism/" />
+<meta property="og:url" content="http://localhost:4000/blog/2017/03/29/database-lock-mechanism/" />
+<meta property="og:site_name" content="Tobi7" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-03-29T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"数据库锁机制","@type":"BlogPosting","url":"http://localhost:4000/blog/2017/03/29/database-lock-mechanism/","headline":"数据库锁机制","dateModified":"2017-03-29T00:00:00+08:00","datePublished":"2017-03-29T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2017/03/29/database-lock-mechanism/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<meta name="keywords" content="mysql" />
+
+
+
+
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Tobi7" />
+    <link href='/assets/stylesheets/blog.css' rel="stylesheet" type="text/css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script>window.Modernizr || document.write('<script src="/assets/javascripts/modernizr-2.8.3.min.js"><\/script>')</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="/assets/javascripts/jquery-3.2.1.min.js"><\/script>')
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+<script>
+    window.Pace || document.write('<script src="/assets/javascripts/pace.min.js"><\/script>')
+</script>
+
+
+</head>
+
+<body>
+    <!--[if IE]>
+    <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+<![endif]-->
+<noscript>
+    <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+</noscript>
+
+    <div class="nav-wrapper overlay-wrapper">
+    <div class="nav-form overlay-form">
+        <span class="overlay-header menu">Menu</span>
+        <a class="btn-close">Close</a>
+        <div class="results">
+            <ul>
+                <li><a href="/blog/categories/">Categories</a></li>
+                <li><a href="/blog/tags/">Tags</a></li>
+                <li><a href="/">About</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="search-wrapper overlay-wrapper">
+    <div class="search-form overlay-form">
+        <input type="text" class="overlay-header search-field" placeholder="Search...">
+        <a class="btn-close">Close</a>
+        <ul class="results"></ul>
+    </div>
+</div>
+
+
+    <div id="page" class="hentry">
+        <header class="the-header">
+    <div class="unit-head">
+        <div class="unit-inner unit-head-inner">
+            <nav class="nav-global">
+                <ul>
+                    <li class="logo nav-link">
+                        <button class="btn-menu" title="Menu"></button>
+                        <a href="/blog/">Tobi7</a>
+                        <!--[if !IE]> -->
+                        <button class="btn-search" title="Search"></button>
+                        <!-- <![endif]-->
+                    </li>
+                    <li class="nav-link"><a title="Categories" href="/blog/categories/">Categories</a></li>
+                    <li class="nav-link"><a title="Tags" href="/blog/tags/">Tags</a></li>
+                    <!--[if !IE]> -->
+                    <li class="nav-link"><a title="Search" class="btn-search" href="#">Search</a></li>
+                    <!-- <![endif]-->
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+        <div class="body animated fadeInDown" role="main">
+            <div class="unit-body">
+                <div class="unit-inner unit-body-inner">
+                    <div class="entry-content">
+                        <article class="unit-article layout-post">
+    <div class="unit-inner unit-article-inner">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
+            <header>
+                <div class="unit-head">
+                    <div class="unit-inner unit-head-inner">
+                        <h1 class="entry-title" itemprop="name">数据库锁机制</h1>
+                    </div>
+                </div>
+            </header>
+            <div class="bd article-content">
+                <div class="entry-content">
+                    <div class="meta">
+                        <p class="date-publish">
+                            Published:
+                            <time itemprop="datePublished" class="date-pub updated"
+                                title="2017-03-29T00:00:00+08:00" datetime="2017-03-29T00:00:00+08:00">March 29, 2017 </time>
+                            by
+                            <a class="author" href="/" rel="author" title="Show Author">
+                                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                                    <span itemprop="name"></span>
+                                </span>
+                            </a>
+                            
+                            
+                        </p>
+                        <ul class="list-category list-linear">
+                            <li class="list-head">Categories: </li>
+                             
+     
+        <li>
+            <a href="/blog/categories/#database" title="database">
+            database <span>2</span></a>
+        </li>
+    
+
+
+
+                        </ul>
+                        <ul class="list-tag list-linear">
+                            <li class="list-head">Tags: </li>
+                             
+    
+        
+        <li>
+            <a href="/blog/tags/#mysql" title="mysql">mysql <span>2</span></a>
+        </li>
+    
+
+
+
+
+                        </ul>
+                    </div>
+                    <div itemprop="articleBody">
+                        <h1 id="heading-数据库锁机制">数据库锁机制</h1>
+
+<h2 id="heading-为什么需要锁">为什么需要锁</h2>
+
+<ul>
+  <li>死锁问题</li>
+  <li>并发问题导致的不正确数据的读取和存储，破坏数据一致性
+    <ol>
+      <li>丢失更新：当两个或多个事务选择同一行，然后基于最初选定的值更新该行时，由于每个事务都不知道其他事务的存在，就会发生丢失更新问题－－最后的更新覆盖了由其他事务所做的更新。例如，两个编辑人员制作了同一文档的电子副本。每个编辑人员独立地更改其副本，然后保存更改后的副本，这样就覆盖了原始文档。最后保存其更改副本的编辑人员覆盖另一个编辑人员所做的更改。如果在一个编辑人员完成并提交事务之前，另一个编辑人员不能访问同一文件，则可避免此问题</li>
+      <li>脏读：一个事务正在对一条记录做修改，在这个事务完成并提交前，这条记录的数据就处于不一致状态；这时，另一个事务也来读取同一条记录，如果不加控制，第二个事务读取了这些“脏”数据，并据此做进一步的处理，就会产生未提交的数据依赖关系。这种现象被形象地叫做"脏读"。</li>
+      <li>不可重复读：一个事务在读取某些数据后的某个时间，再次读取以前读过的数据，却发现其读出的数据已经发生了改变、或某些记录已经被删除了！这种现象就叫做“不可重复读”。</li>
+      <li>幻读：一个事务按相同的查询条件重新读取以前检索过的数据，却发现其他事务插入了满足其查询条件的新数据，这种现象就称为“幻读”。</li>
+    </ol>
+  </li>
+</ul>
+
+<h2 id="heading-锁的分类">锁的分类</h2>
+
+<h3 id="heading-数据库维度">数据库维度</h3>
+
+<ul>
+  <li>共享锁:<br />
+用于不更改或不更新数据的操作（只读操作）。共享锁允许并发事务读取同一个资源，数据资源上存在共享锁时，任何其他事务不允许修改数据</li>
+  <li>排它锁:<br />
+用于数据修改，确保不会同时多重更新同一数据。资源上存在排他锁时，其他任何事务不允许给资源上锁，当资源上有其他锁时，也无法对其加上排它锁</li>
+</ul>
+
+<p>PS：只有共享锁与共享锁相互兼容，共享锁与排它锁、排它锁之间都互不兼容</p>
+
+<ul>
+  <li>
+    <p>意向锁</p>
+  </li>
+  <li>
+    <p>更新锁</p>
+    <ol>
+      <li>用于可更新的资源中，防止多个会话在读取、锁定以及随后可能进行的资源更新时发生的死锁问题。</li>
+      <li>通常形式的死锁：一般一个更新模式由一个事务组成，此事务读取记录，获取资源的共享锁，然后修改行，此操作要求锁转换为排它锁。如果两个事务同时获得了资源上的共享锁，然后试图同时更新数据，则一个事务尝试将锁转换为排它锁。由于一个事务的排它锁与另一事务的共享锁的不兼容，从共享锁到排它锁的转换必须要等待一段时间，发送锁等待。而第二个事务同时也试图获取排它锁进行更新。由于两个事务都要转化为排它锁，并且每个事务都要等待另一个事务释放掉共享锁，因此发生死锁</li>
+      <li>更新锁一次只有一个事务可以获取资源的更新锁。如果事务修改资源，那么更新锁转化为排它锁，否则转化为共享锁。当资源上存在更新锁时，允许资源被读取（即更新锁与共享锁兼容），但不允许资源被修改</li>
+      <li>一般来说，在执行UPDATE操作时，SQL SERVER会使用到更新锁而不是依次加上共享锁和排它锁，已经回避了这种通常形式的死锁，更新锁与意向锁相互兼容</li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="heading-锁机制">锁机制</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>DBMS</th>
+      <th>SELECT</th>
+      <th>UPDATE</th>
+      <th>INSERT</th>
+      <th>DELETE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MySQL(InnoDB)</td>
+      <td>不加锁</td>
+      <td>排它锁</td>
+      <td>排它锁</td>
+      <td>排它锁</td>
+    </tr>
+    <tr>
+      <td>SQL SERVER</td>
+      <td>共享锁</td>
+      <td>更新锁</td>
+      <td>排它锁</td>
+      <td>排它锁</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>这两种锁机制的区别在于MySQL的查询与更新操作互相不阻塞；而SQL SERVER的更新锁转化成排它锁之前，其查询与更新操作互相不阻塞，当更新锁要转化为排它锁时，需要等待共享锁的释放，当更新锁转化为排它锁后，查询数据需要等待排它锁的释放。</p>
+
+<p>参考：<br />
+<a href="http://blog.csdn.net/samjustin1/article/details/52210125">数据库锁机制</a><br />
+<a href="http://blog.chinaunix.net/uid-24111901-id-2627857.html">InnoDB锁机制</a><br />
+<a href="http://blog.itpub.net/13651903/viewspace-1091664/">SQL SERVER锁机制</a></p>
+
+<h3 id="heading-程序员思想维度">程序员思想维度</h3>
+<ul>
+  <li>悲观锁
+    <ol>
+      <li>悲观并发控制（又名“悲观锁”，Pessimistic Concurrency Control，缩写“PCC”）是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作都某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。悲观锁的实现，往往依靠数据库提供的锁机制。悲观并发控制主要用于数据争用激烈的环境，以及发生并发冲突时使用锁保护数据的成本要低于回滚事务的成本的环境中。</li>
+      <li>悲观并发控制实际上是“先取锁再访问”的保守策略，为数据处理的安全提供了保证。但是在效率方面，处理加锁的机制会让数据库产生额外的开销，还有增加产生死锁的机会；另外，在只读型事务处理中由于不会产生冲突，也没必要使用锁，这样做只能增加系统负载；还有会降低了并行性，一个事务如果锁定了某行数据，其他事务就必须等待该事务处理完才可以处理那行数</li>
+    </ol>
+  </li>
+  <li>乐观锁
+    <ol>
+      <li>乐观并发控制（又名“乐观锁”，Optimistic Concurrency Control，缩写“OCC”）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。</li>
+      <li>乐观并发控制相信事务之间的数据竞争(data race)的概率是比较小的，因此尽可能直接做下去，直到提交的时候才去锁定，所以不会主动产生任何锁和死锁。但是在并发量高的情况下，可能导致某次数据修改多次重试，影响单次成功操作的时间。</li>
+      <li>数据版本实现乐观锁：实现数据版本有两种方式，第一种是使用版本号，第二种是使用时间戳。使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。
+        <div class="highlighter-rouge"><pre class="highlight"><code>update table 
+set date=1,version=version+1
+where id=#{id} and version=#{version};
+</code></pre>
+        </div>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<p>参考：<br />
+<a href="http://www.open-open.com/lib/view/open1452046967245.html">乐观锁与悲观锁</a></p>
+
+<h2 id="heading-乐观锁另一种实现方式cas">乐观锁另一种实现方式CAS</h2>
+
+<p>CAS是项乐观锁技术，当多个线程尝试使用CAS同时更新同一个变量时，只有其中一个线程能更新变量的值，而其它线程都失败，失败的线程并不会被挂起，而是被告知这次竞争中失败，并可以再次尝试。</p>
+
+<p>CAS 操作包含三个操作数 —— 内存位置（V）、预期原值（A）和新值(B)。如果内存位置的值与预期原值相匹配，那么处理器会自动将该位置值更新为新值。否则，处理器不做任何操作。无论哪种情况，它都会在 CAS 指令之前返回该位置的值。CAS 有效地说明了“我认为位置 V 应该包含值 A；如果包含该值，则将 B 放到这个位置；否则，不要更改该位置，只告诉我这个位置现在的值即可。”这其实和乐观锁的冲突检查+数据更新的原理是一样的。</p>
+
+<p>java.util.concurrent(J.U.C)就是建立在CAS之上的。相对于对于synchronized这种阻塞算法，CAS是非阻塞算法的一种常见实现。所以J.U.C在性能上有了很大的提升。</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>public class AtomicInteger extends Number implements java.io.Serializable {
+    private volatile int value;  
+ 
+    public final int get() {  
+        return value;  
+    }  
+ 
+    public final int getAndIncrement() {  
+        for (;;) {  
+            int current = get();  
+            int next = current + 1;  
+            if (compareAndSet(current, next))  
+                return current;  
+        }  
+    }  
+ 
+    public final boolean compareAndSet(int expect, int update) {  
+        return unsafe.compareAndSwapInt(this, valueOffset, expect, update);  
+    }  
+}
+</code></pre>
+</div>
+
+<p>参考：<br />
+<a href="http://www.importnew.com/20472.html">乐观锁的一种实现方式—CAS</a></p>
+
+<h2 id="heading-案例1初审统计数据迁移">案例1：初审统计数据迁移</h2>
+
+<ul>
+  <li>迁移背景<br />
+原有的统计方式采用的是实时count的方法获取统计数据，造成的问题是查询慢且无法获取长时间段的统计数据（sql超时）、无法获取某日统计数据的快照（前一天的待审核数据会变成今天的审核通过数据）</li>
+  <li>采用迁移方式<br />
+使用raptor迁移平台，扫描审核记录表，取出累计统计数据后进行加1操作，然后更新到统计表中。由于平台特性，数据迁移过程具有高并发性，由于强行采用先读取后更新的方式，会造成丢失更新的情况，于是这里考虑采用CAS</li>
+</ul>
+
+<p>step 1:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>select id,passCount,rejectCount,hideCount,warnCount,waitCount 
+from book.TradeItemAuditCount 
+where type = #{type} and date = #{date} and editor = #{editor} 
+and isDeleted = 0 limit 1
+
+</code></pre>
+</div>
+<p>step 2:【失败重试】</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>update book.TradeItemAuditCount 
+set passCount = #{passCount} , rejectCount = #{rejectCount} , hideCount = #{hideCount} , warnCount = #{warnCount} , waitCount = #{waitCount} , updated = #{updated}
+where id = #{id} and passCount = #{oldPassCount} and rejectCount = #{oldRejectCount} and hideCount = #{oldHideCount} and warnCount = #{oldWarnCount} and waitCount = #{oldWaitCount}
+and isDeleted = 0 limit 1
+</code></pre>
+</div>
+
+<ul>
+  <li>处理结果<br />
+一共扫描审核结果4335668条数据，对重试次数超过100的更新操作进行记录，发现更新操作出现大部分的重试，任务本身DB写操作的qps较低【都不需要通过控制台限制速率..】</li>
+</ul>
+
+<h2 id="heading-案例2商品库存">案例2：商品库存</h2>
+<ul>
+  <li>商品库存与上述案例1一致，都是对数据记录进行加减操作，发现库存的更新方式如下：
+    <div class="highlighter-rouge"><pre class="highlight"><code>update 库存表
+set stock=stock-1
+where id=#{id}
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>直接使用数据库的排它锁就简单的避免了并发导致的丢失更新问题，之前提到的一次只有一个事务拥有资源的排它锁，并发的更新操作都试图占有资源的排它锁，当资源上存在排它锁时，其他更新操作需要等待锁的释放</p>
+  </li>
+  <li>相比案例1的解决方案，案例2的解决方式直接使用了MySQL InnoDB更新操作本身就拥有的排它锁，不需要额外的开销，而案例1不必要的查询操作以及多次的重试操作严重影响到了数据迁移的性能，所以案例1是反面例子..</li>
+</ul>
+
+<h2 id="heading-案例3商品打标">案例3：商品打标</h2>
+<ul>
+  <li>随着上打标的qps上涨，出现达标更新数据丢失的情况
+    <div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="nt">"tags"</span><span class="p">:</span><span class="s2">"16,32,233,22"</span><span class="p">,</span><span class="nt">"itemState"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">"hd"</span><span class="p">:</span><span class="s2">"ai:4|nd:18"</span><span class="p">,</span><span class="nt">"au"</span><span class="p">:</span><span class="s2">"baoming"</span><span class="p">}</span><span class="w">
+</span></code></pre>
+    </div>
+  </li>
+  <li>处理方案
+    <ol>
+      <li>乐观锁：采用CAS
+        <div class="highlighter-rouge"><pre class="highlight"><code>update TradeItem
+set extra=#{extra}
+where tradeItemId=#{tradeItemId} and extra=#{oldExtra}
+</code></pre>
+        </div>
+        <p>这里使用长字符串做更新条件，会影响到SQL性能？？？</p>
+      </li>
+      <li>乐观锁：采用数据版本 
+ 表中新增version字段标识数据版本，作为数据更新的检查方式
+        <div class="highlighter-rouge"><pre class="highlight"><code>update TradeItem
+set extra=#{extra} , version=version+1
+where tradeItemId=#{tradeItemId} and version=#{version}
+</code></pre>
+        </div>
+        <p>此方案改造较大，还需要为表新增字段，而且采用乐观锁拥有这一律的弊端：重试带来的时间代价，一旦并发量上涨，某次更新操作的重试次数也会随之上涨，直接影响到暴露服务的响应时间。【限制重试次数能够一定程度上控制更新操作的响应时间，但是仍然会出现更新丢失的现象（让调用方进行重试操作，分摊单次请求的响应时间？）】</p>
+      </li>
+      <li>悲观锁<br />
+更新丢失的根本原因是执行查询、修改两个操作之间数据被另一事务修改了，单纯的UPDATE操作其实也是进行着先查询后修改的操作，没有产生更新丢失是因为数据上存在排它锁（sql server则是更新锁），在执行期间并不允许其他修改。同理我们将要打标的商品记录加上排它锁或者更新锁就能解决问题。<br />
+MySQL:
+        <div class="highlighter-rouge"><pre class="highlight"><code>start transaction;
+SELECT extra
+FROM TradeItem 
+WHERE tradeItemId=#{tradeItemId}
+FOR UPDATE;
+UPDATE TradeItem 
+SET extra = bdo.AddTag(tag,extra)
+WHERE tradeItemId=#{tradeItemId};
+commit;
+</code></pre>
+        </div>
+        <p>SQL SERVER:</p>
+        <div class="highlighter-rouge"><pre class="highlight"><code>BEGIN TRANSACTION --开始一个事务
+SELECT extra
+FROM TradeItem WITH (UPDLOCK)
+WHERE tradeItemId=#{tradeItemId}
+UPDATE TradeItem 
+SET extra = bdo.AddTag(tag,extra)
+WHERE tradeItemId=#{tradeItemId}
+COMMIT TRANSACTION --提交事务
+</code></pre>
+        </div>
+        <p>该方案避免了重试带来的开销，同时使用排它锁（更新锁）也没有额外增加锁的开销【直接把commit写到sql里面会被raptor拦截，只能使用dateSource.getConnection设置自动提交为false后提交】</p>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h2 id="heading-悲观锁乐观锁的取舍">悲观锁乐观锁的取舍</h2>
+
+                    </div>
+                </div>
+            </div>
+            <footer class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="post-buttons">
+                        <a class="internal gotop" href="#page" title="Back to Top">Back to Top</a>
+                        
+                    </div>
+                    <nav class="pagination">
+                        
+                        
+                            <a class="internal" rel="next" href="/blog/2017/05/15/database-master-slave-syn/" title="Next Post '数据库主从复制'">数据库主从复制 → </a>
+                        
+                    </nav>
+                </div>
+            </footer>
+            <div class="misc-content">
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="the-footer">
+    <div class="unit-foot">
+        <div class="unit-inner unit-foot-inner">
+            <div class="misc vcard">
+                <div class="about">
+                    <h4><a href="/">About</a></h4>
+                    
+                        <p>No zero day.</p>
+                    
+                    <p><small>Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> and <a href="https://pages.github.com/" target="_blank">Github Pages</a>, &copy; 2018 Tobi7.</small></p>
+                </div>
+                <div class="social-links">
+                    
+                    <a class="ico-rss" href="/feed.xml" rel="me" target="_blank" title="feed"></a>
+                    
+                        
+                    
+                        
+                            <a class="ico-github" href="https://github.com/Tobi7" rel="me" target="_blank" title="github"></a>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="internal back-to-top">Back to Top</a>
+</footer>
+
+    </div>
+
+    <script>
+$(document).ready(function () {
+    var offset = 50,
+        duration = 500,
+        width = 960;
+    $(window).scroll(function () {
+        if ($(window).width() > width) {
+            if ($(this).scrollTop() > offset) {
+                $('footer').css('top', '20px');
+                $('footer .back-to-top').fadeIn(duration);
+            } else {
+                $('footer').css('top', 'auto');
+                $('footer .back-to-top').fadeOut(duration);
+            }
+        }
+    });
+    $(window).resize(function () {
+        if ($(window).width() < width) {
+            $('footer').css('top', 'auto');
+            $('footer .back-to-top').fadeOut(duration);
+        }
+        if ($(window).width() >= width && $(this).scrollTop() > offset) {
+            $('footer').css('top', '20px');
+            $('footer .back-to-top').fadeIn(duration);
+        }
+    });
+
+    $('footer .back-to-top, .gotop').on('click', function (event) {
+        event.preventDefault();
+        $('html, body').animate({
+            scrollTop: 0
+        }, duration);
+        return false;
+    });
+
+    $('.show-hidden').on('click', function () {
+        $(this).parent().next().toggleClass("hidden");
+        $(this).toggleClass("hidden");
+    });
+});
+</script>
+
+<!-- Google Analytics Event tracking -->
+
+
+<!-- Show menu overlay + Jekyll Simple Search option -->
+<script src="/assets/javascripts/jekyll-search.jquery.js"></script>
+<script>
+$(document).ready(function () {
+    $('.search-field').simpleJekyllSearch({
+      jsonFile: '/search.json',
+      template: '<li><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></li>',
+      searchResults: '.search-wrapper .results',
+      searchResultsTitle: '<h4>Search results</h4>',
+      noResults: '<p>Oh shucks<br/><small>Nothing found :(</small></p>'
+    });
+});
+
+(function ($, window, undefined) {
+    var closeOverlay = function () {
+        $('.nav-wrapper, .search-wrapper').removeAttr('style');
+        $(".nav-form, .search-form").removeClass('active');
+        $("body").removeClass('nav-overlay search-overlay');
+    };
+
+    $('.nav-global .btn-search').on('click', function () {
+        $('.search-wrapper').css({display: "block"});
+        $(".search-form").addClass('active');
+        $(".search-form").find('input').focus();
+        $("body").addClass('search-overlay');
+    });
+
+    $('.nav-global .btn-menu').on('click', function () {
+        $('.nav-wrapper').css({display: "block"});
+        $(".nav-form").addClass('active');
+        $(".nav-form .search-field").prop('disabled', true);
+        $("body").addClass('nav-overlay');
+    });
+
+    $('.nav-wrapper .btn-close, .search-wrapper .btn-close').on('click', function () {
+        closeOverlay();
+    });
+
+    $(document).on('keyup', function (e) {
+        if (e.keyCode === 27) {
+            closeOverlay();
+        }
+    });
+})(jQuery, window);
+</script>
+
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-buttons.min.js'></script>
+<script src="/assets/javascripts/unveil/jquery.unveil.min.js"></script>
+
+<script>
+    window.jQuery.fancybox || document.write('<script src="/assets/javascripts/fancybox/jquery.fancybox.pack.js?v=2.1.4"><\/script>')
+    window.jQuery.fancybox.helpers.buttons || document.write('<script src="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"><\/script>')
+</script>
+
+<script>
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/jquery.fancybox.css?v=2.1.4" type="text/css" />');
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" />');
+    $(".post-image").fancybox({
+        prevEffect: 'none',
+        nextEffect: 'none',
+        closeBtn: true,
+        helpers: {
+            title: {
+                type: 'float'
+            }
+        }
+    });
+    $(document).ready(function () {
+        $(".post-image > img").unveil(450);
+    });
+</script>
+
+</body>
+
+</html>

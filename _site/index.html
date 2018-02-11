@@ -1,246 +1,144 @@
 <!DOCTYPE html>
-<html>
 
-  <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title> - Tobi7's Blog</title>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
 
-	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
-	<link rel="icon" href="/styles/images/favicon.jpg">
+<head>
+    <meta charset="utf-8">
+<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-	<link rel="stylesheet" href="/styles/css/index.css">
-	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/styles/css/syntax.css">
-	<link rel="canonical" href="/">
-	<link rel="alternate" type="application/rss+xml" title="Tobi7's Blog" href="/feed.xml">
-	
-	<meta name="description" content="one blog">
+<!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>Tobi7 | Tobi7&#39;s blog</title>
+<meta name="generator" content="Jekyll v3.5.2" />
+<meta property="og:title" content="Tobi7" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Tobi7&#39;s blog" />
+<meta property="og:description" content="Tobi7&#39;s blog" />
+<link rel="canonical" href="http://localhost:4000/" />
+<meta property="og:url" content="http://localhost:4000/" />
+<meta property="og:site_name" content="Tobi7" />
+<script type="application/ld+json">
+{"name":"Tobi7","description":"Tobi7&#39;s blog","@type":"WebSite","url":"http://localhost:4000/","headline":"Tobi7","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
 
-	<script src="/styles/js/jquery.min.js"></script>
-	<!--[if lt IE 9]>
-    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  	<![endif]-->
-  	<script>
-		var _hmt = _hmt || [];
-		(function() {
-		  var hm = document.createElement("script");
-		  hm.src = "//hm.baidu.com/hm.js?94be4b0f9fc5d94cc0d0415ea6761ae9";
-		  var s = document.getElementsByTagName("script")[0]; 
-		  s.parentNode.insertBefore(hm, s);
-		})();
-	</script>
-  	<style type="text/css">
-	  	.docs-content{
-	  		margin-bottom: 10px;
-	  	}
-  	</style>
+<meta name="keywords" content="" />
+
+
+
+
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Tobi7" />
+    <link href='/assets/stylesheets/home.css' rel="stylesheet" type="text/css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script>window.Modernizr || document.write('<script src="/assets/javascripts/modernizr-2.8.3.min.js"><\/script>')</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="/assets/javascripts/jquery-3.2.1.min.js"><\/script>')
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+<script>
+    window.Pace || document.write('<script src="/assets/javascripts/pace.min.js"><\/script>')
+</script>
+
+
 </head>
 
-  <body class="index">
+<body>
+    <ul id="menu">
+        <li data-menuanchor="bio"><a href="#bio">Biography</a></li>
+        <li data-menuanchor="social"><a href="#social">Social Links</a></li>
+    </ul>
 
-    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
-  <div class="container">
-    <div class="navbar-header">
-      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a href="/" class="navbar-brand">
-        <img src="/styles/images/logo.jpg">
-      </a>
-    </div>
-    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
-      <ul class="nav navbar-nav">    
-        <li>
-          <a href="/">Home</a>
-        </li>
-        <li>
-          <a href="/categories/">大类分解</a>
-        </li>
-        <li>
-          <a href="/tag">小类内聚</a>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-            <a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></a>
-        </li>
-        <li>
-          <a href="/donate/"><strong>打赏</strong></a>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">关于<b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a rel="nofollow" target="_blank" href="https://github.com/Tobi7/">Github</a></li>
-            <li><a rel="nofollow" target="_blank" href="www.baidu.com">关于作者</a></li>
-            <li><a rel="nofollow" href="/books">我的书单</a></li>
-            <li><a rel="nofollow" href="/reference">推荐博客</a></li>
-            <li><a href="/feed.xml">RSS订阅</a></li>
-            <li class="divider"></li>
-            <li><a rel="nofollow" target="_blank" href="https://github.com/luoyan35714/LessOrMore.git">本项目</a></li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</header>
-    <div class="docs-header" id="content">
-  <div class="container">
-  	
-	    <h1>Tobi7's Blog</h1>
-	    <p>one blog</p>
-    
-  </div>
-</div>
-    
+    <div id="section0" class="section" data-name="bio">
 
-     <div class="container docs-container">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="sidebar hidden-print" role="complementary">
-            <div id="navigation">
-              <h1>目录</h1>
-              <ul class="nav sidenav">
+        <!--[if IE]>
+    <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+<![endif]-->
+<noscript>
+    <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+</noscript>
 
-                
-                  
-                  
-                  
-                  
 
-                  
-                    <li><a href="#year_2016">2016</a>
-                      <ul class="nav">
-                        <li><a href="#month_2016_August">August</a></li>
-                  
-
-                  
-                    
-                        </ul>
-                      </li>
-                      <li><a href="#year_2014">2014</a>
-                        <ul class="nav">
-                          <li><a href="#month_2014_December">December</a></li>
-                    
-                  
-                
-                  
-                  
-                  
-                  
-
-                  
-
-                  
-                        
-                      
-                          <li><a href="#month_2014_November">November</a></li>
-                      
-                    
-                  
-                
-                  
-                  
-                  
-                  
-
-                  
-
-                  
-                        </ul>
-                      </li>
-                  
-                
-              </ul>
-            </div>
-          </div>
+        <div class="headings animated fadeInLeft">
+            <h1>Tobi7</h1>
+            <h2>No zero day.</h2>
+            <div class="social-links"><a class="ico-github btn" href="https://github.com/Tobi7" title="View on GitHub"></a></div>
         </div>
-        <div class="col-md-9" role="main">
-          <div class="panel docs-content">
-            <div class="wrapper">
-              <div class="home">
-                
-                  
-                  
-                  
-                  
-
-                  
-                    <h1 id="year_2016">2016</h1>
-                    <h2 id="month_2016_August">August</h2>
-                    <ul>
-                  
-
-                  <ol class="breadcrumb">
-                   <li><span>August 27, 2016</span> &raquo; <a href="/2016/08/27/how-to-use-this-jekyll-theme/">如何使用LessOrMore这个Jekyll模版</a></li>
-                  </ol>
-                  
-                    
-                      </ul>
-                      <h1 id="year_2014">2014</h1>
-                      <h2 id="month_2014_December">December</h2>
-                      <ul>
-                    
-                  
-                
-                  
-                  
-                  
-                  
-
-                  
-
-                  <ol class="breadcrumb">
-                   <li><span>December 20, 2014</span> &raquo; <a href="/2014/12/20/I-ve-Interviewed-100s-of-Candidates-and-the-Ones-I-Hire-Always-Do-This/">我面试过的上百个候选者中成功的人总会做的事情</a></li>
-                  </ol>
-                  
-                        
-                      
-                        </ul>
-                        <h2 id="month_2014_November">November</h2>
-                        <ul>
-                      
-                    
-                  
-                
-                  
-                  
-                  
-                  
-
-                  
-
-                  <ol class="breadcrumb">
-                   <li><span>November 17, 2014</span> &raquo; <a href="/2014/11/17/welcome-to-jekyll/">Welcome to Jekyll!</a></li>
-                  </ol>
-                  
-                    </ul>
-                  
-                
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <a class="btn-continue animated bounce" title="More" href="#social"></a>
     </div>
 
-    
-    <footer class="footer" role="contentinfo">
-	<div class="container">
-		<p class="copyright">Copyright &copy; 2014-2017 <a href="www.baidu.com"><code>Tobi7</code></a>.</p>
-		<p>Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme from <a href="http://lesscss.cn/">Less</a></p>
-	</div>
-</footer>
+    <div id="section1" class="section" data-name="social">
+        <h1 class="animated hidden">
+            <a class="btn-enter btn-light" title="Enter Blog" href="/blog/">Enter Blog</a>
+        </h1>
+        <div class="social-links animated hidden">
+            <a class="btn-light ico-rss" href="/feed.xml" rel="me" target="_blank" title="feed"></a>
+            
+            
+                
+            
+                
+                    <a class="btn-light ico-github" href="https://github.com/Tobi7" rel="me" target="_blank" title="github"></a>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        </div>
+    </div>
 
-<script src="/styles/js/jquery.min.js"></script>
-<script src="/styles/js/bootstrap.min.js"></script>
-<script src="/styles/js/holder.min.js"></script>
-<script src="/styles/js/lessismore.js"></script>
-<script src="/styles/js/application.js"></script>
-<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <script src="/assets/javascripts/jquery.fullPage.min.js"></script>
+<script src="/assets/javascripts/jquery.easing.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $.fn.fullpage({
+            anchors: ['bio', 'social'],
+            css3: true,
+            fixedElements: '.site-notice',
+            menu: '#menu',
+            navigation: true,
+            navigationPosition: 'right',
+            resize: false,
+            scrollingSpeed: 500,
 
-  </body>
+            afterLoad: function (anchorLink, index) {
+                if (index === 1) {
+                    $('#section0 .headings, #section0').removeClass('hidden').addClass('fadeInDown');
+                    $('.btn-continue').removeClass('hidden').addClass('bounce');
+                }
+                if (index === 2) {
+                    $('#section1 h1, #section1 .social-links').removeClass('hidden').addClass('fadeInUp');
+                }
+            },
+
+            onLeave: function (index, direction) {
+                if (index == 1 && direction == 'down') {
+                    $('#section0 .headings, #section0 .btn-continue').addClass('hidden').removeClass('bounce fadeInDown fadeInLeft');
+                }
+                if (index == 2 && direction == 'up') {
+                    $('#section1 h1, #section1 .social-links').addClass('hidden').removeClass('fadeInUp');
+                }
+            }
+        });
+    });
+
+</script>
+
+
+</body>
+
 </html>
