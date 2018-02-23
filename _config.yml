@@ -23,7 +23,7 @@ sass:
 # Site Data
 url: # the base hostname & protocol for your site, e.g. http://example.com
 baseurl: # the subpath of your site, e.g. /blog
-title: Tobi7
+title: Cuner
 description: "No zero day."
 keywords: 'jekyll,theme,gem-based,blog'
 author:
@@ -35,7 +35,7 @@ author:
     - name: facebook
       url:
     - name: github
-      url: https://github.com/Tobi7
+      url: https://github.com/Cuner
     - name: instagram
       url:
     - name: linkedin
@@ -47,9 +47,9 @@ author:
     - name: vk
       url:
 home:
-  section1: <h1>Tobi7</h1>
+  section1: <h1>Cuner</h1>
   section2: <h2>No zero day.</h2>
-  section3: <div class="social-links"><a class="ico-github btn" href="https://github.com/Tobi7" title="View on GitHub"></a></div>
+  section3: <div class="social-links"><a class="ico-github btn" href="https://github.com/Cuner" title="View on GitHub"></a></div>
 
 blog:
   footer_content: No zero day.
