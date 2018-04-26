@@ -1,4 +1,145 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2018-02-23T11:55:45+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">HBASE的索引查询</title><link href="http://localhost:4000/blog/2017/12/25/hbase-search-index/" rel="alternate" type="text/html" title="HBASE的索引查询" /><published>2017-12-25T00:00:00+08:00</published><updated>2017-12-25T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/12/25/hbase-search-index</id><content type="html" xml:base="http://localhost:4000/blog/2017/12/25/hbase-search-index/">&lt;h3 id=&quot;heading-一级索引&quot;&gt;一级索引&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2018-04-26T16:16:23+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">lucene简介和索引原理</title><link href="http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/" rel="alternate" type="text/html" title="lucene简介和索引原理" /><published>2018-04-26T00:00:00+08:00</published><updated>2018-04-26T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index</id><content type="html" xml:base="http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/">&lt;h1 id=&quot;heading-lucene简介和索引原理&quot;&gt;lucene简介和索引原理&lt;/h1&gt;
+
+&lt;h2 id=&quot;heading-lucene简介&quot;&gt;Lucene简介&lt;/h2&gt;
+&lt;p&gt;Lucene是一个高效，全Java实现、开源、高性能、功能完整、易拓展，支持分词以及各种查询方式（前缀、模糊、正则等）、打分高亮、列式存储（DocValues）
+的全文检索库。仅支持纯文本文件的索引和搜索。&lt;/p&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/lucene-intro.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
+
+&lt;h2 id=&quot;heading-lucene索引原理&quot;&gt;lucene索引原理&lt;/h2&gt;
+&lt;p&gt;每个字符串都指向包含此字符串的文档(Document)链表，此文档链表称为倒排表&lt;/p&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-construction.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
+
+&lt;h3 id=&quot;heading-索引创建过程&quot;&gt;索引创建过程&lt;/h3&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-create-step.png&quot; width=&quot;700px&quot; /&gt;&lt;/center&gt;
+
+&lt;p&gt;1.需要被索引的原文档(document)&lt;/p&gt;
+
+&lt;p&gt;2.将原文档传给分词组件(Tokenizer)，分词后得到词元(Token)&lt;/p&gt;
+
+&lt;p&gt;3.将得到的词元(Token)传给语言处理组件(Linguistic Processor)，进行一些语法转化：包括字母转为小写、缩减(复数变单数)、转变(过去时转变为词根)，将词语转化为词根(Term)&lt;/p&gt;
+
+&lt;p&gt;4.将得到的词(Term)传给索引组件(Indexer)，得到词典和倒排链表(反向索引表)&lt;/p&gt;
+
+&lt;p&gt;5.通过索引存储将索引写入硬盘&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-检索过程&quot;&gt;检索过程&lt;/h3&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-search-step.png&quot; width=&quot;700px&quot; /&gt;&lt;/center&gt;
+
+&lt;p&gt;1.用户输入查询语句&lt;/p&gt;
+
+&lt;p&gt;2.对查询语句进行词法分析得到单词以及关键字(关键字有AND, NOT)，然后对得到的单词进行语言处理(同索引过程中的语言处理几乎相同)得到查询词根Term&lt;/p&gt;
+
+&lt;p&gt;3.语法分析，根据查询语句的语法规则来形成一棵语法树。&lt;/p&gt;
+
+&lt;p&gt;4.通过索引存储将索引读入到内存。&lt;/p&gt;
+
+&lt;p&gt;5.利用查询树搜索索引，从而得到每个词(Term) 的文档链表，对文档链表进行交，差，并得到结果文档&lt;/p&gt;
+
+&lt;p&gt;6.根据得到的文档和查询语句的相关性，对结果进行排序。(向量空间模型算法:通过各个关键词根在不同文档中的权重来比较文档与查询语句的相关性)&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-lucene索引基本概念&quot;&gt;lucene索引基本概念&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;索引(index)
+    &lt;ul&gt;
+      &lt;li&gt;在Lucene中一个索引是放在一个文件夹中的&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;段(segment)
+    &lt;ul&gt;
+      &lt;li&gt;一个索引可以包含多个段，段与段之间是独立的，添加新文档可以生成新的段，不同的段可以合并&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;文档(document)
+    &lt;ul&gt;
+      &lt;li&gt;文档是我们建索引的基本单位，不同的文档是保存在不同的段中的，一个段可以包含多篇文档&lt;/li&gt;
+      &lt;li&gt;新添加的文档是单独保存在一个新生成的段中，随着段的合并，不同的文档合并到同一个段中&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;域(field)
+    &lt;ul&gt;
+      &lt;li&gt;一篇文档包含不同类型的信息，可以分开索引，比如标题，时间，正文，作者等，都可以保存在不同的域里&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;词(term)
+    &lt;ul&gt;
+      &lt;li&gt;词是索引的最小单位，是经过词法分析和语言处理后的字符串&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Lucene的索引结构中，即保存了正向信息，也保存了反向信息&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;正向信息：按层次保存了从索引，一直到词的包含关系：索引(Index) –&amp;gt; 段(segment) –&amp;gt; 文档(Document) –&amp;gt; 域(Field) –&amp;gt; 词(Term)，也即此索引包含了那些段，每个段包含了那些文档，每个文档包含了那些域，每个域包含了那些词&lt;/li&gt;
+  &lt;li&gt;反向信息：保存了词典到倒排表的映射：词(Term) –&amp;gt; 文档(Document)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;heading-lucene结构&quot;&gt;lucene结构&lt;/h3&gt;
+&lt;p&gt;全文索引绝大多数是通过倒排索引来做，倒排索引由两个部分组成，即词典和倒排表&lt;/p&gt;
+
+&lt;h4 id=&quot;heading-索引结构&quot;&gt;索引结构&lt;/h4&gt;
+&lt;p&gt;lucene从4开始大量使用的数据结构是FST（Finite State Transducer）。FST有两个优点：&lt;/p&gt;
+
+&lt;p&gt;1）空间占用小。通过对词典中单词前缀和后缀的重复利用，压缩了存储空间，压缩率一般在3倍~20倍之间；&lt;/p&gt;
+
+&lt;p&gt;2）查询速度快。O(len(str))的查询时间复杂度。&lt;/p&gt;
+
+&lt;p&gt;3) 模糊查询支持比较好&lt;/p&gt;
+
+&lt;p&gt;4）输入要求有序，更新较为困难&lt;/p&gt;
+
+&lt;p&gt;索引文件：
+我们往索引库里插入四个单词abd、abe、acf、acg，看看它的索引文件内容&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;tip部分，每列一个FST索引，所以会有多个FST，每个FST存放前缀和后缀块指针，这里前缀就为a、ab、ac&lt;/li&gt;
+  &lt;li&gt;tim里面存放后缀块和词的其他信息如倒排表指针、TFDF等&lt;/li&gt;
+  &lt;li&gt;doc文件里就为每个单词的倒排表。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-file-construction.png&quot; width=&quot;700px&quot; /&gt;&lt;/center&gt;
+
+&lt;p&gt;所以它的检索过程分为三个步骤：&lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;内存加载tip文件，通过FST匹配前缀找到后缀词块位置。&lt;/li&gt;
+  &lt;li&gt;根据词块位置，读取磁盘中tim文件中后缀块并找到后缀和相应的倒排表位置信息。&lt;/li&gt;
+  &lt;li&gt;根据倒排表位置去doc文件中加载倒排表&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-create-example.png&quot; width=&quot;700px&quot; /&gt;&lt;/center&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;插入abd时，没有输出&lt;/li&gt;
+  &lt;li&gt;插入abe时，计算出前缀ab，但此时不知道后续还不会有其他以ab为前缀的词，所以此时无输出。&lt;/li&gt;
+  &lt;li&gt;插入acf时，因为是有序的，知道不会再有ab前缀的词了，这时就可以写tip和tim了，tim中写入后缀词块d、e和它们的倒排表位置ip_d,ip_e，tip中写入a，b和以ab为前缀的后缀词块位置&lt;/li&gt;
+  &lt;li&gt;插入acg时，计算出和acf共享前缀ac，这时输入已经结束，所有数据写入磁盘。tim中写入后缀词块f、g和相对应的倒排表位置，tip中写入c和以ac为前缀的后缀词块位置&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;heading-倒排表结构&quot;&gt;倒排表结构&lt;/h4&gt;
+&lt;p&gt;Lucene现使用的倒排表结构叫&lt;a href=&quot;https://www.elastic.co/blog/frame-of-reference-and-roaring-bitmaps&quot;&gt;Frame of reference&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;数据压缩：
+下图：将6个数字从原先的24bytes压缩到7bytes
+注：step1到step2的得到的新数组是后尾数减去前位数得到的&lt;/p&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/frame-of-reference.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
+
+&lt;p&gt;跳跃表加速合并:
+因为布尔查询时，and 和or 操作都需要合并倒排表，这时就需要快速定位相同文档号，所以利用跳跃表来进行相同文档号查找&lt;/p&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/skiplist_linklist_complete.png&quot; width=&quot;700px&quot; /&gt;&lt;/center&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.cnblogs.com/forfuture1978/archive/2010/04/04/1704258.html&quot;&gt;链表合并&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-番外篇&quot;&gt;番外篇&lt;/h2&gt;
+
+&lt;h3 id=&quot;heading-fst原理解析&quot;&gt;&lt;a href=&quot;http://blog.jobbole.com/80669/&quot;&gt;FST原理解析&lt;/a&gt;&lt;/h3&gt;
+
+&lt;h3 id=&quot;heading-跳跃表原理解析&quot;&gt;&lt;a href=&quot;https://www.cnblogs.com/George1994/p/7635731.html&quot;&gt;跳跃表原理解析&lt;/a&gt;&lt;/h3&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="apache lucene" /><summary type="html">lucene简介和索引原理</summary></entry><entry><title type="html">HBASE的索引查询</title><link href="http://localhost:4000/blog/2017/12/25/hbase-search-index/" rel="alternate" type="text/html" title="HBASE的索引查询" /><published>2017-12-25T00:00:00+08:00</published><updated>2017-12-25T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/12/25/hbase-search-index</id><content type="html" xml:base="http://localhost:4000/blog/2017/12/25/hbase-search-index/">&lt;h3 id=&quot;heading-一级索引&quot;&gt;一级索引&lt;/h3&gt;
 &lt;p&gt;在逻辑上，HBase的表数据按RowKey进行字典排序， RowKey实际上是数据表的一级索引，由于HBase本身没有二级索引机制，基于索引检索数据只能单纯地依靠RowKey。&lt;/p&gt;
 
 &lt;h3 id=&quot;heading-热点写&quot;&gt;热点写&lt;/h3&gt;

@@ -1,6 +1,13 @@
 [
   
     {
+      "title"      : "lucene简介和索引原理",
+      "url"        : "/blog/2018/04/26/apache-lucene-intro-and-index/",
+      "date"       : "2018-04-26 00:00:00 +0800",
+      "shortdate"  : "April 26, 2018"
+    } ,
+  
+    {
       "title"      : "HBASE的索引查询",
       "url"        : "/blog/2017/12/25/hbase-search-index/",
       "date"       : "2017-12-25 00:00:00 +0800",
