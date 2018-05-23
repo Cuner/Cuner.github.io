@@ -48,4 +48,12 @@
 <url>
 <loc>http://localhost:4000/blog/categories/</loc>
 </url>
+<url>
+<loc>http://localhost:4000/turkey/</loc>
+<lastmod>2018-05-23T11:44:50+08:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/turkey/resume.pdf</loc>
+<lastmod>2018-04-10T17:46:52+08:00</lastmod>
+</url>
 </urlset>
