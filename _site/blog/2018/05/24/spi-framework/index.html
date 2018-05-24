@@ -16,22 +16,22 @@
 <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
 
 <!-- Begin Jekyll SEO tag v2.4.0 -->
-<title>lucene简介和索引原理 | Cuner</title>
+<title>SPI框架（一） | Cuner</title>
 <meta name="generator" content="Jekyll v3.5.2" />
-<meta property="og:title" content="lucene简介和索引原理" />
+<meta property="og:title" content="SPI框架（一）" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="lucene简介和索引原理" />
-<meta property="og:description" content="lucene简介和索引原理" />
-<link rel="canonical" href="http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/" />
-<meta property="og:url" content="http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/" />
+<meta name="description" content="SPI框架" />
+<meta property="og:description" content="SPI框架" />
+<link rel="canonical" href="http://localhost:4000/blog/2018/05/24/spi-framework/" />
+<meta property="og:url" content="http://localhost:4000/blog/2018/05/24/spi-framework/" />
 <meta property="og:site_name" content="Cuner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-04-26T00:00:00+08:00" />
+<meta property="article:published_time" content="2018-05-24T00:00:00+08:00" />
 <script type="application/ld+json">
-{"description":"lucene简介和索引原理","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/","headline":"lucene简介和索引原理","dateModified":"2018-04-26T00:00:00+08:00","datePublished":"2018-04-26T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/"},"@context":"http://schema.org"}</script>
+{"description":"SPI框架","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/05/24/spi-framework/","headline":"SPI框架（一）","dateModified":"2018-05-24T00:00:00+08:00","datePublished":"2018-05-24T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/05/24/spi-framework/"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-<meta name="keywords" content="apache lucene" />
+<meta name="keywords" content="SPI" />
 
 
 
@@ -121,7 +121,7 @@
             <header>
                 <div class="unit-head">
                     <div class="unit-inner unit-head-inner">
-                        <h1 class="entry-title" itemprop="name">lucene简介和索引原理</h1>
+                        <h1 class="entry-title" itemprop="name">SPI框架（一）</h1>
                     </div>
                 </div>
             </header>
@@ -131,7 +131,7 @@
                         <p class="date-publish">
                             Published:
                             <time itemprop="datePublished" class="date-pub updated"
-                                title="2018-04-26T00:00:00+08:00" datetime="2018-04-26T00:00:00+08:00">April 26, 2018 </time>
+                                title="2018-05-24T00:00:00+08:00" datetime="2018-05-24T00:00:00+08:00">May 24, 2018 </time>
                             by
                             <a class="author" href="/" rel="author" title="Show Author">
                                 <span itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -146,8 +146,8 @@
                              
      
         <li>
-            <a href="/blog/categories/#lucene" title="lucene">
-            lucene <span>1</span></a>
+            <a href="/blog/categories/#SPI" title="SPI">
+            SPI <span>1</span></a>
         </li>
     
 
@@ -160,7 +160,7 @@
     
         
         <li>
-            <a href="/blog/tags/#apache-lucene" title="apache lucene">apache lucene <span>1</span></a>
+            <a href="/blog/tags/#SPI" title="SPI">SPI <span>1</span></a>
         </li>
     
 
@@ -170,149 +170,194 @@
                         </ul>
                     </div>
                     <div itemprop="articleBody">
-                        <h1 id="heading-lucene简介和索引原理">lucene简介和索引原理</h1>
+                        <p>SPI的全名为Service Provider Interface。根据Java的SPI规范，我们可以定义一个服务接口，具体的实现由对应的实现者去提供，即Service Provider（服务提供者）。然后在使用的时候只要根据SPI的规范去获取对应的服务提供者的服务实现即可。简单来说，SPI就是一种为接口寻找服务的机制，基于这种机制，本文提出一种基于动态代理的spi框架的实现方式。</p>
 
-<h2 id="heading-lucene简介">Lucene简介</h2>
-<p>Lucene是一个高效，全Java实现、开源、高性能、功能完整、易拓展，支持分词以及各种查询方式（前缀、模糊、正则等）、打分高亮、列式存储（DocValues）
-的全文检索库。仅支持纯文本文件的索引和搜索。</p>
+<h2 id="heading-1-基于统一的接口">1 基于统一的接口</h2>
+<p>该SPI框架的核心思想是通过JDK动态代理（代理对象必须为某个接口的实现），为接口寻找满足条件的服务实现。基于上述要求，需要提供一个统一的接口。</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>public interface SpiBase&lt;T, R&gt; {
 
-<center><img src="/assets/images/post/2018-04-26-apache-lucene-intro-and-index/lucene-intro.png" width="500px" /></center>
+    /**
+     * 是否执行当前实现的条件
+     * @param query
+     * @return
+     */
+    boolean condition(T query);
 
-<h2 id="heading-lucene索引原理">lucene索引原理</h2>
-<p>每个字符串都指向包含此字符串的文档(Document)链表，此文档链表称为倒排表</p>
+    /**
+     * 具体操作
+     * @param query
+     * @return
+     */
+    List&lt;R&gt; invoke(T query);
 
-<center><img src="/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-construction.png" width="500px" /></center>
+    /**
+     * spi执行时候的配置
+     * @param query
+     * @return
+     */
+    SpiConfig config(T query);
+}
+</code></pre>
+</div>
 
-<h3 id="heading-索引创建过程">索引创建过程</h3>
-
-<center><img src="/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-create-step.png" width="700px" /></center>
-
-<p>1.需要被索引的原文档(document)</p>
-
-<p>2.将原文档传给分词组件(Tokenizer)，分词后得到词元(Token)</p>
-
-<p>3.将得到的词元(Token)传给语言处理组件(Linguistic Processor)，进行一些语法转化：包括字母转为小写、缩减(复数变单数)、转变(过去时转变为词根)，将词语转化为词根(Term)</p>
-
-<p>4.将得到的词(Term)传给索引组件(Indexer)，得到词典和倒排链表(反向索引表)</p>
-
-<p>5.通过索引存储将索引写入硬盘</p>
-
-<h3 id="heading-检索过程">检索过程</h3>
-
-<center><img src="/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-search-step.png" width="700px" /></center>
-
-<p>1.用户输入查询语句</p>
-
-<p>2.对查询语句进行词法分析得到单词以及关键字(关键字有AND, NOT)，然后对得到的单词进行语言处理(同索引过程中的语言处理几乎相同)得到查询词根Term</p>
-
-<p>3.语法分析，根据查询语句的语法规则来形成一棵语法树。</p>
-
-<p>4.通过索引存储将索引读入到内存。</p>
-
-<p>5.利用查询树搜索索引，从而得到每个词(Term) 的文档链表，对文档链表进行交，差，并得到结果文档</p>
-
-<p>6.根据得到的文档和查询语句的相关性，对结果进行排序。(向量空间模型算法:通过各个关键词根在不同文档中的权重来比较文档与查询语句的相关性)</p>
-
-<h3 id="heading-lucene索引基本概念">lucene索引基本概念</h3>
-
+<p>作为框架，需要尽可能的符合各类场景</p>
 <ul>
-  <li>索引(index)
-    <ul>
-      <li>在Lucene中一个索引是放在一个文件夹中的</li>
-    </ul>
-  </li>
-  <li>段(segment)
-    <ul>
-      <li>一个索引可以包含多个段，段与段之间是独立的，添加新文档可以生成新的段，不同的段可以合并</li>
-    </ul>
-  </li>
-  <li>文档(document)
-    <ul>
-      <li>文档是我们建索引的基本单位，不同的文档是保存在不同的段中的，一个段可以包含多篇文档</li>
-      <li>新添加的文档是单独保存在一个新生成的段中，随着段的合并，不同的文档合并到同一个段中</li>
-    </ul>
-  </li>
-  <li>域(field)
-    <ul>
-      <li>一篇文档包含不同类型的信息，可以分开索引，比如标题，时间，正文，作者等，都可以保存在不同的域里</li>
-    </ul>
-  </li>
-  <li>词(term)
-    <ul>
-      <li>词是索引的最小单位，是经过词法分析和语言处理后的字符串</li>
-    </ul>
-  </li>
+  <li>提供condition方法以及模板类T参数，让用户自定义符合接口实现的要求</li>
+  <li>提供统一的invoke方法来统一服务的某一类行为</li>
+  <li>提供spi执行的config，用来扩展寻求实现的策略</li>
 </ul>
 
-<p>Lucene的索引结构中，即保存了正向信息，也保存了反向信息</p>
-<ul>
-  <li>正向信息：按层次保存了从索引，一直到词的包含关系：索引(Index) –&gt; 段(segment) –&gt; 文档(Document) –&gt; 域(Field) –&gt; 词(Term)，也即此索引包含了那些段，每个段包含了那些文档，每个文档包含了那些域，每个域包含了那些词</li>
-  <li>反向信息：保存了词典到倒排表的映射：词(Term) –&gt; 文档(Document)</li>
-</ul>
+<div class="highlighter-rouge"><pre class="highlight"><code>public class SpiConfig {
 
-<h3 id="heading-lucene结构">lucene结构</h3>
-<p>全文索引绝大多数是通过倒排索引来做，倒排索引由两个部分组成，即词典和倒排表</p>
+    /**
+     * 是否互斥
+     * false:满足执行条件的其他实现也一并调用
+     * true:当前实现满足执行要求并执行成功后直接返回，忽略满足执行条件的其他实现
+     */
+    private boolean mutex;
 
-<h4 id="heading-索引结构">索引结构</h4>
-<p>lucene从4开始大量使用的数据结构是FST（Finite State Transducer）。FST有两个优点：</p>
+    /**
+     * 优先值
+     * 该值越高，执行优先级越高
+     */
+    private int priority;
 
-<p>1）空间占用小。通过对词典中单词前缀和后缀的重复利用，压缩了存储空间，压缩率一般在3倍~20倍之间；</p>
-
-<p>2）查询速度快。O(len(str))的查询时间复杂度。</p>
-
-<p>3) 模糊查询支持比较好</p>
-
-<p>4）输入要求有序，更新较为困难</p>
-
-<p>索引文件：
-我们往索引库里插入四个单词abd、abe、acf、acg，看看它的索引文件内容</p>
-
-<ul>
-  <li>tip部分，每列一个FST索引，所以会有多个FST，每个FST存放前缀和后缀块指针，这里前缀就为a、ab、ac</li>
-  <li>tim里面存放后缀块和词的其他信息如倒排表指针、TFDF等</li>
-  <li>doc文件里就为每个单词的倒排表。</li>
-</ul>
-
-<center><img src="/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-file-construction.png" width="700px" /></center>
-
-<p>所以它的检索过程分为三个步骤：</p>
-<ol>
-  <li>内存加载tip文件，通过FST匹配前缀找到后缀词块位置。</li>
-  <li>根据词块位置，读取磁盘中tim文件中后缀块并找到后缀和相应的倒排表位置信息。</li>
-  <li>根据倒排表位置去doc文件中加载倒排表</li>
-</ol>
-
-<center><img src="/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-create-example.png" width="700px" /></center>
+    /**
+     * 名称 作为标识
+     */
+    private String name;
+    
+    ....
+}
+</code></pre>
+</div>
 
 <ul>
-  <li>插入abd时，没有输出</li>
-  <li>插入abe时，计算出前缀ab，但此时不知道后续还不会有其他以ab为前缀的词，所以此时无输出。</li>
-  <li>插入acf时，因为是有序的，知道不会再有ab前缀的词了，这时就可以写tip和tim了，tim中写入后缀词块d、e和它们的倒排表位置ip_d,ip_e，tip中写入a，b和以ab为前缀的后缀词块位置</li>
-  <li>插入acg时，计算出和acf共享前缀ac，这时输入已经结束，所有数据写入磁盘。tim中写入后缀词块f、g和相对应的倒排表位置，tip中写入c和以ac为前缀的后缀词块位置</li>
+  <li>参数mutex，决定了某个接口，当有多个满足条件的服务实现时的执行策略，是只选择优先级最高的服务实现去执行，还是说按照优先级顺序多个服务实现顺序执行后将结果合并返回（这也是为什么invoke方法返回list的原因）。</li>
+  <li>参数priority，决定某个服务实现的执行优先级，优先级越高，越先执行</li>
 </ul>
 
-<h4 id="heading-倒排表结构">倒排表结构</h4>
-<p>Lucene现使用的倒排表结构叫<a href="https://www.elastic.co/blog/frame-of-reference-and-roaring-bitmaps">Frame of reference</a></p>
+<h2 id="heading-2-获取所有用户自定义的服务实现并实例化">2 获取所有用户自定义的服务实现并实例化</h2>
 
-<p>数据压缩：
-下图：将6个数字从原先的24bytes压缩到7bytes
-注：step1到step2的得到的新数组是后尾数减去前位数得到的</p>
+<p>2.1 提供注解@BizSpi</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>@Target({ElementType.TYPE})//目标作用于类
+@Retention(RetentionPolicy.RUNTIME)// 注解在class字节码文件中存在，在运行时可以通过反射获取到
+@Documented
+@Service
+public @interface BizSpi {
+}
+</code></pre>
+</div>
 
-<center><img src="/assets/images/post/2018-04-26-apache-lucene-intro-and-index/frame-of-reference.png" width="500px" /></center>
+<p>为了方便的找到用户提供的服务实现类，框架约束用户在其提供的服务实现类上加上注解@BizSpi，当然所有的服务实现类都需要实现统一的接口SpiBase，也可以实现某个继承SpiBase接口的自定义接口。</p>
 
-<p>跳跃表加速合并:
-因为布尔查询时，and 和or 操作都需要合并倒排表，这时就需要快速定位相同文档号，所以利用跳跃表来进行相同文档号查找</p>
+<p>2.2 实例化服务实现并保存至内存</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>public class SpiManager implements ApplicationListener&lt;ContextRefreshedEvent&gt; {
 
-<center><img src="/assets/images/post/2018-04-26-apache-lucene-intro-and-index/skiplist_linklist_complete.png" width="700px" /></center>
+    private static Map&lt;Class, List&lt;SpiBase&gt;&gt; spiProviderMap = new ConcurrentHashMap&lt;Class, List&lt;SpiBase&gt;&gt;();
 
-<p><a href="http://www.cnblogs.com/forfuture1978/archive/2010/04/04/1704258.html">链表合并</a></p>
+    private static volatile boolean isLoaded = false;
 
-<h2 id="heading-番外篇">番外篇</h2>
+    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        if (!isLoaded) {
+            Map&lt;String, Object&gt; spiInstanceMap = contextRefreshedEvent.getApplicationContext().getBeansWithAnnotation(BizSpi.class);
 
-<h3 id="heading-fst原理解析"><a href="http://blog.jobbole.com/80669/">FST原理解析</a></h3>
+            for (Object spiInstance : spiInstanceMap.values()) {
+                Class spiInterface = spiInstance.getClass().getInterfaces()[0];
+                if (spiProviderMap.containsKey(spiInterface) &amp;&amp; spiProviderMap.get(spiInterface).size() &gt; 0) {
+                    spiProviderMap.get(spiInterface).add((SpiBase) spiInstance);
+                } else {
+                    List&lt;SpiBase&gt; spiProviderList = new ArrayList&lt;SpiBase&gt;();
+                    spiProviderList.add((SpiBase) spiInstance);
+                    spiProviderMap.put(spiInterface, spiProviderList);
+                }
+            }
 
-<h3 id="heading-跳跃表原理解析"><a href="https://www.cnblogs.com/George1994/p/7635731.html">跳跃表原理解析</a></h3>
+            for (List&lt;SpiBase&gt; spiProviderList : spiProviderMap.values()) {
+                Collections.sort(spiProviderList, new Comparator&lt;SpiBase&gt;() {
+                    public int compare(SpiBase spiBase1, SpiBase spiBase2) {
+                        return spiBase2.config(null).getPriority() - spiBase1.config(null).getPriority();
+                    }
+                });
+            }
+        }
+        isLoaded = true;
+    }
 
+    public static List&lt;SpiBase&gt; getSpiProviderMap(Class spiInterface) {
+        return spiProviderMap.get(spiInterface);
+    }
+
+}
+</code></pre>
+</div>
+
+<p>这里通过约束的注解@BizSpi来拿到所有服务实现实例化后的对象，通过spiProviderMap来保存管理，其中spiProviderMap的key的集合是所有服务实现所实现的第一级接口（可以是SpiBase，也可以是继承自SpiBase的自定义接口），value则是key代表的接口所对应的所有服务实现实例化后的对象列表（可以看到列表通过SpiConfig中的priority值进行了重排序）。</p>
+
+<h2 id="heading-3动态代理">3.动态代理</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>public class SpiProviderFactory&lt;T&gt; implements FactoryBean&lt;T&gt; {
+
+    private Logger logger = LoggerFactory.getLogger(SpiProviderFactory.class);
+
+    private Class&lt;T&gt; targetClass;
+
+    public T getObject() throws Exception {
+        InvocationHandler invocationHandler = new InvocationHandler() {
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                List&lt;SpiBase&gt; spiList = SpiManager.getSpiProviderMap(targetClass);
+
+                // 支持组合,所以必须返回list; 每一个功能点实现也必须返回list
+                List combinationResult = new ArrayList();
+                for (SpiBase spi : spiList) {
+                    if (SpiBase.class.isInstance(spi)) {
+                        if (args != null &amp;&amp; spi.condition(args[0])) {
+                            SpiConfig spiConfig = spi.config(args[0]);
+                            List result = (List) method.invoke(spi, args);
+                            if (result != null) {
+                                combinationResult.addAll(result);
+                                if (spiConfig.isMutex()) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                return combinationResult;
+            }
+        };
+        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+                new Class[]{targetClass},
+                invocationHandler);
+    }
+   ...
+}
+</code></pre>
+</div>
+
+<p>这里用到了工厂，这里需要传入参数targetClass，因为我们需要代理的接口可能是继承了SpiBase的自定义接口。通过服务实现类提供的condition方法可以从spiProviderMap中找到满足条件的服务，在通过SpiConfig的中参数决定服务执行的策略，最终将结果返回。</p>
+
+<h2 id="heading-4使用步骤">4.使用步骤</h2>
+<p>1.继承SpiBase得到自定义的SPI接口(可以添加自定义方法)
+2.为SPI接口提供多个服务实现类(注意类需要加上注解@BizSpi)，condition方法决定了服务是否满足执行条件，config方法返回的SpiConfig对象决定了服务执行的策略
+3.spring配置</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>    &lt;!--扫描spi框架--&gt;
+    &lt;context:component-scan base-package="org.cuner.spi.framework"/&gt;
+
+    &lt;!--还需要扫描到你自己的服务实现类--&gt;
+    
+    &lt;bean id="demoSpi" class="org.cuner.spi.framework.core.SpiProviderFactory"&gt;
+        &lt;property name="targetClass" value="org.cuner.spi.framework.demo.api.demoSpi"/&gt;
+    &lt;/bean&gt;
+</code></pre>
+</div>
+<p>4.spring注入后使用</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>    @Resource(name = "demoSpi")
+    private DemoSpi demoSpi;
+</code></pre>
+</div>
+
+<p>5.demo
+代码托管在Github上，并附有使用demo，欢迎下载运行: https://github.com/Cuner/spi-framework</p>
 
                     </div>
                 </div>
@@ -325,10 +370,8 @@
                     </div>
                     <nav class="pagination">
                         
-                            <a class="internal" rel="prev" href="/blog/2017/12/25/hbase-search-index/" title=" 'HBASE的索引查询'"> ← HBASE的索引查询</a>
+                            <a class="internal" rel="prev" href="/blog/2018/04/26/apache-lucene-intro-and-index/" title=" 'lucene简介和索引原理'"> ← lucene简介和索引原理</a>
                         
-                        
-                            <a class="internal" rel="next" href="/blog/2018/05/24/spi-framework/" title="Next Post 'SPI框架（一）'">SPI框架（一） → </a>
                         
                     </nav>
                 </div>

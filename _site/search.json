@@ -1,6 +1,13 @@
 [
   
     {
+      "title"      : "SPI框架（一）",
+      "url"        : "/blog/2018/05/24/spi-framework/",
+      "date"       : "2018-05-24 00:00:00 +0800",
+      "shortdate"  : "May 24, 2018"
+    } ,
+  
+    {
       "title"      : "lucene简介和索引原理",
       "url"        : "/blog/2018/04/26/apache-lucene-intro-and-index/",
       "date"       : "2018-04-26 00:00:00 +0800",
