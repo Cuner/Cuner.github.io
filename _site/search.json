@@ -75,6 +75,13 @@
       "url"        : "/blog/2017/03/29/database-lock-mechanism/",
       "date"       : "2017-03-29 00:00:00 +0800",
       "shortdate"  : "March 29, 2017"
+    } ,
+  
+    {
+      "title"      : "清单",
+      "url"        : "/blog/0001/01/01/book-list/",
+      "date"       : "0001-01-01 00:00:00 +0800",
+      "shortdate"  : "January 01, 0001"
     } 
   
 ]
