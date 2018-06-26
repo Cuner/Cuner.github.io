@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+<link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
+
+<!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>基于spring的groovy动态加载 | Cuner</title>
+<meta name="generator" content="Jekyll v3.5.2" />
+<meta property="og:title" content="基于spring的groovy动态加载" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="基于spring的groovy动态加载" />
+<meta property="og:description" content="基于spring的groovy动态加载" />
+<link rel="canonical" href="http://localhost:4000/blog/2018/06/26/groovy-loader/" />
+<meta property="og:url" content="http://localhost:4000/blog/2018/06/26/groovy-loader/" />
+<meta property="og:site_name" content="Cuner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-06-26T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"基于spring的groovy动态加载","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/06/26/groovy-loader/","headline":"基于spring的groovy动态加载","dateModified":"2018-06-26T00:00:00+08:00","datePublished":"2018-06-26T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/06/26/groovy-loader/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<meta name="keywords" content="groovy" />
+
+
+
+
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Cuner" />
+    <link href='/assets/stylesheets/blog.css' rel="stylesheet" type="text/css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script>window.Modernizr || document.write('<script src="/assets/javascripts/modernizr-2.8.3.min.js"><\/script>')</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="/assets/javascripts/jquery-3.2.1.min.js"><\/script>')
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+<script>
+    window.Pace || document.write('<script src="/assets/javascripts/pace.min.js"><\/script>')
+</script>
+
+
+</head>
+
+<body>
+    <!--[if IE]>
+    <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+<![endif]-->
+<noscript>
+    <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+</noscript>
+
+    <div class="nav-wrapper overlay-wrapper">
+    <div class="nav-form overlay-form">
+        <span class="overlay-header menu">Menu</span>
+        <a class="btn-close">Close</a>
+        <div class="results">
+            <ul>
+                <li><a href="/blog/categories/">Categories</a></li>
+                <li><a href="/blog/tags/">Tags</a></li>
+                <li><a href="/">About</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="search-wrapper overlay-wrapper">
+    <div class="search-form overlay-form">
+        <input type="text" class="overlay-header search-field" placeholder="Search...">
+        <a class="btn-close">Close</a>
+        <ul class="results"></ul>
+    </div>
+</div>
+
+
+    <div id="page" class="hentry">
+        <header class="the-header">
+    <div class="unit-head">
+        <div class="unit-inner unit-head-inner">
+            <nav class="nav-global">
+                <ul>
+                    <li class="logo nav-link">
+                        <button class="btn-menu" title="Menu"></button>
+                        <a href="/blog/">Cuner</a>
+                        <!--[if !IE]> -->
+                        <button class="btn-search" title="Search"></button>
+                        <!-- <![endif]-->
+                    </li>
+                    <li class="nav-link"><a title="Categories" href="/blog/categories/">Categories</a></li>
+                    <li class="nav-link"><a title="Tags" href="/blog/tags/">Tags</a></li>
+                    <!--[if !IE]> -->
+                    <li class="nav-link"><a title="Search" class="btn-search" href="#">Search</a></li>
+                    <!-- <![endif]-->
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+        <div class="body animated fadeInDown" role="main">
+            <div class="unit-body">
+                <div class="unit-inner unit-body-inner">
+                    <div class="entry-content">
+                        <article class="unit-article layout-post">
+    <div class="unit-inner unit-article-inner">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
+            <header>
+                <div class="unit-head">
+                    <div class="unit-inner unit-head-inner">
+                        <h1 class="entry-title" itemprop="name">基于spring的groovy动态加载</h1>
+                    </div>
+                </div>
+            </header>
+            <div class="bd article-content">
+                <div class="entry-content">
+                    <div class="meta">
+                        <p class="date-publish">
+                            Published:
+                            <time itemprop="datePublished" class="date-pub updated"
+                                title="2018-06-26T00:00:00+08:00" datetime="2018-06-26T00:00:00+08:00">June 26, 2018 </time>
+                            by
+                            <a class="author" href="/" rel="author" title="Show Author">
+                                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                                    <span itemprop="name"></span>
+                                </span>
+                            </a>
+                            
+                            
+                        </p>
+                        <ul class="list-category list-linear">
+                            <li class="list-head">Categories: </li>
+                             
+     
+        <li>
+            <a href="/blog/categories/#groovy" title="groovy">
+            groovy <span>1</span></a>
+        </li>
+    
+
+
+
+                        </ul>
+                        <ul class="list-tag list-linear">
+                            <li class="list-head">Tags: </li>
+                             
+    
+        
+        <li>
+            <a href="/blog/tags/#groovy" title="groovy">groovy <span>1</span></a>
+        </li>
+    
+
+
+
+
+                        </ul>
+                    </div>
+                    <div itemprop="articleBody">
+                        <h1 id="heading-groovy-loader背景">groovy loader背景</h1>
+<p>由于groovy动态语言的特性，使用方式与java一致，同时又特别适合与Spring的动态语言支持一起使用，所以基于java的groovy脚本的动态加载的使用场景还是比较多的</p>
+
+<h1 id="heading-简介">简介</h1>
+<p>动态加载指定目录下的groovy脚本，并将其注册为groovy bean，放置于ApplicationContext容器中，并使用命名空间进行分类区分(一个namespace对应于一个ApplicationContext)。同时能够动态感知到groovy脚本的新增、修改以及删除事件，并自动重新加载。</p>
+
+<h1 id="heading-原理">原理</h1>
+<ul>
+  <li>使用spring配置文件来管理注册groovy bean：每一个spring配置文件作为一个ApplicationContext，管理一个namespace下的groovy bean</li>
+  <li>spring配置文件使用标签<code class="highlighter-rouge">&lt;lang:groovy&gt;</code>，通过指定script-source来加载指定路径下的groovy脚本，通过refresh-check-delay属性来定时动态加载每个groovy bean</li>
+  <li>通过扫描监听指定路径下spring配置文件的变更，来接受groovy脚本的新增、删除事件</li>
+</ul>
+
+<h3 id="heading-监听器listener">监听器listener</h3>
+<p>由于我们需要动态获取groovy脚本的变更，包含更新、新增、删除。接收到groovy脚本变更后需要触发用户自定义事件，所以我们先提供一个待用户实现的监听器接口，用于接受groovy变更事件，并执行相应代码</p>
+
+<ul>
+  <li>GroovyRefreshedEvent</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>public class GroovyRefreshedEvent {
+
+    private ApplicationContext ancestorContext;
+
+    private Map&lt;String, FileSystemXmlApplicationContext&gt; namespacedContextMap;
+
+    public GroovyRefreshedEvent(ApplicationContext ancestorContext, Map&lt;String, FileSystemXmlApplicationContext&gt; contextMap) {
+        this.ancestorContext = ancestorContext;
+        this.namespacedContextMap = contextMap;
+    }
+    ...
+}
+</code></pre>
+</div>
+
+<p>上述提到过，指定目录下的groovy脚本会被注册为groovy bean，并使用Applocation容器进行管理，同时还引入了namespace的概念，每个namespace分别对应一个Application容器，允许namespace不同但是类名相关的groovy bean存在。于是监听器的Event对象被设计成包含一个父容器以及namespace为key，对应Applocation容易为value的Map。</p>
+
+<ul>
+  <li>GroovyRefreshedListener
+    <div class="highlighter-rouge"><pre class="highlight"><code>public interface GroovyRefreshedListener {
+
+  void groovyRefreshed(GroovyRefreshedEvent event);
+}
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<p>这个需要用户来实现</p>
+
+<h3 id="heading-触发器trigger">触发器trigger</h3>
+<p>由于需要动态去发现groovy脚本的变更，需要通过定时轮训使用触发器去判断groovy脚本是否完成了变更。上述提到过，框架通过<code class="highlighter-rouge">&lt;lang:Groovy&gt;</code>来定时加载groovy脚本，通过扫描监听指定路径下spring配置文件的变更。通过这样的方式来接受groovy脚本的新增、删除事件。同样触发器也允许用户自定义，框架提供了一个默认的触发器</p>
+
+<ul>
+  <li>GroovyRefreshedListener
+    <div class="highlighter-rouge"><pre class="highlight"><code>public interface GroovyRefreshTrigger {
+
+  boolean isTriggered(Map&lt;String, Long&gt; resourcesLastModifiedMap, String groovyResourcesDir);
+}
+</code></pre>
+    </div>
+  </li>
+  <li>ResourceModifiedTrigger
+    <div class="highlighter-rouge"><pre class="highlight"><code>public class ResourceModifiedTrigger implements GroovyRefreshTrigger {
+  public boolean isTriggered(Map&lt;String, Long&gt; resourcesLastModifiedMap, String groovyResourcesDir) {
+      if (StringUtils.isBlank(groovyResourcesDir)) {
+          groovyResourcesDir = this.getClass().getClassLoader().getResource("").getPath() + "/spring/groovy";
+      }
+      File groovyFileDir = new File(groovyResourcesDir);
+      List&lt;File&gt; groovyFileList = NamespacedGroovyLoader.getResourceListFromDir(groovyFileDir);
+      for (File file : groovyFileList) {
+          //新增
+          if (!resourcesLastModifiedMap.containsKey(file.getName())) {
+              return true;
+          } else {
+              //修改
+              if (resourcesLastModifiedMap.get(file.getName()) != file.lastModified()) {
+                  return true;
+              }
+          }
+      }
+
+      //删除
+      if (resourcesLastModifiedMap.size() != groovyFileList.size()) {
+          return true;
+      }
+      return false;
+  }
+}
+</code></pre>
+    </div>
+    <p>默认的触发器就是通过spring配置文件上一次修改的时间，去判断文件是否被修改</p>
+  </li>
+</ul>
+
+<h3 id="heading-groovy-loader">groovy loader</h3>
+<p>初始化时会将指定目录下的groovy脚本动态加载成bean，并根据namespace注册到不同的Application容器中。注：以spring配置文件的名称作为namespace</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>private void initLoadResources() {
+    if (MapUtils.isNotEmpty(this.namespacedContext)) {
+        toDestoryContext = new ArrayList&lt;FileSystemXmlApplicationContext&gt;(this.namespacedContext.values());
+    }
+    this.namespacedContext = new HashMap&lt;String, FileSystemXmlApplicationContext&gt;();
+    this.resourcesLastModifiedMap = new ConcurrentHashMap&lt;String, Long&gt;();
+    //定位资源文件路径
+    if (StringUtils.isBlank(groovyResourcesDir)) {
+        groovyResourcesDir = this.getClass().getClassLoader().getResource("").getPath() + "/spring/groovy";
+    }
+    File groovyFileDir = new File(groovyResourcesDir);
+    List&lt;File&gt; groovyFileList = getResourceListFromDir(groovyFileDir);//获取指定目录下所有groovy脚本文件
+    for (File file : groovyFileList) {
+        FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(new String[] {file.toURI().toString()}, true, parentContext);
+        this.namespacedContext.put(file.getName().replace("xml", ""), context);
+        this.resourcesLastModifiedMap.put(file.getName(), file.lastModified());
+    }
+
+    //触发监听器事件
+    listener.groovyRefreshed(new GroovyRefreshedEvent(parentContext, this.namespacedContext));
+
+    if (CollectionUtils.isNotEmpty(toDestoryContext)) {
+        for (FileSystemXmlApplicationContext fileSystemXmlApplicationContext : toDestoryContext) {
+            fileSystemXmlApplicationContext.close();
+        }
+    }
+}
+</code></pre>
+</div>
+
+<h3 id="heading-spring配置文件">spring配置文件</h3>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">"http://www.springframework.org/schema/beans"</span>
+       <span class="na">xmlns:context=</span><span class="s">"http://www.springframework.org/schema/context"</span>
+       <span class="na">xmlns:lang=</span><span class="s">"http://www.springframework.org/schema/lang"</span> <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+       <span class="na">xsi:schemaLocation=</span><span class="s">"http://www.springframework.org/schema/beans</span> <span class="err">http://www.springframework.org/schema/beans/spring-beans.xsd</span>
+    <span class="err">http://www.springframework.org/schema/context</span> <span class="err">http://www.springframework.org/schema/context/spring-context.xsd</span>
+    <span class="err">http://www.springframework.org/schema/lang</span> <span class="err">http://www.springframework.org/schema/lang/spring-lang.xsd</span> <span class="err">"</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;context:annotation-config</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;lang:groovy</span> <span class="na">id=</span><span class="s">"test"</span> <span class="na">refresh-check-delay=</span><span class="s">"2000"</span> <span class="na">proxy-target-class=</span><span class="s">"true"</span>
+                 <span class="na">script-source=</span><span class="s">"classpath:groovy/one/Test.groovy"</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/beans&gt;</span>
+</code></pre>
+</div>
+
+<h1 id="heading-使用">使用</h1>
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;bean id="listener" class="org.cuner.groovy.loader.test.TestListener"/&gt;&lt;!--需要实现org.cuner.groovy.loader.listener.GroovyRefreshedListener --&gt;
+&lt;bean id="groovyLoader" class="org.cuner.groovy.loader.NamespacedGroovyLoader"&gt;
+    &lt;property name="groovyResourcesDir" value=""/&gt;&lt;!--指定spring groovy配置文件目录，若不设置或者为空则默认为classpath下/spring/groovy目录--&gt;
+    &lt;property name="listener" ref="listener"/&gt;
+    &lt;property name="trigger" ref="trigger"/&gt;
+&lt;/bean&gt;
+</code></pre>
+</div>
+
+<h1 id="heading-源码demo">源码&amp;Demo</h1>
+<p>代码托管在Github上，并附有使用demo，欢迎下载运行: https://github.com/Cuner/groovy-loader</p>
+
+<h1 id="heading-版本升级-groovy-loader-v2">版本升级 groovy-loader-v2</h1>
+<p>v1版本存在的缺陷在于：由于使用了<code class="highlighter-rouge">&lt;lang:groovy&gt;</code>标签，spring定时去重加载groovy bean，即使这个bean没有被修改，由此会产生一些性能消耗问题。为了解决这点，v2实现了groovy脚本的加载以及groovy bean的注入。同时由定时扫描spring配置改为扫描目录下的所有groovy脚本来实现触发器。</p>
+
+<ul>
+  <li>GroovyScriptsModifiedTrigger
+    <div class="highlighter-rouge"><pre class="highlight"><code>public boolean isTriggered(Map&lt;String, Long&gt; lastScriptsModified, String baseDir) {
+  if (StringUtils.isBlank(baseDir)) {
+      baseDir = this.getClass().getClassLoader().getResource("").getPath() + "/groovy";
+  }
+
+  List&lt;File&gt; fileList = getFileList(new File(baseDir));
+  for (File file : fileList) {
+      if (lastScriptsModified.get(file.getPath()) == null) {
+          return true;
+      }
+      if (file.lastModified() != lastScriptsModified.get(file.getPath())) {
+          return true;
+      }
+  }
+
+  if (fileList.size() != lastScriptsModified.size()) {
+      return true;
+  }
+
+  return false;
+}
+</code></pre>
+    </div>
+    <p>具体实现基本一致，区别在于外部传参baseDir由spring配置文件路径改为groovy脚本根目录路径。接下来我们看看是如何实现groovy脚本的加载以及groovy bean的注入。</p>
+  </li>
+  <li>NamespacedGroovyLoader</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/**
+ * 递归查找并加载namespace下的所有groovy文件
+ * @param file
+ * @param namespace
+ */
+private void scanGroovyFiles(File file, String namespace) throws Exception {
+    if (!file.exists()) {
+        return;
+    }
+
+    if (file.isFile() &amp;&amp; file.getName().endsWith(".groovy")) {
+        ApplicationContext context = getOrCreateContext(namespace);
+        DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) context.getAutowireCapableBeanFactory();
+
+        String scriptLocation = file.toURI().toString();
+        if (scriptNotExists(context, scriptLocation)) {
+            throw new IllegalArgumentException("script not exists : " + scriptLocation);
+        }
+        scriptLastModifiedMap.put(file.getPath(), file.lastModified());
+
+        String className = StringUtils.removeEnd(scriptLocation.substring(scriptLocation.indexOf(baseDir) + baseDir.length() + 1).replace("/", "."), ".groovy");
+        // 只有GroovyBean声明的类才实例化
+        DSLScriptSource scriptSource = new DSLScriptSource(new ResourceScriptSource(context.getResource(scriptLocation)), className);
+
+        Class scriptClass = groovyClassLoader.parseClass(scriptSource.getScriptAsString(), scriptSource.suggestedClassName());
+
+        // Tell Groovy we don't need any meta
+        // information about these classes
+        GroovySystem.getMetaClassRegistry().removeMetaClass(scriptClass);
+        groovyClassLoader.clearCache();
+
+        // Create script factory bean definition.
+        GroovyScriptFactory groovyScriptFactory = new GroovyScriptFactory(scriptLocation);
+        groovyScriptFactory.setBeanFactory(beanFactory);
+        groovyScriptFactory.setBeanClassLoader(urlClassLoader);
+        Object bean = groovyScriptFactory.getScriptedObject(scriptSource);
+        if (bean == null) {
+            //只有静态方法的groovy脚本(没有类声明)
+            return;
+        }
+
+        // Tell Groovy we don't need any meta
+        // information about these classes
+        GroovySystem.getMetaClassRegistry().removeMetaClass(bean.getClass());
+        groovyScriptFactory.getGroovyClassLoader().clearCache();
+
+        String beanName = StringUtils.removeEnd(file.getName(), ".groovy").toLowerCase();
+        if (beanFactory.containsBean(beanName)) {
+            beanFactory.destroySingleton(beanName); //移除单例bean
+            removeInjectCache(context, bean); //移除注入缓存 否则Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
+        }
+        beanFactory.registerSingleton(beanName, bean); //注册单例bean
+        beanFactory.autowireBean(bean); //自动注入
+
+    } else if (file.isDirectory()) {
+        File[] subFiles = file.listFiles();
+        for (File subFile : subFiles) {
+            scanGroovyFiles(subFile, namespace);
+        }
+    }
+}
+</code></pre>
+</div>
+
+<p>groovy文件夹下第一级文件夹名称拼接namespacePrefix作为namespace，每个namespace分配一个ApplicationContext容器，每个namespace对应的bean都由各自的beanfactory加载注入，避免同名类加载导致的错误。同时groovy脚本更新后产生新的groovy bean之后，还需要移除之前的groovy bean，值得额外注意的是需要移除注入缓存，否则会报错：Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
+注意：由于我们不需要groovy的metaclass信息，这里对metaClass进行清除来进行优化</p>
+
+<p>最后，附上代码:https://github.com/Cuner/groovy-loader-v2)</p>
+
+                    </div>
+                </div>
+            </div>
+            <footer class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="post-buttons">
+                        <a class="internal gotop" href="#page" title="Back to Top">Back to Top</a>
+                        
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" rel="prev" href="/blog/2018/05/30/delay-queue/" title=" '基于redis的分布式延时队列'"> ← 基于redis的分布式延时队列</a>
+                        
+                        
+                    </nav>
+                </div>
+            </footer>
+            <div class="misc-content">
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="the-footer">
+    <div class="unit-foot">
+        <div class="unit-inner unit-foot-inner">
+            <div class="misc vcard">
+                <div class="about">
+                    <h4><a href="/">About</a></h4>
+                    
+                        <p>No zero day.</p>
+                    
+                    <p><small>Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> and <a href="https://pages.github.com/" target="_blank">Github Pages</a>, &copy; 2018 Cuner.</small></p>
+                </div>
+                <div class="social-links">
+                    
+                    <a class="ico-rss" href="/feed.xml" rel="me" target="_blank" title="feed"></a>
+                    
+                        
+                    
+                        
+                            <a class="ico-github" href="https://github.com/Cuner" rel="me" target="_blank" title="github"></a>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="internal back-to-top">Back to Top</a>
+</footer>
+
+    </div>
+
+    <script>
+$(document).ready(function () {
+    var offset = 50,
+        duration = 500,
+        width = 960;
+    $(window).scroll(function () {
+        if ($(window).width() > width) {
+            if ($(this).scrollTop() > offset) {
+                $('footer').css('top', '20px');
+                $('footer .back-to-top').fadeIn(duration);
+            } else {
+                $('footer').css('top', 'auto');
+                $('footer .back-to-top').fadeOut(duration);
+            }
+        }
+    });
+    $(window).resize(function () {
+        if ($(window).width() < width) {
+            $('footer').css('top', 'auto');
+            $('footer .back-to-top').fadeOut(duration);
+        }
+        if ($(window).width() >= width && $(this).scrollTop() > offset) {
+            $('footer').css('top', '20px');
+            $('footer .back-to-top').fadeIn(duration);
+        }
+    });
+
+    $('footer .back-to-top, .gotop').on('click', function (event) {
+        event.preventDefault();
+        $('html, body').animate({
+            scrollTop: 0
+        }, duration);
+        return false;
+    });
+
+    $('.show-hidden').on('click', function () {
+        $(this).parent().next().toggleClass("hidden");
+        $(this).toggleClass("hidden");
+    });
+});
+</script>
+
+<!-- Google Analytics Event tracking -->
+
+
+<!-- Show menu overlay + Jekyll Simple Search option -->
+<script src="/assets/javascripts/jekyll-search.jquery.js"></script>
+<script>
+$(document).ready(function () {
+    $('.search-field').simpleJekyllSearch({
+      jsonFile: '/search.json',
+      template: '<li><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></li>',
+      searchResults: '.search-wrapper .results',
+      searchResultsTitle: '<h4>Search results</h4>',
+      noResults: '<p>Oh shucks<br/><small>Nothing found :(</small></p>'
+    });
+});
+
+(function ($, window, undefined) {
+    var closeOverlay = function () {
+        $('.nav-wrapper, .search-wrapper').removeAttr('style');
+        $(".nav-form, .search-form").removeClass('active');
+        $("body").removeClass('nav-overlay search-overlay');
+    };
+
+    $('.nav-global .btn-search').on('click', function () {
+        $('.search-wrapper').css({display: "block"});
+        $(".search-form").addClass('active');
+        $(".search-form").find('input').focus();
+        $("body").addClass('search-overlay');
+    });
+
+    $('.nav-global .btn-menu').on('click', function () {
+        $('.nav-wrapper').css({display: "block"});
+        $(".nav-form").addClass('active');
+        $(".nav-form .search-field").prop('disabled', true);
+        $("body").addClass('nav-overlay');
+    });
+
+    $('.nav-wrapper .btn-close, .search-wrapper .btn-close').on('click', function () {
+        closeOverlay();
+    });
+
+    $(document).on('keyup', function (e) {
+        if (e.keyCode === 27) {
+            closeOverlay();
+        }
+    });
+})(jQuery, window);
+</script>
+
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-buttons.min.js'></script>
+<script src="/assets/javascripts/unveil/jquery.unveil.min.js"></script>
+
+<script>
+    window.jQuery.fancybox || document.write('<script src="/assets/javascripts/fancybox/jquery.fancybox.pack.js?v=2.1.4"><\/script>')
+    window.jQuery.fancybox.helpers.buttons || document.write('<script src="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"><\/script>')
+</script>
+
+<script>
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/jquery.fancybox.css?v=2.1.4" type="text/css" />');
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" />');
+    $(".post-image").fancybox({
+        prevEffect: 'none',
+        nextEffect: 'none',
+        closeBtn: true,
+        helpers: {
+            title: {
+                type: 'float'
+            }
+        }
+    });
+    $(document).ready(function () {
+        $(".post-image > img").unveil(450);
+    });
+</script>
+
+</body>
+
+</html>
