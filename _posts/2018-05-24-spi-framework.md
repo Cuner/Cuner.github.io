@@ -2,7 +2,7 @@
 layout: post
 title: "SPI框架（一）"
 description: "SPI框架"
-categories: [SPI]
+categories: [framework]
 tags: [SPI]
 redirect_from:
   - /2018/05/24/

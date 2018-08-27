@@ -2,7 +2,7 @@
 layout: post
 title: "基于配置的流程管理框架"
 description: "基于配置的流程管理框架"
-categories: [flow framework]
+categories: [framework]
 tags: [flow]
 redirect_from:
   - /2018/08/04/
