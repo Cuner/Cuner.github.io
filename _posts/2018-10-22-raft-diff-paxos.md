@@ -5,7 +5,7 @@ description: "paxos与raft一致性协议"
 categories: [一致性协议]
 tags: [一致性协议]
 redirect_from:
-  - /2018/08/04/
+  - /2018/10/22/
 ---
 # 介绍
 下面是关于两种一致性协议的相关论文的详细讲解，这里就不再赘述
