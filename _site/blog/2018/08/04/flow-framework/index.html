@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+<link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
+
+<!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>基于配置的流程管理框架 | Cuner</title>
+<meta name="generator" content="Jekyll v3.5.2" />
+<meta property="og:title" content="基于配置的流程管理框架" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="基于配置的流程管理框架" />
+<meta property="og:description" content="基于配置的流程管理框架" />
+<link rel="canonical" href="http://localhost:4000/blog/2018/08/04/flow-framework/" />
+<meta property="og:url" content="http://localhost:4000/blog/2018/08/04/flow-framework/" />
+<meta property="og:site_name" content="Cuner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-08-04T00:00:00+08:00" />
+<script type="application/ld+json">
+{"description":"基于配置的流程管理框架","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/08/04/flow-framework/","headline":"基于配置的流程管理框架","dateModified":"2018-08-04T00:00:00+08:00","datePublished":"2018-08-04T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/08/04/flow-framework/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<meta name="keywords" content="flow" />
+
+
+
+
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Cuner" />
+    <link href='/assets/stylesheets/blog.css' rel="stylesheet" type="text/css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script>window.Modernizr || document.write('<script src="/assets/javascripts/modernizr-2.8.3.min.js"><\/script>')</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="/assets/javascripts/jquery-3.2.1.min.js"><\/script>')
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+<script>
+    window.Pace || document.write('<script src="/assets/javascripts/pace.min.js"><\/script>')
+</script>
+
+
+</head>
+
+<body>
+    <!--[if IE]>
+    <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+<![endif]-->
+<noscript>
+    <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+</noscript>
+
+    <div class="nav-wrapper overlay-wrapper">
+    <div class="nav-form overlay-form">
+        <span class="overlay-header menu">Menu</span>
+        <a class="btn-close">Close</a>
+        <div class="results">
+            <ul>
+                <li><a href="/blog/categories/">Categories</a></li>
+                <li><a href="/blog/tags/">Tags</a></li>
+                <li><a href="/">About</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="search-wrapper overlay-wrapper">
+    <div class="search-form overlay-form">
+        <input type="text" class="overlay-header search-field" placeholder="Search...">
+        <a class="btn-close">Close</a>
+        <ul class="results"></ul>
+    </div>
+</div>
+
+
+    <div id="page" class="hentry">
+        <header class="the-header">
+    <div class="unit-head">
+        <div class="unit-inner unit-head-inner">
+            <nav class="nav-global">
+                <ul>
+                    <li class="logo nav-link">
+                        <button class="btn-menu" title="Menu"></button>
+                        <a href="/blog/">Cuner</a>
+                        <!--[if !IE]> -->
+                        <button class="btn-search" title="Search"></button>
+                        <!-- <![endif]-->
+                    </li>
+                    <li class="nav-link"><a title="Categories" href="/blog/categories/">Categories</a></li>
+                    <li class="nav-link"><a title="Tags" href="/blog/tags/">Tags</a></li>
+                    <!--[if !IE]> -->
+                    <li class="nav-link"><a title="Search" class="btn-search" href="#">Search</a></li>
+                    <!-- <![endif]-->
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+        <div class="body animated fadeInDown" role="main">
+            <div class="unit-body">
+                <div class="unit-inner unit-body-inner">
+                    <div class="entry-content">
+                        <article class="unit-article layout-post">
+    <div class="unit-inner unit-article-inner">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
+            <header>
+                <div class="unit-head">
+                    <div class="unit-inner unit-head-inner">
+                        <h1 class="entry-title" itemprop="name">基于配置的流程管理框架</h1>
+                    </div>
+                </div>
+            </header>
+            <div class="bd article-content">
+                <div class="entry-content">
+                    <div class="meta">
+                        <p class="date-publish">
+                            Published:
+                            <time itemprop="datePublished" class="date-pub updated"
+                                title="2018-08-04T00:00:00+08:00" datetime="2018-08-04T00:00:00+08:00">August 04, 2018 </time>
+                            by
+                            <a class="author" href="/" rel="author" title="Show Author">
+                                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                                    <span itemprop="name"></span>
+                                </span>
+                            </a>
+                            
+                            
+                        </p>
+                        <ul class="list-category list-linear">
+                            <li class="list-head">Categories: </li>
+                             
+     
+        <li>
+            <a href="/blog/categories/#framework" title="framework">
+            framework <span>2</span></a>
+        </li>
+    
+
+
+
+                        </ul>
+                        <ul class="list-tag list-linear">
+                            <li class="list-head">Tags: </li>
+                             
+    
+        
+        <li>
+            <a href="/blog/tags/#flow" title="flow">flow <span>1</span></a>
+        </li>
+    
+
+
+
+
+                        </ul>
+                    </div>
+                    <div itemprop="articleBody">
+                        <h1 id="heading-介绍">介绍</h1>
+<p>通用的流程编排框架，将整个流程以xml配置文件的形式管理起来：定义流程、管理上下文、控制流程的流转（按条件或者顺序），各个流程节点的执行（同步或者异步）。同时对每个流程节点进行监控以及统计，完成对流程的整体把控。</p>
+
+<h1 id="heading-基本概念">基本概念</h1>
+
+<ul>
+  <li>flow:数据流程对象</li>
+  <li>step:流程的子步骤，也叫流程节点</li>
+  <li>action:流程中各个步骤执行的操作</li>
+  <li>subflow:子流程，一个流程节点可以执行操作；也可以执行某个子流程</li>
+</ul>
+
+<h1 id="heading-用法">用法</h1>
+
+<h2 id="heading-1定义流程的输入与输出">1.定义流程的输入与输出</h2>
+
+<ul>
+  <li>定义输入为Data</li>
+  <li>定义输出为Result</li>
+</ul>
+
+<h2 id="heading-2定义步骤子节点">2.定义步骤（子节点）</h2>
+
+<p>所有的子节点需要实现接口org.cuner.flowframework.core.Action&lt;Data, Result&gt;</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>public class Action1 implements Action&lt;Data, Result&gt; {
+    @Override
+    public void execute(FlowContext&lt;Data, Result&gt; context) {
+        if (context.getResult() == null) {
+            context.setResult(new Result());
+        }
+        context.setParameter("param", 1);
+        context.getResult().setResult(context.getData().getData());
+        System.out.println("----------flow: " +  context.getFlowName() + " step: " + context.getStepName() + " action: " + this.getClass().getSimpleName() + "----------");
+    }
+}
+</code></pre>
+</div>
+
+<p>同时保证启动后，将所有action注入到spring容器中</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;bean id="action1" class="org.cuner.flowframework.test.action.Action1"/&gt;
+&lt;bean id="action2" class="org.cuner.flowframework.test.action.Action2"/&gt;
+&lt;bean id="action3" class="org.cuner.flowframework.test.action.Action3"/&gt;
+</code></pre>
+</div>
+
+<h2 id="heading-3通过xml配置定义流程">3.通过xml配置定义流程</h2>
+
+<p>详细的配置结构请查看xsd文件</p>
+<ul>
+  <li><code class="highlighter-rouge">flows</code>标签为root标签，可包含多个<code class="highlighter-rouge">flow</code>标签</li>
+  <li><code class="highlighter-rouge">flow</code>标签标识一个流程，可以是一个主流程也可以是一个子流程，拥有name属性代表流程名称（流程名字要求全局唯一），可包含多个<code class="highlighter-rouge">step</code>标签</li>
+  <li><code class="highlighter-rouge">step</code>标签标识一个步骤（流程节点）
+    <ul>
+      <li>包含零或一个<code class="highlighter-rouge">condition类</code>标签，标识该步骤的执行条件，若没有则默认执行</li>
+      <li>包含零或多个<code class="highlighter-rouge">conditionTransition</code>标签，标识状态的流转，若没有则默认流转到配置文件中下一个步骤</li>
+      <li>name属性：标识步骤名称</li>
+      <li>asyn属性：标识是否异步执行</li>
+      <li>action属性：标识步骤执行的操作，关联Action接口某个实现类的bean id</li>
+      <li>subflow属性：标识步骤所代表的子流程（action属性和subflow属性只能存在一者）</li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">condition类标签</code>
+    <ul>
+      <li><code class="highlighter-rouge">condition</code>标签：
+        <ul>
+          <li>属性key：为输入对象Data的某个属性</li>
+          <li>value：与输入对象Data的某个属性值相比较的值</li>
+          <li>comparator：关系运算符（eq、ne、gt、lt、ge、le、ln）</li>
+        </ul>
+      </li>
+      <li><code class="highlighter-rouge">expCondition</code>标签，拥有express属性，值为判断条件的表达式，如 data == "test"，其中data为输入对象Data的一个属性</li>
+      <li><code class="highlighter-rouge">andCondtion</code>标签，包含多个condition类标签，对多个condition的结果做与操作</li>
+      <li><code class="highlighter-rouge">orCondtion</code>标签，包含多个condition类标签，对多个condition的结果做或操作</li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">conditionTransition</code>标签
+    <ul>
+      <li>包含一个<code class="highlighter-rouge">condition</code>标签，判断是否符合状态流程的条件</li>
+      <li>包含一个to属性：标识状态流转的下一个节点</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;flows</span> <span class="na">xmlns=</span><span class="s">"http://repo.cuner.com/schema/flow"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;flow</span> <span class="na">name=</span><span class="s">"mainFlow"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"step1"</span> <span class="na">action=</span><span class="s">"action1"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"step2"</span> <span class="na">action=</span><span class="s">"action2"</span> <span class="na">asyn=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"step3"</span> <span class="na">subflow=</span><span class="s">"subflow"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"step4"</span> <span class="na">subflow=</span><span class="s">"subflow"</span> <span class="na">asyn=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"step5"</span> <span class="na">action=</span><span class="s">"action3"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;condition</span> <span class="na">key=</span><span class="s">"data"</span> <span class="na">value=</span><span class="s">"test"</span> <span class="na">comparator=</span><span class="s">"eq"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/step&gt;</span>
+        <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"step6"</span> <span class="na">action=</span><span class="s">"action3"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;expCondition</span> <span class="na">expression=</span><span class="s">'data.getData() == "test" '</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/step&gt;</span>
+        <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"step7"</span> <span class="na">action=</span><span class="s">"action3"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;andCondition&gt;</span>
+                <span class="nt">&lt;condition</span> <span class="na">key=</span><span class="s">"data"</span> <span class="na">value=</span><span class="s">"test"</span> <span class="na">comparator=</span><span class="s">"eq"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/andCondition&gt;</span>
+        <span class="nt">&lt;/step&gt;</span>
+        <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"step8"</span> <span class="na">action=</span><span class="s">"action3"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;orderTransition</span> <span class="na">to=</span><span class="s">"step9"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/step&gt;</span>
+        <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"step9"</span> <span class="na">action=</span><span class="s">"action3"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;conditionTransition</span> <span class="na">to=</span><span class="s">"step10"</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;condition</span> <span class="na">key=</span><span class="s">"data"</span> <span class="na">value=</span><span class="s">"test"</span> <span class="na">comparator=</span><span class="s">"eq"</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;/conditionTransition&gt;</span>
+        <span class="nt">&lt;/step&gt;</span>
+        <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"step10"</span> <span class="na">action=</span><span class="s">"action3"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;expCondition</span> <span class="na">expression=</span><span class="s">'parameters.get("params") == 1'</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/step&gt;</span>
+    <span class="nt">&lt;/flow&gt;</span>
+
+    <span class="nt">&lt;flow</span> <span class="na">name=</span><span class="s">"subflow"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"sub_step1"</span> <span class="na">action=</span><span class="s">"action1"</span> <span class="na">asyn=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"sub_step2"</span> <span class="na">action=</span><span class="s">"action2"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/flow&gt;</span>
+<span class="nt">&lt;/flows&gt;</span>
+</code></pre>
+</div>
+
+<h2 id="heading-4流程注入">4.流程注入</h2>
+
+<p>配置文件需要放在classpath下，案例中的配置文件就是在classpath下的flow.xml文件</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;bean id="flowManager" class="org.cuner.flowframework.core.manager.FlowManager"&gt;
+    &lt;property name="flowFiles"&gt;
+        &lt;list&gt;
+            &lt;value&gt;flow.xml&lt;/value&gt;
+        &lt;/list&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;
+</code></pre>
+</div>
+
+<h2 id="heading-5执行">5.执行</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Result result = flowManager.execute("mainFlow", data);
+</code></pre>
+</div>
+<p>由于各个步骤可异步执行，在主流程的执行中加入了闭锁，只有当所有步骤（包括异步的）执行完成，execute方法才能正确返回。</p>
+
+<h2 id="heading-6查看日志">6.查看日志</h2>
+<p>可查看流程执行的完整堆栈，可以在logback.xml中如下配置</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;logger name="flow-record" level="info" additivity="false"&gt;
+    &lt;appender-ref ref="FLOW_RECORD"/&gt;
+&lt;/logger&gt;
+</code></pre>
+</div>
+
+<p>上述案例执行后日志如下</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>21:03:23.431 [main] INFO  flow-record - 2018-08-04 21:03:23,415
+[flow:mainFlow | start:2018-08-04 21:03:23,353 | end:2018-08-04 21:03:23,380 | cost:27]
+|----[step:step1 | start:2018-08-04 21:03:23,354 | end:2018-08-04 21:03:23,355 | cost:1]
+|----(step:step2 | start:2018-08-04 21:03:23,358 | end:2018-08-04 21:03:23,359 | cost:1) (asynchronously)
+|----[step:step3 | start:2018-08-04 21:03:23,359 | end:2018-08-04 21:03:23,360 | cost:1]
+        |----[sub_flow:subflow | start:2018-08-04 21:03:23,359 | end:2018-08-04 21:03:23,360 | cost:1]
+                |----(step:sub_step1 | start:2018-08-04 21:03:23,360 | end:2018-08-04 21:03:23,360 | cost:0) (asynchronously)
+                |----[step:sub_step2 | start:2018-08-04 21:03:23,360 | end:2018-08-04 21:03:23,360 | cost:0]
+|----(step:step4 | start:2018-08-04 21:03:23,361 | end:2018-08-04 21:03:23,361 | cost:0) (asynchronously)
+        |----[sub_flow:subflow | start:2018-08-04 21:03:23,361 | end:2018-08-04 21:03:23,361 | cost:0]
+                |----[step:sub_step2 | start:2018-08-04 21:03:23,361 | end:2018-08-04 21:03:23,361 | cost:0]
+                |----(step:sub_step1 | start:2018-08-04 21:03:23,361 | end:2018-08-04 21:03:23,361 | cost:0) (asynchronously)
+|----[step:step5 | start:2018-08-04 21:03:23,378 | end:2018-08-04 21:03:23,380 | cost:2]
+|----[step:step6 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
+|----[step:step7 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
+|----[step:step8 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
+|----[step:step9 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
+|----[step:step10 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
+</code></pre>
+</div>
+
+<h1 id="heading-源码">源码</h1>
+
+<p>最后，附上代码:https://github.com/Cuner/flow-framework</p>
+
+                    </div>
+                </div>
+            </div>
+            <footer class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="post-buttons">
+                        <a class="internal gotop" href="#page" title="Back to Top">Back to Top</a>
+                        
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" rel="prev" href="/blog/2018/06/26/groovy-loader/" title=" '基于spring的groovy动态加载'"> ← 基于spring的groovy动态加载</a>
+                        
+                        
+                            <a class="internal" rel="next" href="/blog/2018/10/22/raft-diff-paxos/" title="Next Post 'paxos与raft一致性协议'">paxos与raft一致性协议 → </a>
+                        
+                    </nav>
+                </div>
+            </footer>
+            <div class="misc-content">
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="the-footer">
+    <div class="unit-foot">
+        <div class="unit-inner unit-foot-inner">
+            <div class="misc vcard">
+                <div class="about">
+                    <h4><a href="/">About</a></h4>
+                    
+                        <p>No zero day.</p>
+                    
+                    <p><small>Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> and <a href="https://pages.github.com/" target="_blank">Github Pages</a>, &copy; 2018 Cuner.</small></p>
+                </div>
+                <div class="social-links">
+                    
+                    <a class="ico-rss" href="/feed.xml" rel="me" target="_blank" title="feed"></a>
+                    
+                        
+                    
+                        
+                            <a class="ico-github" href="https://github.com/Cuner" rel="me" target="_blank" title="github"></a>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="internal back-to-top">Back to Top</a>
+</footer>
+
+    </div>
+
+    <script>
+$(document).ready(function () {
+    var offset = 50,
+        duration = 500,
+        width = 960;
+    $(window).scroll(function () {
+        if ($(window).width() > width) {
+            if ($(this).scrollTop() > offset) {
+                $('footer').css('top', '20px');
+                $('footer .back-to-top').fadeIn(duration);
+            } else {
+                $('footer').css('top', 'auto');
+                $('footer .back-to-top').fadeOut(duration);
+            }
+        }
+    });
+    $(window).resize(function () {
+        if ($(window).width() < width) {
+            $('footer').css('top', 'auto');
+            $('footer .back-to-top').fadeOut(duration);
+        }
+        if ($(window).width() >= width && $(this).scrollTop() > offset) {
+            $('footer').css('top', '20px');
+            $('footer .back-to-top').fadeIn(duration);
+        }
+    });
+
+    $('footer .back-to-top, .gotop').on('click', function (event) {
+        event.preventDefault();
+        $('html, body').animate({
+            scrollTop: 0
+        }, duration);
+        return false;
+    });
+
+    $('.show-hidden').on('click', function () {
+        $(this).parent().next().toggleClass("hidden");
+        $(this).toggleClass("hidden");
+    });
+});
+</script>
+
+<!-- Google Analytics Event tracking -->
+
+
+<!-- Show menu overlay + Jekyll Simple Search option -->
+<script src="/assets/javascripts/jekyll-search.jquery.js"></script>
+<script>
+$(document).ready(function () {
+    $('.search-field').simpleJekyllSearch({
+      jsonFile: '/search.json',
+      template: '<li><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></li>',
+      searchResults: '.search-wrapper .results',
+      searchResultsTitle: '<h4>Search results</h4>',
+      noResults: '<p>Oh shucks<br/><small>Nothing found :(</small></p>'
+    });
+});
+
+(function ($, window, undefined) {
+    var closeOverlay = function () {
+        $('.nav-wrapper, .search-wrapper').removeAttr('style');
+        $(".nav-form, .search-form").removeClass('active');
+        $("body").removeClass('nav-overlay search-overlay');
+    };
+
+    $('.nav-global .btn-search').on('click', function () {
+        $('.search-wrapper').css({display: "block"});
+        $(".search-form").addClass('active');
+        $(".search-form").find('input').focus();
+        $("body").addClass('search-overlay');
+    });
+
+    $('.nav-global .btn-menu').on('click', function () {
+        $('.nav-wrapper').css({display: "block"});
+        $(".nav-form").addClass('active');
+        $(".nav-form .search-field").prop('disabled', true);
+        $("body").addClass('nav-overlay');
+    });
+
+    $('.nav-wrapper .btn-close, .search-wrapper .btn-close').on('click', function () {
+        closeOverlay();
+    });
+
+    $(document).on('keyup', function (e) {
+        if (e.keyCode === 27) {
+            closeOverlay();
+        }
+    });
+})(jQuery, window);
+</script>
+
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-buttons.min.js'></script>
+<script src="/assets/javascripts/unveil/jquery.unveil.min.js"></script>
+
+<script>
+    window.jQuery.fancybox || document.write('<script src="/assets/javascripts/fancybox/jquery.fancybox.pack.js?v=2.1.4"><\/script>')
+    window.jQuery.fancybox.helpers.buttons || document.write('<script src="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"><\/script>')
+</script>
+
+<script>
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/jquery.fancybox.css?v=2.1.4" type="text/css" />');
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" />');
+    $(".post-image").fancybox({
+        prevEffect: 'none',
+        nextEffect: 'none',
+        closeBtn: true,
+        helpers: {
+            title: {
+                type: 'float'
+            }
+        }
+    });
+    $(document).ready(function () {
+        $(".post-image > img").unveil(450);
+    });
+</script>
+
+</body>
+
+</html>

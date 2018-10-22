@@ -1,4 +1,200 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2018-06-26T10:59:23+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">基于spring的groovy动态加载</title><link href="http://localhost:4000/blog/2018/06/26/groovy-loader/" rel="alternate" type="text/html" title="基于spring的groovy动态加载" /><published>2018-06-26T00:00:00+08:00</published><updated>2018-06-26T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/06/26/groovy-loader</id><content type="html" xml:base="http://localhost:4000/blog/2018/06/26/groovy-loader/">&lt;h1 id=&quot;heading-groovy-loader背景&quot;&gt;groovy loader背景&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2018-10-22T10:43:28+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">paxos与raft一致性协议</title><link href="http://localhost:4000/blog/2018/10/22/raft-diff-paxos/" rel="alternate" type="text/html" title="paxos与raft一致性协议" /><published>2018-10-22T00:00:00+08:00</published><updated>2018-10-22T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/10/22/raft-diff-paxos</id><content type="html" xml:base="http://localhost:4000/blog/2018/10/22/raft-diff-paxos/">&lt;h1 id=&quot;heading-介绍&quot;&gt;介绍&lt;/h1&gt;
+&lt;p&gt;下面是关于两种一致性协议的相关论文的详细讲解，这里就不再赘述&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;PAXOS
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://www.jianshu.com/p/6d01a8d2df9f&quot;&gt;《Paxos Made Simple》论文翻译&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/assets/pdf/paxos-simple1.pdf&quot;&gt;《Paxos Made Simple》原文&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;RAFT
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;http://www.infoq.com/cn/articles/raft-paper&quot;&gt;《In search of an Understandable Consensus Algorithm (Extended Version)》中文翻译&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;/assets/pdf/raft.pdf&quot;&gt;《In search of an Understandable Consensus Algorithm (Extended Version)》原文&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;http://thesecretlivesofdata.com/raft/&quot;&gt;Raft Understandable Distributed Consensus&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/coreos/etcd/tree/master/raft#usage&quot;&gt;raft implementation by Go&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;heading-异同&quot;&gt;异同&lt;/h1&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="一致性协议" /><summary type="html">介绍 下面是关于两种一致性协议的相关论文的详细讲解，这里就不再赘述 PAXOS 《Paxos Made Simple》论文翻译 《Paxos Made Simple》原文 RAFT 《In search of an Understandable Consensus Algorithm (Extended Version)》中文翻译 《In search of an Understandable Consensus Algorithm (Extended Version)》原文 Raft Understandable Distributed Consensus raft implementation by Go 异同</summary></entry><entry><title type="html">基于配置的流程管理框架</title><link href="http://localhost:4000/blog/2018/08/04/flow-framework/" rel="alternate" type="text/html" title="基于配置的流程管理框架" /><published>2018-08-04T00:00:00+08:00</published><updated>2018-08-04T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/08/04/flow-framework</id><content type="html" xml:base="http://localhost:4000/blog/2018/08/04/flow-framework/">&lt;h1 id=&quot;heading-介绍&quot;&gt;介绍&lt;/h1&gt;
+&lt;p&gt;通用的流程编排框架，将整个流程以xml配置文件的形式管理起来：定义流程、管理上下文、控制流程的流转（按条件或者顺序），各个流程节点的执行（同步或者异步）。同时对每个流程节点进行监控以及统计，完成对流程的整体把控。&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-基本概念&quot;&gt;基本概念&lt;/h1&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;flow:数据流程对象&lt;/li&gt;
+  &lt;li&gt;step:流程的子步骤，也叫流程节点&lt;/li&gt;
+  &lt;li&gt;action:流程中各个步骤执行的操作&lt;/li&gt;
+  &lt;li&gt;subflow:子流程，一个流程节点可以执行操作；也可以执行某个子流程&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;heading-用法&quot;&gt;用法&lt;/h1&gt;
+
+&lt;h2 id=&quot;heading-1定义流程的输入与输出&quot;&gt;1.定义流程的输入与输出&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;定义输入为Data&lt;/li&gt;
+  &lt;li&gt;定义输出为Result&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;heading-2定义步骤子节点&quot;&gt;2.定义步骤（子节点）&lt;/h2&gt;
+
+&lt;p&gt;所有的子节点需要实现接口org.cuner.flowframework.core.Action&amp;lt;Data, Result&amp;gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class Action1 implements Action&amp;lt;Data, Result&amp;gt; {
+    @Override
+    public void execute(FlowContext&amp;lt;Data, Result&amp;gt; context) {
+        if (context.getResult() == null) {
+            context.setResult(new Result());
+        }
+        context.setParameter(&quot;param&quot;, 1);
+        context.getResult().setResult(context.getData().getData());
+        System.out.println(&quot;----------flow: &quot; +  context.getFlowName() + &quot; step: &quot; + context.getStepName() + &quot; action: &quot; + this.getClass().getSimpleName() + &quot;----------&quot;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;同时保证启动后，将所有action注入到spring容器中&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;action1&quot; class=&quot;org.cuner.flowframework.test.action.Action1&quot;/&amp;gt;
+&amp;lt;bean id=&quot;action2&quot; class=&quot;org.cuner.flowframework.test.action.Action2&quot;/&amp;gt;
+&amp;lt;bean id=&quot;action3&quot; class=&quot;org.cuner.flowframework.test.action.Action3&quot;/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;heading-3通过xml配置定义流程&quot;&gt;3.通过xml配置定义流程&lt;/h2&gt;
+
+&lt;p&gt;详细的配置结构请查看xsd文件&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;flows&lt;/code&gt;标签为root标签，可包含多个&lt;code class=&quot;highlighter-rouge&quot;&gt;flow&lt;/code&gt;标签&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;flow&lt;/code&gt;标签标识一个流程，可以是一个主流程也可以是一个子流程，拥有name属性代表流程名称（流程名字要求全局唯一），可包含多个&lt;code class=&quot;highlighter-rouge&quot;&gt;step&lt;/code&gt;标签&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;step&lt;/code&gt;标签标识一个步骤（流程节点）
+    &lt;ul&gt;
+      &lt;li&gt;包含零或一个&lt;code class=&quot;highlighter-rouge&quot;&gt;condition类&lt;/code&gt;标签，标识该步骤的执行条件，若没有则默认执行&lt;/li&gt;
+      &lt;li&gt;包含零或多个&lt;code class=&quot;highlighter-rouge&quot;&gt;conditionTransition&lt;/code&gt;标签，标识状态的流转，若没有则默认流转到配置文件中下一个步骤&lt;/li&gt;
+      &lt;li&gt;name属性：标识步骤名称&lt;/li&gt;
+      &lt;li&gt;asyn属性：标识是否异步执行&lt;/li&gt;
+      &lt;li&gt;action属性：标识步骤执行的操作，关联Action接口某个实现类的bean id&lt;/li&gt;
+      &lt;li&gt;subflow属性：标识步骤所代表的子流程（action属性和subflow属性只能存在一者）&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;condition类标签&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;condition&lt;/code&gt;标签：
+        &lt;ul&gt;
+          &lt;li&gt;属性key：为输入对象Data的某个属性&lt;/li&gt;
+          &lt;li&gt;value：与输入对象Data的某个属性值相比较的值&lt;/li&gt;
+          &lt;li&gt;comparator：关系运算符（eq、ne、gt、lt、ge、le、ln）&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;expCondition&lt;/code&gt;标签，拥有express属性，值为判断条件的表达式，如 data == &quot;test&quot;，其中data为输入对象Data的一个属性&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;andCondtion&lt;/code&gt;标签，包含多个condition类标签，对多个condition的结果做与操作&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;orCondtion&lt;/code&gt;标签，包含多个condition类标签，对多个condition的结果做或操作&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;conditionTransition&lt;/code&gt;标签
+    &lt;ul&gt;
+      &lt;li&gt;包含一个&lt;code class=&quot;highlighter-rouge&quot;&gt;condition&lt;/code&gt;标签，判断是否符合状态流程的条件&lt;/li&gt;
+      &lt;li&gt;包含一个to属性：标识状态流转的下一个节点&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;flows&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;xmlns=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://repo.cuner.com/schema/flow&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;flow&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mainFlow&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;step&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;step1&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;action1&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;step&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;step2&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;action2&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;asyn=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;step&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;step3&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;subflow=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;subflow&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;step&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;step4&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;subflow=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;subflow&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;asyn=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;step&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;step5&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;action3&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;condition&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;key=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;test&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;comparator=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;eq&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/step&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;step&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;step6&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;action3&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;expCondition&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;expression=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'data.getData() == &quot;test&quot; '&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/step&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;step&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;step7&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;action3&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;andCondition&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;condition&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;key=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;test&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;comparator=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;eq&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/andCondition&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/step&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;step&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;step8&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;action3&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;orderTransition&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;to=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;step9&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/step&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;step&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;step9&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;action3&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;conditionTransition&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;to=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;step10&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+                &lt;span class=&quot;nt&quot;&gt;&amp;lt;condition&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;key=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;data&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;value=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;test&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;comparator=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;eq&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;/conditionTransition&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/step&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;step&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;step10&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;action3&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;&amp;lt;expCondition&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;expression=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'parameters.get(&quot;params&quot;) == 1'&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;/step&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/flow&amp;gt;&lt;/span&gt;
+
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;flow&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;subflow&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;step&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sub_step1&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;action1&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;asyn=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;nt&quot;&gt;&amp;lt;step&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sub_step2&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;action=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;action2&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/flow&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/flows&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;heading-4流程注入&quot;&gt;4.流程注入&lt;/h2&gt;
+
+&lt;p&gt;配置文件需要放在classpath下，案例中的配置文件就是在classpath下的flow.xml文件&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;flowManager&quot; class=&quot;org.cuner.flowframework.core.manager.FlowManager&quot;&amp;gt;
+    &amp;lt;property name=&quot;flowFiles&quot;&amp;gt;
+        &amp;lt;list&amp;gt;
+            &amp;lt;value&amp;gt;flow.xml&amp;lt;/value&amp;gt;
+        &amp;lt;/list&amp;gt;
+    &amp;lt;/property&amp;gt;
+&amp;lt;/bean&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;heading-5执行&quot;&gt;5.执行&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Result result = flowManager.execute(&quot;mainFlow&quot;, data);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;由于各个步骤可异步执行，在主流程的执行中加入了闭锁，只有当所有步骤（包括异步的）执行完成，execute方法才能正确返回。&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-6查看日志&quot;&gt;6.查看日志&lt;/h2&gt;
+&lt;p&gt;可查看流程执行的完整堆栈，可以在logback.xml中如下配置&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;logger name=&quot;flow-record&quot; level=&quot;info&quot; additivity=&quot;false&quot;&amp;gt;
+    &amp;lt;appender-ref ref=&quot;FLOW_RECORD&quot;/&amp;gt;
+&amp;lt;/logger&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;上述案例执行后日志如下&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;21:03:23.431 [main] INFO  flow-record - 2018-08-04 21:03:23,415
+[flow:mainFlow | start:2018-08-04 21:03:23,353 | end:2018-08-04 21:03:23,380 | cost:27]
+|----[step:step1 | start:2018-08-04 21:03:23,354 | end:2018-08-04 21:03:23,355 | cost:1]
+|----(step:step2 | start:2018-08-04 21:03:23,358 | end:2018-08-04 21:03:23,359 | cost:1) (asynchronously)
+|----[step:step3 | start:2018-08-04 21:03:23,359 | end:2018-08-04 21:03:23,360 | cost:1]
+        |----[sub_flow:subflow | start:2018-08-04 21:03:23,359 | end:2018-08-04 21:03:23,360 | cost:1]
+                |----(step:sub_step1 | start:2018-08-04 21:03:23,360 | end:2018-08-04 21:03:23,360 | cost:0) (asynchronously)
+                |----[step:sub_step2 | start:2018-08-04 21:03:23,360 | end:2018-08-04 21:03:23,360 | cost:0]
+|----(step:step4 | start:2018-08-04 21:03:23,361 | end:2018-08-04 21:03:23,361 | cost:0) (asynchronously)
+        |----[sub_flow:subflow | start:2018-08-04 21:03:23,361 | end:2018-08-04 21:03:23,361 | cost:0]
+                |----[step:sub_step2 | start:2018-08-04 21:03:23,361 | end:2018-08-04 21:03:23,361 | cost:0]
+                |----(step:sub_step1 | start:2018-08-04 21:03:23,361 | end:2018-08-04 21:03:23,361 | cost:0) (asynchronously)
+|----[step:step5 | start:2018-08-04 21:03:23,378 | end:2018-08-04 21:03:23,380 | cost:2]
+|----[step:step6 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
+|----[step:step7 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
+|----[step:step8 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
+|----[step:step9 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
+|----[step:step10 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&quot;heading-源码&quot;&gt;源码&lt;/h1&gt;
+
+&lt;p&gt;最后，附上代码:https://github.com/Cuner/flow-framework&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="flow" /><summary type="html">介绍 通用的流程编排框架，将整个流程以xml配置文件的形式管理起来：定义流程、管理上下文、控制流程的流转（按条件或者顺序），各个流程节点的执行（同步或者异步）。同时对每个流程节点进行监控以及统计，完成对流程的整体把控。</summary></entry><entry><title type="html">基于spring的groovy动态加载</title><link href="http://localhost:4000/blog/2018/06/26/groovy-loader/" rel="alternate" type="text/html" title="基于spring的groovy动态加载" /><published>2018-06-26T00:00:00+08:00</published><updated>2018-06-26T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/06/26/groovy-loader</id><content type="html" xml:base="http://localhost:4000/blog/2018/06/26/groovy-loader/">&lt;h1 id=&quot;heading-groovy-loader背景&quot;&gt;groovy loader背景&lt;/h1&gt;
 &lt;p&gt;由于groovy动态语言的特性，使用方式与java一致，同时又特别适合与Spring的动态语言支持一起使用，所以基于java的groovy脚本的动态加载的使用场景还是比较多的&lt;/p&gt;
 
 &lt;h1 id=&quot;heading-简介&quot;&gt;简介&lt;/h1&gt;
@@ -1083,184 +1279,4 @@ applicationContext.getBean(&quot;service&quot;).callMethodB();
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;PS:使用第一种方式的时候要注意获取代理对象时的强制转换:使用默认的JDK动态代理的方式需要转换为接口，使用CGLIB代理的方式可以直接使用实现类的类型；同时代理对象使用的方法需要是public修饰的方法；spring自带的@transactional注解在使用中也有上述问题，该注解默认使用CGLIB代理。&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="aop" /><summary type="html">一、Spring AOP代理的相关属性</summary></entry><entry><title type="html">java网络编程</title><link href="http://localhost:4000/blog/2017/06/29/java-io-model/" rel="alternate" type="text/html" title="java网络编程" /><published>2017-06-29T00:00:00+08:00</published><updated>2017-06-29T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/06/29/java-io-model</id><content type="html" xml:base="http://localhost:4000/blog/2017/06/29/java-io-model/">&lt;h2 id=&quot;heading-一nio&quot;&gt;一、NIO&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;通道和缓冲区(Channels and Buffer):标准的IO基于字节流和字符流进行操作的，而NIO是基于通道（Channel）和缓冲区（Buffer）进行操作，数据总是从通道读取到缓冲区中，或者从缓冲区写入到通道中。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-06-29-java-io-model/nio-channel-buffer.jpg&quot; width=&quot;500&quot; /&gt;&lt;/center&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;选择器(Seletor):Java NIO的选择器允许一个单独的线程来监视多个输入通道，你可以使用一个选择器注册多个通道，并设置感兴趣的通道事件，然后使用一个单独的线程来“选择”已准备好的通道：这些通道里已经有可以处理的输入，或备写入的通道。这种选择机制，使得一个单独的线程很容易来管理多个通道。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-06-29-java-io-model/nio-selector.jpg&quot; width=&quot;500&quot; /&gt;&lt;/center&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;非阻塞模式:Java IO的各种流是阻塞的。这意味着，当一个线程调用read() 或 write()时，该线程被阻塞，直到有一些数据被读取，或数据完全写入。该线程在此期间不能再干任何事情了。 Java NIO的非阻塞模式，使一个线程从某通道发送请求读取数据，但是它仅能得到目前可用的数据，如果目前没有数据可用时，就什么都不会获取。而不是保持线程阻塞，所以直至数据变的可以读取之前，该线程可以继续做其他的事情。 非阻塞写也是如此。一个线程请求写入一些数据到某通道，但不需要等待它完全写入，这个线程同时可以去做别的事情。 线程通常将非阻塞IO的空闲时间用于在其它通道上执行IO操作，所以一个单独的线程现在可以管理多个输入和输出通道（channel）。 Java NIO可以让你异步的使用IO，例如：当线程从通道读取数据到缓冲区时，线程还是可以进行其他事情。当数据被写入到缓冲区时，线程可以继续处理它。从缓冲区写入通道也类似。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;PS:NIO解析数据可能比从一个阻塞流中读取数据更复杂。&lt;/p&gt;
-
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-06-29-java-io-model/nio-data-read.jpg&quot; width=&quot;500&quot; /&gt;&lt;/center&gt;
-
-&lt;h2 id=&quot;heading-二网络编程三类模型&quot;&gt;二、网络编程三类模型&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;BIO(blocking IO):&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;传统的BIO网络编程是同步阻塞型的， 传统的同步阻塞模型开发中，ServerSocket负责绑定IP地址，启动监听端口；等待Socket发起连接操作。通常使用一个独立的线程来负责监听客户端的连接，当连接成功后，服务端需要创建一个新的线程负责双方的通信，双方通过输入和输出流进行同步阻塞式通信，即一连接一线程模型。这类网络模型在高并发的场景下，会实例出大量的线程，导致系统资源的耗费。你有少量的连接使用非常高的带宽，一次发送大量的数据，也许典型的IO服务器实现可能非常契合。&lt;/p&gt;
-
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-06-29-java-io-model/bio-connection-thread.jpg&quot; width=&quot;500&quot; /&gt;&lt;/center&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;NIO(NO Blocking IO):&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;NIO网络编程是同步非阻塞型的，等同于多路复用的IO模型。如果需要管理同时打开的成千上万个连接，这些连接每次只是发送少量的数据，例如聊天服务器，实现NIO的服务器可能是一个优势。同样，如果你需要维持许多打开的连接到其他计算机上，如P2P网络中，使用一个单独的线程来管理你所有出站连接，可能是一个优势。仅用单个线程来处理多个Channels的好处是，只需要更少的线程来处理通道。事实上，可以只用一个线程处理所有的通道。对于操作系统来说，线程之间上下文切换的开销很大，而且每个线程都要占用系统的一些资源（如内存）。因此，使用的线程越少越好。 但是，需要记住，现代的操作系统和CPU在多任务方面表现的越来越好，所以多线程的开销随着时间的推移，变得越来越小了。实际上，如果一个CPU有多个内核，不使用多任务可能是在浪费CPU能力。&lt;/p&gt;
-
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-06-29-java-io-model/nio-connection-thread.jpg&quot; width=&quot;500&quot; /&gt;&lt;/center&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;AIO(Asynchronous IO)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;AIO网络编程是异步非阻塞型的。以读操作为例，当发起一个读请求后，请求线程并不用关心通道中的数据何时准备就绪，也不用亲自对准备就绪后的数据进行处理，在发起读请求后请求线程可以接着做任何其他事情。此后内核将自动等待数据的到来，当通道中的数据准备就绪后，系统将自动调用事先指定好的处理器对数据进行处理。请求线程只需要调用相应的read/write方法，并且传入CompletionHandler(动作完成的处理器)就已经完成任务，后续的操作都会异步的自动完成。&lt;/p&gt;
-
-&lt;p&gt;相比NIO，AIO更加适合连接数较大且IO操作较重(单次IO传输的数据较大)的场景，例如相册服务器。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;三者之间的比较
-    &lt;ul&gt;
-      &lt;li&gt;BIO，同步阻塞式IO，简单理解：一个连接一个线程&lt;/li&gt;
-      &lt;li&gt;NIO，同步非阻塞IO，简单理解：一个线程&lt;/li&gt;
-      &lt;li&gt;AIO，异步非阻塞IO，简单理解：一个有效请求一个线程&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;heading-三举例&quot;&gt;三、举例&lt;/h2&gt;
-
-&lt;p&gt;1.上班期间，公司内部1500余人口打开聊天工具进行工作交流，假设1s内一共进行50次通信，我们来看看这三种IO模型的资源消耗：【NIO最为适合】&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;BIO:服务器根据1500个连接需要分配1500个线程(考虑到BIO读写相互阻塞，这里应该是1500*2个线程)，这些线程各自独立完成读写操作&lt;/li&gt;
-  &lt;li&gt;NIO:服务器根据连接创建通道，并且通过selector来管理这1500个通道，同时使用一个线程来监听来自这1500个通道的读写操作，这一个线程要保证在1s内完成50次读写操作（可以增加线程来管理这些通道，避免读写操作耗时较长影响到下一次对通道的监听）&lt;/li&gt;
-  &lt;li&gt;AIO:不需要建立连接，1s内需要分配50个线程来完成有效的读写请求，线程之间相互独立&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;2.换一个场景，将TT聊天改成向相册服务器上传下载图片，这种场景AIO更为适合：如果使用NIO，需要使用有限的线程来处理这种数据量大(50张图片)的读写操作会相当耗时，严重地延后距离下一次监听读写操作的时间，而AIO使用50个有效的线程避免了这一问题&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="网络IO" /><summary type="html">一、NIO</summary></entry><entry><title type="html">网络IO模型</title><link href="http://localhost:4000/blog/2017/06/22/IO-model/" rel="alternate" type="text/html" title="网络IO模型" /><published>2017-06-22T00:00:00+08:00</published><updated>2017-06-22T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/06/22/IO-model</id><content type="html" xml:base="http://localhost:4000/blog/2017/06/22/IO-model/">&lt;p&gt;IO发生时涉及的对象和步骤：对于一个network IO (这里我们以read举例)，它会涉及到两个系统对象，一个是调用这个IO的process (or thread)，另一个就是系统内核(kernel)。当一个read操作发生时，它会经历两个阶段：&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;等待数据准备到内核中&lt;/li&gt;
-  &lt;li&gt;将数据从内核拷贝到进程中&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;heading-同步阻塞io模型&quot;&gt;同步阻塞I/O模型：&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;在进程空间中调用recvfrom，kernel(内核)就开始了IO的第一个阶段：准备数据，对于network io来说，很多时候数据在一开始还没有到达（比如，还没有收到一个完整的UDP包），这个时候内核就要等待足够的数据到来。而在用户进程这边，整个进程会被阻塞。当kernel一直等到数据准备好了，它就会将数据从kernel中拷贝到用户内存，然后kernel返回结果，用户进程才解除block的状态，重新运行起来。其系统调用直到数据包到达且被复制到应用进程的缓冲区中或者发生错误再返回，在此期间一直会等待，进程从调用recvfrom开始到它返回的整段时间内都是阻塞的。所以阻塞IO的特点是在IO执行的两个阶段(等待数据和拷贝数据的两个阶段)都被阻塞了。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;在阻塞期间，线程是无法执行任何运算或者响应任何的网络请求，采用此类IO模型的系统为保持多个连接，通常会使用多线程技术，但是一旦需要同时响应大量的连接请求，多线程会严重占用系统资源，降低系统对外界的响应效率。再次基础上，也可以使用线程池技术，其维持一定合理数量的线程，并让空闲的线程重新承担新的执行任务，用以减少线程频繁创建以及销毁带来的开销，但是线程池也只是在一定程度上缓解了大量IO操作带来的资源占用问题。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-06-22-IO-model/同步阻塞.jpg&quot; width=&quot;500&quot; /&gt;&lt;/center&gt;
-
-&lt;h2 id=&quot;heading-同步非阻塞io模型&quot;&gt;同步非阻塞I/O模型：&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;当用户进程发出read操作时，如果kernel中的数据还没有准备好，那么它并不会block用户进程，就直接返回错误，从用户进程角度讲 ，它发起一个read操作后，并不需要等待，而是马上就得到了一个结果。用户进程判断结果是一个error时，它就知道数据还没有准备好，于是它可以再次发送read操作。一旦kernel中的数据准备好了，并且又再次收到了用户进程的system call，那么它马上就将数据拷贝到了用户内存，然后返回。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;一般对于非阻塞I/O模型进行轮训检查这个状态，查看内核是不是有数据到来。所以，在非阻塞式IO中，用户进程其实是需要不断的主动询问kernel数据准备好了没有。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;使用此类iO模型的服务器可以通过循环调用recv()接口，可以在单个线程内实现对所有连接的数据接收工作。但是上述模型绝不被推荐。因为，循环调用recv()将大幅度推高CPU 占用率；此外，在这个方案中recv()更多的是起到检测到某一个连接中“操作是否完成”的作用，实际操作系统提供了更为高效的检测“操作是否完成“作用的接口，例如select()多路复用模式，可以一次检测多个连接是否活跃。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-06-22-IO-model/同步非阻塞.jpg&quot; width=&quot;500&quot; /&gt;&lt;/center&gt;
-
-&lt;h3 id=&quot;heading-io复用模型&quot;&gt;I/O复用模型：&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;Linux提供select/poll，在读取文件过程中，进程通过将一个或多个fd(文件描述符)传递给select/poll系统调用，阻塞的select操作上，这样select/poll可以帮我们检测多个fd是否处于就绪状态。select/poll是顺序扫描fd是否准备就绪，而且支持的fd有限。Linux还而外提供了epoll系统调用，epoll使用基于事件驱动方式代替顺序扫描，当有fd准备就绪时，立即回调函数rollback&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;当用户进程调用了select，那么整个进程会被block，而同时，kernel会“监视”所有select负责的socket，当任何一个socket中的数据准备好了，select就会返回。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;这个图和blocking IO的图其实并没有太大的不同，事实上还更差一些。因为这里需要使用两个系统调用(select和recvfrom)，而blocking IO只调用了一个系统调用(recvfrom)。但是，用select的优势在于它可以同时处理多个connection。（如果处理的连接数不是很高的话，使用select/epoll的web server不一定比使用multi-threading + blocking IO的web server性能更好，可能延迟还更大。select/epoll的优势并不是对于单个连接能处理得更快，而是在于能处理更多的连接。）&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;优点：相比其他IO模型，该模型只用单线程执行，占用CPU资源少，同时能够为多个客户端提供服务。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;缺点：1.当需要探测的句柄值较大时，select事件探测操作会花费大量的时间去顺序轮训句柄【linux提供epoll来替代轮训，通过事件驱动来告知进程数据准备就绪】；2.IO多路复用模型在每一个执行周期都会探测一组事件，一个特定的事件会触发某个特定的响应，一旦数据报过大，或者接受数据包并处理的过程很长，导致事件响应的执行体庞大，会验证影响到下一次执行select的实时性&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;PS：I/O复用模型一般也被划分为同步非阻塞IO模型，虽然整个用户进程在执行select时会被阻塞，但是在整个过程中，数据从内核准备就绪的IO过程并未阻塞住：当某个连接的数据未准备至内核中时，IO并未阻塞住而是将空闲时间用于在其它连接上执行IO操作【多个连接之间的IO操作互相不阻塞】&lt;/p&gt;
-
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-06-22-IO-model/IO多路复用.jpg&quot; width=&quot;500&quot; /&gt;&lt;/center&gt;
-
-&lt;h2 id=&quot;heading-信号驱动io模型&quot;&gt;信号驱动I/O模型：&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;通过系统调用sigaction执行一个信号处理函数(此系统调用立即返回，进程继续工作，它是非阻塞的)。当数据准备就绪时，就为该进程生成一个SIGIO信号，通过信号回调通知应用程序调用recvfrom来读取数据&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-06-22-IO-model/信号驱动.jpg&quot; width=&quot;500&quot; /&gt;&lt;/center&gt;
-
-&lt;h2 id=&quot;heading-异步io模型&quot;&gt;异步I/O模型：&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;用户进程发起read操作之后，立刻就可以开始去做其它的事。而另一方面，从kernel的角度，当它受到一个asynchronous read之后，首先它会立刻返回，所以不会对用户进程产生任何block。然后，kernel会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，kernel会给用户进程发送一个signal，告诉它read操作完成了。这种模型与信号驱动模型的主要区别是：信号驱动I/O由内核通知我们合适可以开始一个I/O操作；而异步I/O模型由内核通知我们I/O操作何时完成。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-06-22-IO-model/异步.jpg&quot; width=&quot;500&quot; /&gt;&lt;/center&gt;
-
-&lt;h2 id=&quot;heading-阻塞与非阻塞&quot;&gt;阻塞与非阻塞&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;阻塞与非阻塞关注的是程序在等待调用结果时的状态：阻塞调用是指调用结果返回之前，当前线程会被挂起，调用线程只有在拿到结果之后才返回；非阻塞调用指在不能立刻获得结果之前，该调用不会阻塞当前线程。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;调用blocking IO会一直block住对应的进程直到操作完成，而non-blocking IO在kernel还在准备数据的情况下会立刻返回。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-06-22-IO-model/阻塞与非阻塞.jpg&quot; width=&quot;500&quot; /&gt;&lt;/center&gt;
-
-&lt;h2 id=&quot;heading-同步与异步&quot;&gt;同步与异步&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;同步和异步关注的是消息通信机制。所谓同步，就是在发出一个调用时，在没有得到结果之前，该调用就不返回，但是一旦调用返回了，就得到返回值了。换句话说，就是调用者在主动等待这个调用的结果。而异步则相反，调用在发出之后，这个调用就直接返回了，此时没有返回结果。换句话说，当一个异步过程调用发出之后，调用者不会立刻得到结果，而是在调用发出之后，【被调用者通过状态、通知来通知调用者，或通过回调函数处理这个调用】。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;图中的IO操作其实是指真实的IO操作，是指当kernel中数据准备好的时候，recvfrom会将数据从kernel拷贝到用户内存中这个过程。异步的不同之处在于当进程发起IO操作之后，就直接返回再也不理睬了，直到kernel发送一个信号，告诉进程说IO完成。在这整个过程中，进程完全没有被block。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-06-22-IO-model/同步与异步.jpg&quot; width=&quot;500&quot; /&gt;&lt;/center&gt;
-
-&lt;h2 id=&quot;heading-总结&quot;&gt;总结&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;总的来说，IO模型有5种之多：阻塞IO，非阻塞IO，IO复用，信号驱动IO，异步IO。前四种都属于同步IO。阻塞IO不必说了。非阻塞IO ，IO请求后立刻返回，IO没有就绪会返回错误，需要请求进程主动轮询不断发IO请求直到返回正确。IO复用同非阻塞IO本质一样，不过利用了新的select系统调用，由内核来负责本来是请求进程该做的轮询操作。看似比非阻塞IO还多了一个系统调用开销，不过因为可以支持多路IO，才算提高了效率。信号驱动IO，调用sigaltion系统调用，当内核中IO数据就绪时以SIGIO信号通知请求进程，请求进程再把数据从内核读入到用户空间，这一步是阻塞的。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;异步IO，如定义所说，不会因为IO操作阻塞，IO操作全部完成才通知请求进程。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;经过上面的介绍，会发现non-blocking IO和asynchronous IO的区别还是很明显的。在non-blocking IO中，虽然进程大部分时间都不会被block，但是它仍然要求进程去主动的check，并且当数据准备完成以后，也需要进程主动的再次调用recvfrom来将数据拷贝到用户内存。而asynchronous IO则完全不同。它就像是用户进程将整个IO操作交给了他人（kernel）完成，然后他人做完后发信号通知。在此期间，用户进程不需要去检查IO操作的状态，也不需要主动的去拷贝数据。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="网络IO" /><summary type="html">IO发生时涉及的对象和步骤：对于一个network IO (这里我们以read举例)，它会涉及到两个系统对象，一个是调用这个IO的process (or thread)，另一个就是系统内核(kernel)。当一个read操作发生时，它会经历两个阶段： 等待数据准备到内核中 将数据从内核拷贝到进程中</summary></entry></feed>
+&lt;p&gt;PS:使用第一种方式的时候要注意获取代理对象时的强制转换:使用默认的JDK动态代理的方式需要转换为接口，使用CGLIB代理的方式可以直接使用实现类的类型；同时代理对象使用的方法需要是public修饰的方法；spring自带的@transactional注解在使用中也有上述问题，该注解默认使用CGLIB代理。&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="aop" /><summary type="html">一、Spring AOP代理的相关属性</summary></entry></feed>

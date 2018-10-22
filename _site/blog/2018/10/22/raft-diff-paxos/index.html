@@ -16,20 +16,22 @@
 <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
 
 <!-- Begin Jekyll SEO tag v2.4.0 -->
-<title>All Posts | Cuner</title>
+<title>paxos与raft一致性协议 | Cuner</title>
 <meta name="generator" content="Jekyll v3.5.2" />
-<meta property="og:title" content="All Posts" />
+<meta property="og:title" content="paxos与raft一致性协议" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="No zero day." />
-<meta property="og:description" content="No zero day." />
-<link rel="canonical" href="http://localhost:4000/blog/" />
-<meta property="og:url" content="http://localhost:4000/blog/" />
+<meta name="description" content="paxos与raft一致性协议" />
+<meta property="og:description" content="paxos与raft一致性协议" />
+<link rel="canonical" href="http://localhost:4000/blog/2018/10/22/raft-diff-paxos/" />
+<meta property="og:url" content="http://localhost:4000/blog/2018/10/22/raft-diff-paxos/" />
 <meta property="og:site_name" content="Cuner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-22T00:00:00+08:00" />
 <script type="application/ld+json">
-{"description":"No zero day.","@type":"WebPage","url":"http://localhost:4000/blog/","headline":"All Posts","@context":"http://schema.org"}</script>
+{"description":"paxos与raft一致性协议","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/10/22/raft-diff-paxos/","headline":"paxos与raft一致性协议","dateModified":"2018-10-22T00:00:00+08:00","datePublished":"2018-10-22T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/10/22/raft-diff-paxos/"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
-<meta name="keywords" content="" />
+<meta name="keywords" content="一致性协议" />
 
 
 
@@ -113,280 +115,107 @@
             <div class="unit-body">
                 <div class="unit-inner unit-body-inner">
                     <div class="entry-content">
-                        <article class="unit-article layout-page">
+                        <article class="unit-article layout-post">
     <div class="unit-inner unit-article-inner">
-        <div class="content">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
             <header>
                 <div class="unit-head">
                     <div class="unit-inner unit-head-inner">
-                        <h1 class="entry-title">All Posts</h1>
+                        <h1 class="entry-title" itemprop="name">paxos与raft一致性协议</h1>
                     </div>
                 </div>
             </header>
-
             <div class="bd article-content">
                 <div class="entry-content">
-                    
-
+                    <div class="meta">
+                        <p class="date-publish">
+                            Published:
+                            <time itemprop="datePublished" class="date-pub updated"
+                                title="2018-10-22T00:00:00+08:00" datetime="2018-10-22T00:00:00+08:00">October 22, 2018 </time>
+                            by
+                            <a class="author" href="/" rel="author" title="Show Author">
+                                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                                    <span itemprop="name"></span>
+                                </span>
+                            </a>
+                            
+                            
+                        </p>
+                        <ul class="list-category list-linear">
+                            <li class="list-head">Categories: </li>
+                             
+     
+        <li>
+            <a href="/blog/categories/#一致性协议" title="一致性协议">
+            一致性协议 <span>1</span></a>
+        </li>
     
 
-    
-        
-        
-        <h2 class='year'>2018</h2>
-        <ul class="post-list">
-    
 
-    <li>
-        <a class="active internal" href="/blog/2018/10/22/raft-diff-paxos/">paxos与raft一致性协议</a>
-        
-            <span class="date">Oct 22, 2018</span>
-        
-    </li>
 
-    
-
-    
-
-    
-
-    
-
-    <li>
-        <a class="active internal" href="/blog/2018/08/04/flow-framework/">基于配置的流程管理框架</a>
-        
-            <span class="date">Aug 04, 2018</span>
-        
-    </li>
-
-    
-
-    
-
-    
-
-    
-
-    <li>
-        <a class="active internal" href="/blog/2018/06/26/groovy-loader/">基于spring的groovy动态加载</a>
-        
-            <span class="date">Jun 26, 2018</span>
-        
-    </li>
-
-    
-
-    
-
-    
-
-    
-
-    <li>
-        <a class="active internal" href="/blog/2018/05/30/delay-queue/">基于redis的分布式延时队列</a>
-        
-            <span class="date">May 30, 2018</span>
-        
-    </li>
-
-    
-
-    
-
-    
-
-    
-
-    <li>
-        <a class="active internal" href="/blog/2018/05/24/spi-framework/">SPI框架（一）</a>
-        
-            <span class="date">May 24, 2018</span>
-        
-    </li>
-
-    
-
-    
-
-    
-
-    
-
-    <li>
-        <a class="active internal" href="/blog/2018/04/26/apache-lucene-intro-and-index/">lucene简介和索引原理</a>
-        
-            <span class="date">Apr 26, 2018</span>
-        
-    </li>
-
-    
-
-    
-
-    
-
-    
-        </ul>
+                        </ul>
+                        <ul class="list-tag list-linear">
+                            <li class="list-head">Tags: </li>
+                             
     
         
-        <h2 class='year'>2017</h2>
-        <ul class="post-list">
+        <li>
+            <a href="/blog/tags/#一致性协议" title="一致性协议">一致性协议 <span>1</span></a>
+        </li>
     
 
-    <li>
-        <a class="active internal" href="/blog/2017/12/25/hbase-search-index/">HBASE的索引查询</a>
-        
-            <span class="date">Dec 25, 2017</span>
-        
-    </li>
 
-    
 
-    
 
-    
-
-    
-
-    <li>
-        <a class="active internal" href="/blog/2017/12/20/hbase-construction-theory/">HBASE原理与架构</a>
-        
-            <span class="date">Dec 20, 2017</span>
-        
-    </li>
-
-    
-
-    
-
-    
-
-    
-
-    <li>
-        <a class="active internal" href="/blog/2017/12/05/hdfs-theory/">HDFS分布式文件系统</a>
-        
-            <span class="date">Dec 05, 2017</span>
-        
-    </li>
-
-    
-
-    
-
-    
-
-    
-
-    <li>
-        <a class="active internal" href="/blog/2017/06/29/spring-aop-proxy/">Spring AOP代理</a>
-        
-            <span class="date">Jun 29, 2017</span>
-        
-    </li>
-
-    
-
-    
-
-    
-
-    
-
-    <li>
-        <a class="active internal" href="/blog/2017/06/29/java-io-model/">java网络编程</a>
-        
-            <span class="date">Jun 29, 2017</span>
-        
-    </li>
-
-    
-
-    
-
-    
-
-    
-
-    <li>
-        <a class="active internal" href="/blog/2017/06/22/IO-model/">网络IO模型</a>
-        
-            <span class="date">Jun 22, 2017</span>
-        
-    </li>
-
-    
-
-    
-
-    
-
-    
-
-    <li>
-        <a class="active internal" href="/blog/2017/05/15/database-master-slave-syn/">数据库主从复制</a>
-        
-            <span class="date">May 15, 2017</span>
-        
-    </li>
-
-    
-
-    
-
-    
-
-    
-
-    <li>
-        <a class="active internal" href="/blog/2017/03/29/database-lock-mechanism/">数据库锁机制</a>
-        
-            <span class="date">Mar 29, 2017</span>
-        
-    </li>
-
-    
-
-    
-
-    
-
-    
-        </ul>
-    
-        
-        <h2 class='year'>0001</h2>
-        <ul class="post-list">
-    
-
-    <li>
-        <a class="active internal" href="/blog/0001/01/01/book-list/">清单</a>
-        
-            <span class="date">Jan 01, 0001</span>
-        
-    </li>
-
+                        </ul>
+                    </div>
+                    <div itemprop="articleBody">
+                        <h1 id="heading-介绍">介绍</h1>
+<p>下面是关于两种一致性协议的相关论文的详细讲解，这里就不再赘述</p>
+<ul>
+  <li>PAXOS
+    <ul>
+      <li><a href="https://www.jianshu.com/p/6d01a8d2df9f">《Paxos Made Simple》论文翻译</a></li>
+      <li><a href="/assets/pdf/paxos-simple1.pdf">《Paxos Made Simple》原文</a></li>
     </ul>
+  </li>
+  <li>RAFT
+    <ul>
+      <li><a href="http://www.infoq.com/cn/articles/raft-paper">《In search of an Understandable Consensus Algorithm (Extended Version)》中文翻译</a></li>
+      <li><a href="/assets/pdf/raft.pdf">《In search of an Understandable Consensus Algorithm (Extended Version)》原文</a></li>
+      <li><a href="http://thesecretlivesofdata.com/raft/">Raft Understandable Distributed Consensus</a></li>
+      <li><a href="https://github.com/coreos/etcd/tree/master/raft#usage">raft implementation by Go</a></li>
+    </ul>
+  </li>
+</ul>
 
-    
+<h1 id="heading-异同">异同</h1>
 
 
-
-
-
+                    </div>
                 </div>
             </div>
-
             <footer class="unit-foot">
                 <div class="unit-inner unit-foot-inner">
-                    <p>
-                        <a class="internal gotop" href="#page">Back to Top</a>
-                    </p>
+                    <div class="post-buttons">
+                        <a class="internal gotop" href="#page" title="Back to Top">Back to Top</a>
+                        
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" rel="prev" href="/blog/2018/08/04/flow-framework/" title=" '基于配置的流程管理框架'"> ← 基于配置的流程管理框架</a>
+                        
+                        
+                    </nav>
                 </div>
             </footer>
+            <div class="misc-content">
+                
+            </div>
         </div>
     </div>
 </article>
+
                     </div>
                 </div>
             </div>

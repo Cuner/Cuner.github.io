@@ -1,6 +1,20 @@
 [
   
     {
+      "title"      : "paxos与raft一致性协议",
+      "url"        : "/blog/2018/10/22/raft-diff-paxos/",
+      "date"       : "2018-10-22 00:00:00 +0800",
+      "shortdate"  : "October 22, 2018"
+    } ,
+  
+    {
+      "title"      : "基于配置的流程管理框架",
+      "url"        : "/blog/2018/08/04/flow-framework/",
+      "date"       : "2018-08-04 00:00:00 +0800",
+      "shortdate"  : "August 04, 2018"
+    } ,
+  
+    {
       "title"      : "基于spring的groovy动态加载",
       "url"        : "/blog/2018/06/26/groovy-loader/",
       "date"       : "2018-06-26 00:00:00 +0800",
