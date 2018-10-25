@@ -253,4 +253,4 @@ private void scanGroovyFiles(File file, String namespace) throws Exception {
 groovy文件夹下第一级文件夹名称拼接namespacePrefix作为namespace，每个namespace分配一个ApplicationContext容器，每个namespace对应的bean都由各自的beanfactory加载注入，避免同名类加载导致的错误。同时groovy脚本更新后产生新的groovy bean之后，还需要移除之前的groovy bean，值得额外注意的是需要移除注入缓存，否则会报错：Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
 注意：由于我们不需要groovy的metaclass信息，这里对metaClass进行清除来进行优化
 
-最后，附上代码:https://github.com/Cuner/groovy-loader-v2)
+最后，附上代码:https://github.com/Cuner/groovy-loader-v2
