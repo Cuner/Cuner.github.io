@@ -2,8 +2,8 @@
 layout: post
 title: "paxos与raft一致性协议"
 description: "paxos与raft一致性协议"
-categories: [一致性协议]
-tags: [一致性协议]
+categories: [consensus]
+tags: [consensus]
 redirect_from:
   - /2018/10/21/
 ---

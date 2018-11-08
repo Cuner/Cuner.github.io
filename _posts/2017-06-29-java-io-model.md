@@ -2,8 +2,8 @@
 layout: post
 title: "java网络编程"
 description: "java网络编程"
-categories: [网络IO]
-tags: [网络IO]
+categories: [networkIO]
+tags: [networkIO]
 redirect_from:
   - /2017/06/29/
 ---

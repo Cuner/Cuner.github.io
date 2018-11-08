@@ -2,8 +2,8 @@
 layout: post
 title: "lucene简介和索引原理"
 description: "lucene简介和索引原理"
-categories: [lucene]
-tags: [apache lucene]
+categories: [database]
+tags: [lucene]
 redirect_from:
   - /2018/04/26/
 ---

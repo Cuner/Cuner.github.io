@@ -2,7 +2,7 @@
 layout: post
 title: "HDFS分布式文件系统"
 description: "HDFS分布式文件系统"
-categories: [file]
+categories: [database]
 tags: [hdfs]
 redirect_from:
   - /2017/12/5/
