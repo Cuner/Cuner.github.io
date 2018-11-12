@@ -16,12 +16,12 @@ redirect_from:
 # 队列同步器的接口
 同步器的设计是基于模板方法模式的，子类需要继承同步器并重写指定的方法，而后将同步器组合在自定义同步组件的实现中（委托模式），并调用同步器的模板方法，这些模板方法将会调用同步器子类中重写的方法
         
-## 访问、修改同步状态
+### 访问、修改同步状态
 - int getState()：获取当前同步状态
 - void setState(int newState)：设置当前同步状态
 - boolean compareAndSetState(int expect, int update)：使用CAS设置当前同步状态
 
-## 同步器可重写方法
+### 同步器可重写方法
 
 **独占式**
 - boolean tryAcquire(int arg)：独占式获取同步状态，实现该方法需要查询当前同步状态并判断是否符合预期，然后同步CAS设置同步状态。
@@ -32,7 +32,7 @@ redirect_from:
 - boolean tryReleaseShared(int arg)：共享式释放同步状态。
 - boolean isHeldExclusively()：当前同步器是否被当前线程独占
 
-## 同步器提供的模板方法
+### 同步器提供的模板方法
 
 **独占式**
 - void acquire(int arg)：独占式获取同步状态，如果当前线程获取同步状态成功，则返回，否则将会进入同步队列等待，该方法将会调用重写的tryAcquire(int arg)方法
@@ -58,10 +58,10 @@ redirect_from:
 
 # 队列同步器的实现分析
 
-## 同步队列
+### 同步队列
 同步器依赖内部的同步队列（一个FIFO双向队列）来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成一个节点（Node），并将其加入到同步队列中，同时会阻塞当前线程，当同步状态释放是，会把首节点中的线程唤醒，使其再次尝试获取同步状态。
 
-### 节点
+#### 节点
 同步队列中的节点（Node）用来保存获取同步状态失败的线程引用、等待状态以及前驱和后继节点。
 
 ```
@@ -127,7 +127,7 @@ static final class Node {
 
 主意：Node节点不仅用在同步队列中，AbstractQueuedSynchronizer中的Condition中的等待队列也是使用Node节点构建，所以其中有些字段在两种队列的共用，需要注意区分，Condition将在后文阐述。
 
-### 同步队列
+#### 队列
 节点是构成同步队列的基础，同步器拥有首节点（head）和尾节点（tail），没有成功获取同步状态的线程将会成为节点加入该队列的尾部。
 
 - 同步队列的基本结构
@@ -146,9 +146,9 @@ static final class Node {
 <center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setTail.jpg" width="500px"/></center>
 
 
-## 独占式同步状态的获取与释放
+### 独占式同步状态的获取与释放
 
-### acquire方法
+#### acquire方法
 
 ```
 public final void acquire(int arg) {
@@ -281,18 +281,18 @@ private void cancelAcquire(Node node) {
 
 头节点是成功获取同步状态的节点，而头节点释放同步状态后，将会唤醒后继节点，后继节点的线程被唤醒后需要检查自己的前驱节点是否为首节点，这样也保证了队列的“先进先出”原则
 
-### acquireInterruptibly方法
-### tryAcquireNanos方法
-### release方法
+#### acquireInterruptibly方法
+#### tryAcquireNanos方法
+#### release方法
 
-## 共享式同步状态的获取与释放
+### 共享式同步状态的获取与释放
 
-### acquireShared方法
-### acquireSharedInterruptibly方法
-### tryAcquireSharedNanos方法
-### releaseShared方法
+#### acquireShared方法
+#### acquireSharedInterruptibly方法
+#### tryAcquireSharedNanos方法
+#### releaseShared方法
 
-## Condition
+### Condition
 
 
 
