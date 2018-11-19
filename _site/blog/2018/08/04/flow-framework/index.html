@@ -15,8 +15,9 @@
 <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
 <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
 
-<!-- Begin Jekyll SEO tag v2.3.0 -->
+<!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>基于配置的流程管理框架 | Cuner</title>
+<meta name="generator" content="Jekyll v3.7.4" />
 <meta property="og:title" content="基于配置的流程管理框架" />
 <meta property="og:locale" content="en" />
 <meta name="description" content="基于配置的流程管理框架" />
@@ -27,7 +28,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-08-04T00:00:00+08:00" />
 <script type="application/ld+json">
-{"name":null,"description":"基于配置的流程管理框架","author":null,"@type":"BlogPosting","url":"http://localhost:4000/blog/2018/08/04/flow-framework/","publisher":null,"image":null,"headline":"基于配置的流程管理框架","dateModified":"2018-08-04T00:00:00+08:00","datePublished":"2018-08-04T00:00:00+08:00","sameAs":null,"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/08/04/flow-framework/"},"@context":"http://schema.org"}</script>
+{"headline":"基于配置的流程管理框架","dateModified":"2018-08-04T00:00:00+08:00","datePublished":"2018-08-04T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/08/04/flow-framework/"},"description":"基于配置的流程管理框架","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/08/04/flow-framework/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <meta name="keywords" content="flow" />
@@ -194,7 +195,7 @@
 
 <p>所有的子节点需要实现接口org.cuner.flowframework.core.Action&lt;Data, Result&gt;</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>public class Action1 implements Action&lt;Data, Result&gt; {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class Action1 implements Action&lt;Data, Result&gt; {
     @Override
     public void execute(FlowContext&lt;Data, Result&gt; context) {
         if (context.getResult() == null) {
@@ -205,16 +206,14 @@
         System.out.println("----------flow: " +  context.getFlowName() + " step: " + context.getStepName() + " action: " + this.getClass().getSimpleName() + "----------");
     }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>同时保证启动后，将所有action注入到spring容器中</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;bean id="action1" class="org.cuner.flowframework.test.action.Action1"/&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;bean id="action1" class="org.cuner.flowframework.test.action.Action1"/&gt;
 &lt;bean id="action2" class="org.cuner.flowframework.test.action.Action2"/&gt;
 &lt;bean id="action3" class="org.cuner.flowframework.test.action.Action3"/&gt;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="heading-3通过xml配置定义流程">3.通过xml配置定义流程</h2>
 
@@ -254,7 +253,7 @@
   </li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 <span class="nt">&lt;flows</span> <span class="na">xmlns=</span><span class="s">"http://repo.cuner.com/schema/flow"</span><span class="nt">&gt;</span>
     <span class="nt">&lt;flow</span> <span class="na">name=</span><span class="s">"mainFlow"</span><span class="nt">&gt;</span>
         <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"step1"</span> <span class="na">action=</span><span class="s">"action1"</span><span class="nt">/&gt;</span>
@@ -290,40 +289,36 @@
         <span class="nt">&lt;step</span> <span class="na">name=</span><span class="s">"sub_step2"</span> <span class="na">action=</span><span class="s">"action2"</span><span class="nt">/&gt;</span>
     <span class="nt">&lt;/flow&gt;</span>
 <span class="nt">&lt;/flows&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="heading-4流程注入">4.流程注入</h2>
 
 <p>配置文件需要放在classpath下，案例中的配置文件就是在classpath下的flow.xml文件</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;bean id="flowManager" class="org.cuner.flowframework.core.manager.FlowManager"&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;bean id="flowManager" class="org.cuner.flowframework.core.manager.FlowManager"&gt;
     &lt;property name="flowFiles"&gt;
         &lt;list&gt;
             &lt;value&gt;flow.xml&lt;/value&gt;
         &lt;/list&gt;
     &lt;/property&gt;
 &lt;/bean&gt;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="heading-5执行">5.执行</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Result result = flowManager.execute("mainFlow", data);
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Result result = flowManager.execute("mainFlow", data);
+</code></pre></div></div>
 <p>由于各个步骤可异步执行，在主流程的执行中加入了闭锁，只有当所有步骤（包括异步的）执行完成，execute方法才能正确返回。</p>
 
 <h2 id="heading-6查看日志">6.查看日志</h2>
 <p>可查看流程执行的完整堆栈，可以在logback.xml中如下配置</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;logger name="flow-record" level="info" additivity="false"&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;logger name="flow-record" level="info" additivity="false"&gt;
     &lt;appender-ref ref="FLOW_RECORD"/&gt;
 &lt;/logger&gt;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>上述案例执行后日志如下</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>21:03:23.431 [main] INFO  flow-record - 2018-08-04 21:03:23,415
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>21:03:23.431 [main] INFO  flow-record - 2018-08-04 21:03:23,415
 [flow:mainFlow | start:2018-08-04 21:03:23,353 | end:2018-08-04 21:03:23,380 | cost:27]
 |----[step:step1 | start:2018-08-04 21:03:23,354 | end:2018-08-04 21:03:23,355 | cost:1]
 |----(step:step2 | start:2018-08-04 21:03:23,358 | end:2018-08-04 21:03:23,359 | cost:1) (asynchronously)
@@ -341,8 +336,7 @@
 |----[step:step8 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
 |----[step:step9 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
 |----[step:step10 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h1 id="heading-源码">源码</h1>
 

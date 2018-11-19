@@ -15,8 +15,9 @@
 <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
 <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
 
-<!-- Begin Jekyll SEO tag v2.3.0 -->
+<!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>基于spring的groovy动态加载 | Cuner</title>
+<meta name="generator" content="Jekyll v3.7.4" />
 <meta property="og:title" content="基于spring的groovy动态加载" />
 <meta property="og:locale" content="en" />
 <meta name="description" content="基于spring的groovy动态加载" />
@@ -27,7 +28,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-06-26T00:00:00+08:00" />
 <script type="application/ld+json">
-{"name":null,"description":"基于spring的groovy动态加载","author":null,"@type":"BlogPosting","url":"http://localhost:4000/blog/2018/06/26/groovy-loader/","publisher":null,"image":null,"headline":"基于spring的groovy动态加载","dateModified":"2018-06-26T00:00:00+08:00","datePublished":"2018-06-26T00:00:00+08:00","sameAs":null,"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/06/26/groovy-loader/"},"@context":"http://schema.org"}</script>
+{"headline":"基于spring的groovy动态加载","dateModified":"2018-06-26T00:00:00+08:00","datePublished":"2018-06-26T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/06/26/groovy-loader/"},"description":"基于spring的groovy动态加载","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/06/26/groovy-loader/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <meta name="keywords" content="groovy" />
@@ -189,7 +190,7 @@
   <li>GroovyRefreshedEvent</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>public class GroovyRefreshedEvent {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class GroovyRefreshedEvent {
 
     private ApplicationContext ancestorContext;
 
@@ -201,19 +202,17 @@
     }
     ...
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>上述提到过，指定目录下的groovy脚本会被注册为groovy bean，并使用Applocation容器进行管理，同时还引入了namespace的概念，每个namespace分别对应一个Application容器，允许namespace不同但是类名相关的groovy bean存在。于是监听器的Event对象被设计成包含一个父容器以及namespace为key，对应Applocation容易为value的Map。</p>
 
 <ul>
   <li>GroovyRefreshedListener
-    <div class="highlighter-rouge"><pre class="highlight"><code>public interface GroovyRefreshedListener {
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public interface GroovyRefreshedListener {
 
   void groovyRefreshed(GroovyRefreshedEvent event);
 }
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
 </ul>
 
@@ -224,15 +223,14 @@
 
 <ul>
   <li>GroovyRefreshedListener
-    <div class="highlighter-rouge"><pre class="highlight"><code>public interface GroovyRefreshTrigger {
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public interface GroovyRefreshTrigger {
 
   boolean isTriggered(Map&lt;String, Long&gt; resourcesLastModifiedMap, String groovyResourcesDir);
 }
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>ResourceModifiedTrigger
-    <div class="highlighter-rouge"><pre class="highlight"><code>public class ResourceModifiedTrigger implements GroovyRefreshTrigger {
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class ResourceModifiedTrigger implements GroovyRefreshTrigger {
   public boolean isTriggered(Map&lt;String, Long&gt; resourcesLastModifiedMap, String groovyResourcesDir) {
       if (StringUtils.isBlank(groovyResourcesDir)) {
           groovyResourcesDir = this.getClass().getClassLoader().getResource("").getPath() + "/spring/groovy";
@@ -258,15 +256,14 @@
       return false;
   }
 }
-</code></pre>
-    </div>
+</code></pre></div>    </div>
     <p>默认的触发器就是通过spring配置文件上一次修改的时间，去判断文件是否被修改</p>
   </li>
 </ul>
 
 <h3 id="heading-groovy-loader">groovy loader</h3>
 <p>初始化时会将指定目录下的groovy脚本动态加载成bean，并根据namespace注册到不同的Application容器中。注：以spring配置文件的名称作为namespace</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>private void initLoadResources() {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private void initLoadResources() {
     if (MapUtils.isNotEmpty(this.namespacedContext)) {
         toDestoryContext = new ArrayList&lt;FileSystemXmlApplicationContext&gt;(this.namespacedContext.values());
     }
@@ -293,17 +290,16 @@
         }
     }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="heading-spring配置文件">spring配置文件</h3>
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 <span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">"http://www.springframework.org/schema/beans"</span>
        <span class="na">xmlns:context=</span><span class="s">"http://www.springframework.org/schema/context"</span>
        <span class="na">xmlns:lang=</span><span class="s">"http://www.springframework.org/schema/lang"</span> <span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
-       <span class="na">xsi:schemaLocation=</span><span class="s">"http://www.springframework.org/schema/beans</span> <span class="err">http://www.springframework.org/schema/beans/spring-beans.xsd</span>
-    <span class="err">http://www.springframework.org/schema/context</span> <span class="err">http://www.springframework.org/schema/context/spring-context.xsd</span>
-    <span class="err">http://www.springframework.org/schema/lang</span> <span class="err">http://www.springframework.org/schema/lang/spring-lang.xsd</span> <span class="err">"</span><span class="nt">&gt;</span>
+       <span class="na">xsi:schemaLocation=</span><span class="s">"http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd "</span><span class="nt">&gt;</span>
 
     <span class="nt">&lt;context:annotation-config</span> <span class="nt">/&gt;</span>
 
@@ -311,18 +307,16 @@
                  <span class="na">script-source=</span><span class="s">"classpath:groovy/one/Test.groovy"</span> <span class="nt">/&gt;</span>
 
 <span class="nt">&lt;/beans&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h1 id="heading-使用">使用</h1>
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;bean id="listener" class="org.cuner.groovy.loader.test.TestListener"/&gt;&lt;!--需要实现org.cuner.groovy.loader.listener.GroovyRefreshedListener --&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;bean id="listener" class="org.cuner.groovy.loader.test.TestListener"/&gt;&lt;!--需要实现org.cuner.groovy.loader.listener.GroovyRefreshedListener --&gt;
 &lt;bean id="groovyLoader" class="org.cuner.groovy.loader.NamespacedGroovyLoader"&gt;
     &lt;property name="groovyResourcesDir" value=""/&gt;&lt;!--指定spring groovy配置文件目录，若不设置或者为空则默认为classpath下/spring/groovy目录--&gt;
     &lt;property name="listener" ref="listener"/&gt;
     &lt;property name="trigger" ref="trigger"/&gt;
 &lt;/bean&gt;
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h1 id="heading-源码demo">源码&amp;Demo</h1>
 <p>代码托管在Github上，并附有使用demo，欢迎下载运行: https://github.com/Cuner/groovy-loader</p>
@@ -332,7 +326,7 @@
 
 <ul>
   <li>GroovyScriptsModifiedTrigger
-    <div class="highlighter-rouge"><pre class="highlight"><code>public boolean isTriggered(Map&lt;String, Long&gt; lastScriptsModified, String baseDir) {
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public boolean isTriggered(Map&lt;String, Long&gt; lastScriptsModified, String baseDir) {
   if (StringUtils.isBlank(baseDir)) {
       baseDir = this.getClass().getClassLoader().getResource("").getPath() + "/groovy";
   }
@@ -353,14 +347,13 @@
 
   return false;
 }
-</code></pre>
-    </div>
+</code></pre></div>    </div>
     <p>具体实现基本一致，区别在于外部传参baseDir由spring配置文件路径改为groovy脚本根目录路径。接下来我们看看是如何实现groovy脚本的加载以及groovy bean的注入。</p>
   </li>
   <li>NamespacedGroovyLoader</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/**
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/**
  * 递归查找并加载namespace下的所有groovy文件
  * @param file
  * @param namespace
@@ -421,13 +414,12 @@ private void scanGroovyFiles(File file, String namespace) throws Exception {
         }
     }
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>groovy文件夹下第一级文件夹名称拼接namespacePrefix作为namespace，每个namespace分配一个ApplicationContext容器，每个namespace对应的bean都由各自的beanfactory加载注入，避免同名类加载导致的错误。同时groovy脚本更新后产生新的groovy bean之后，还需要移除之前的groovy bean，值得额外注意的是需要移除注入缓存，否则会报错：Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
 注意：由于我们不需要groovy的metaclass信息，这里对metaClass进行清除来进行优化</p>
 
-<p>最后，附上代码:https://github.com/Cuner/groovy-loader-v2)</p>
+<p>最后，附上代码:https://github.com/Cuner/groovy-loader-v2</p>
 
                     </div>
                 </div>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+<link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>J.U.C之AQS队列同步器 | Cuner</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="J.U.C之AQS队列同步器" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="J.U.C之AQS队列同步器" />
+<meta property="og:description" content="J.U.C之AQS队列同步器" />
+<link rel="canonical" href="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/" />
+<meta property="og:url" content="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/" />
+<meta property="og:site_name" content="Cuner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-11-09T00:00:00+08:00" />
+<script type="application/ld+json">
+{"headline":"J.U.C之AQS队列同步器","dateModified":"2018-11-09T00:00:00+08:00","datePublished":"2018-11-09T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/"},"description":"J.U.C之AQS队列同步器","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<meta name="keywords" content="J.U.C" />
+
+
+
+
+
+<link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Cuner" />
+    <link href='/assets/stylesheets/blog.css' rel="stylesheet" type="text/css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script>window.Modernizr || document.write('<script src="/assets/javascripts/modernizr-2.8.3.min.js"><\/script>')</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="/assets/javascripts/jquery-3.2.1.min.js"><\/script>')
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+<script>
+    window.Pace || document.write('<script src="/assets/javascripts/pace.min.js"><\/script>')
+</script>
+
+
+</head>
+
+<body>
+    <!--[if IE]>
+    <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+<![endif]-->
+<noscript>
+    <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+</noscript>
+
+    <div class="nav-wrapper overlay-wrapper">
+    <div class="nav-form overlay-form">
+        <span class="overlay-header menu">Menu</span>
+        <a class="btn-close">Close</a>
+        <div class="results">
+            <ul>
+                <li><a href="/blog/categories/">Categories</a></li>
+                <li><a href="/blog/tags/">Tags</a></li>
+                <li><a href="/">About</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="search-wrapper overlay-wrapper">
+    <div class="search-form overlay-form">
+        <input type="text" class="overlay-header search-field" placeholder="Search...">
+        <a class="btn-close">Close</a>
+        <ul class="results"></ul>
+    </div>
+</div>
+
+
+    <div id="page" class="hentry">
+        <header class="the-header">
+    <div class="unit-head">
+        <div class="unit-inner unit-head-inner">
+            <nav class="nav-global">
+                <ul>
+                    <li class="logo nav-link">
+                        <button class="btn-menu" title="Menu"></button>
+                        <a href="/blog/">Cuner</a>
+                        <!--[if !IE]> -->
+                        <button class="btn-search" title="Search"></button>
+                        <!-- <![endif]-->
+                    </li>
+                    <li class="nav-link"><a title="Categories" href="/blog/categories/">Categories</a></li>
+                    <li class="nav-link"><a title="Tags" href="/blog/tags/">Tags</a></li>
+                    <!--[if !IE]> -->
+                    <li class="nav-link"><a title="Search" class="btn-search" href="#">Search</a></li>
+                    <!-- <![endif]-->
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+        <div class="body animated fadeInDown" role="main">
+            <div class="unit-body">
+                <div class="unit-inner unit-body-inner">
+                    <div class="entry-content">
+                        <article class="unit-article layout-post">
+    <div class="unit-inner unit-article-inner">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
+            <header>
+                <div class="unit-head">
+                    <div class="unit-inner unit-head-inner">
+                        <h1 class="entry-title" itemprop="name">J.U.C之AQS队列同步器</h1>
+                    </div>
+                </div>
+            </header>
+            <div class="bd article-content">
+                <div class="entry-content">
+                    <div class="meta">
+                        <p class="date-publish">
+                            Published:
+                            <time itemprop="datePublished" class="date-pub updated"
+                                title="2018-11-09T00:00:00+08:00" datetime="2018-11-09T00:00:00+08:00">November 09, 2018 </time>
+                            by
+                            <a class="author" href="/" rel="author" title="Show Author">
+                                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                                    <span itemprop="name"></span>
+                                </span>
+                            </a>
+                            
+                            
+                        </p>
+                        <ul class="list-category list-linear">
+                            <li class="list-head">Categories: </li>
+                             
+     
+        <li>
+            <a href="/blog/categories/#java并发" title="java并发">
+            java并发 <span>1</span></a>
+        </li>
+    
+
+
+
+                        </ul>
+                        <ul class="list-tag list-linear">
+                            <li class="list-head">Tags: </li>
+                             
+    
+        
+        <li>
+            <a href="/blog/tags/#J.U.C" title="J.U.C">J.U.C <span>1</span></a>
+        </li>
+    
+
+
+
+
+                        </ul>
+                    </div>
+                    <div itemprop="articleBody">
+                        <h1 id="heading-1简介">1.简介</h1>
+<p>队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的的FIFO队列来完成资源的获取线程的排队工作。
+同步器的主要使用方式是继承，子类通过继承同步器并实现抽象方法来管理同步状态（基于模本方法模式）。子类被推荐定义为自定义同步组件的静态内部类（作为代理配合实现同步组件），同步器自身没有实现任何同步接口，它仅仅定义了同步状态的获取与释放来供自定义同步组件使用，同步器既可以独占式的获取同步状态也可以共享式的获取同步状态。</p>
+
+<h1 id="heading-2队列同步器的接口">2.队列同步器的接口</h1>
+<p>同步器的设计是基于模板方法模式的，子类需要继承同步器并重写指定的方法，而后将同步器组合在自定义同步组件的实现中（委托模式），并调用同步器的模板方法，这些模板方法将会调用同步器子类中重写的方法</p>
+
+<h2 id="heading-21访问修改同步状态">2.1.访问、修改同步状态</h2>
+<ul>
+  <li>int getState()：获取当前同步状态</li>
+  <li>void setState(int newState)：设置当前同步状态</li>
+  <li>boolean compareAndSetState(int expect, int update)：使用CAS设置当前同步状态</li>
+</ul>
+
+<h2 id="heading-22同步器可重写方法">2.2.同步器可重写方法</h2>
+
+<p><strong>独占式</strong></p>
+<ul>
+  <li>boolean tryAcquire(int arg)：独占式获取同步状态，实现该方法需要查询当前同步状态并判断是否符合预期，然后同步CAS设置同步状态。</li>
+  <li>boolean tryRelease(int arg)：独占式释放同步状态，等待获取同步状态的线程将有机会获取同步状态。</li>
+</ul>
+
+<p><strong>共享式</strong></p>
+<ul>
+  <li>int tryAcquireShared(int arg)：共享式获取同步状态，返回大于等于0表示获取成功，反之获取失败。</li>
+  <li>boolean tryReleaseShared(int arg)：共享式释放同步状态。</li>
+  <li>boolean isHeldExclusively()：当前同步器是否被当前线程独占</li>
+</ul>
+
+<h2 id="heading-23同步器提供的模板方法">2.3.同步器提供的模板方法</h2>
+
+<p><strong>独占式</strong></p>
+<ul>
+  <li>void acquire(int arg)：独占式获取同步状态，如果当前线程获取同步状态成功，则返回，否则将会进入同步队列等待，该方法将会调用重写的tryAcquire(int arg)方法</li>
+  <li>void acquireInterruptibly(int arg)：与acquire(int arg)方法相同，但是该方法响应中断，当前线程未获取到同步状态而进入到同步队列中，如果当前线程被中断，则抛出InterruptedException并返回。</li>
+  <li>boolean tryAcquireNanos(int arg, long nanosTimeout)：在acquireInterruptibly(int arg)基础上增加了超时限制，如果当前线程在超时时间内没有获取到同步状态，那么将返回false，如果获取到了则返回true。</li>
+  <li>boolean release(int arg)：独占式的释放同步状态，该方法会在释放同步状态之后，将同步队列中第一个节点包含的线程唤醒。</li>
+</ul>
+
+<p><strong>共享式</strong></p>
+<ul>
+  <li>void acquireShared(int arg)：共享式的获取同步状态，如果当前线程未获取到同步状态，将会进入同步队列等待，与独占式的获取主要区别在于同一时刻能够有多个线程获取到同步状态。</li>
+  <li>void acquireSharedInterruptibly(int arg)：与acquireShared(int arg)方法相同，该方法响应中断。</li>
+  <li>boolean tryAcquireSharedNanos(int arg, long nanosTimeout)：在acquireSharedInterruptibly(int arg)方法的基础上增加了超时限制。</li>
+  <li>boolean releaseShared(int arg)：共享式的释放同步状态。</li>
+</ul>
+
+<p><strong>查询同步队列中等待线程情况</strong></p>
+<ul>
+  <li>Thread getFirstQueuedThread()：获取在同步队列中等待的第一个线程。</li>
+  <li>boolean isQueued(Thread thread)：判断该线程是否处于同步队列中。</li>
+  <li>boolean apparentlyFirstQueuedIsExclusive()：判断同步队列中的第一个线程是否在等待独占式获取同步状态</li>
+  <li>final boolean hasQueuedPredecessors()：同步队列中，当前线程对应的节点是否有前驱节点。</li>
+  <li>int getQueueLength()：获取同步队列长度。</li>
+  <li>Collection<Thread> getQueuedThreads()：获取等待在同步队列上的线程集合。</Thread></li>
+  <li>Collection<Thread> getExclusiveQueuedThreads()：获取等待在同步队列上等待独占式获取同步状态的线程集合。</Thread></li>
+  <li>Collection<Thread> getSharedQueuedThreads()：获取等待在同步队列上等待共享式获取同步状态的线程集合。</Thread></li>
+</ul>
+
+<h1 id="heading-3队列同步器的实现分析">3.队列同步器的实现分析</h1>
+
+<h2 id="heading-31同步队列">3.1同步队列</h2>
+<p>同步器依赖内部的同步队列（一个FIFO双向队列）来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成一个节点（Node），并将其加入到同步队列中，同时会阻塞当前线程，当同步状态释放是，会把首节点中的线程唤醒，使其再次尝试获取同步状态。</p>
+
+<h3 id="heading-311节点">3.1.1.节点</h3>
+<p>同步队列中的节点（Node）用来保存获取同步状态失败的线程引用、等待状态以及前驱和后继节点。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>static final class Node {
+    static final Node SHARED = new Node();//标识共享式节点，对应的线程等待共享式获取同步状态
+    static final Node EXCLUSIVE = null;//标识独占式节点，对应的线程等待独占式获取同步状态
+
+    /** waitStatus value to indicate thread has cancelled */
+    /** 由于在同步队列中等待的线程等待超时或被中断，需要从队列中取消等待，节点进入该状态后将不会变化 */
+    static final int CANCELLED =  1;
+    
+    /** waitStatus value to indicate successor's thread needs unparking */
+    /** 后继节点的线程处于等待状态，而当前节点的线程如果释放了同步状态或者被取消，将会通知后继节点，使后继节点的线程得以运行 */
+    static final int SIGNAL    = -1;
+    
+    /** waitStatus value to indicate thread is waiting on condition */
+    /** 节点在等待队列中，节点的线程在等待condition上，当其他线程对Condition调用了signal()方法后，该节点将会从等待队列中转移到同步队列中，加入到对同步状态的获取中 */
+    static final int CONDITION = -2;
+    
+    /**
+     * waitStatus value to indicate the next acquireShared should
+     * unconditionally propagate
+     */
+     /** 表示下一次共享式同步状态获取将会无条件地被传播下去 */
+    static final int PROPAGATE = -3;
+    
+    volatile int waitStatus;//对应上述多种状态值，其中0表示初始值
+    
+    volatile Node prev;//前驱节点
+
+    volatile Node next;//后继节点
+
+    volatile Thread thread;//获取同步状态的线程
+
+    Node nextWaiter;//等待队列中的后继节点。在同步队列中，该字段用来标识当前节点的类型（共享or独占）
+
+    final boolean isShared() {
+        return nextWaiter == SHARED;
+    }
+
+    final Node predecessor() throws NullPointerException {
+        Node p = prev;
+        if (p == null)
+            throw new NullPointerException();
+        else
+            return p;
+    }
+
+    Node() {    // Used to establish initial head or SHARED marker
+    }
+
+    Node(Thread thread, Node mode) {     // Used by addWaiter
+        this.nextWaiter = mode;
+        this.thread = thread;
+    }
+
+    Node(Thread thread, int waitStatus) { // Used by Condition
+        this.waitStatus = waitStatus;
+        this.thread = thread;
+    }
+}
+</code></pre></div></div>
+
+<p>主意：Node节点不仅用在同步队列中，AbstractQueuedSynchronizer中的Condition中的等待队列也是使用Node节点构建，所以其中有些字段在两种队列的共用，需要注意区分，Condition将在后文阐述。</p>
+
+<h3 id="heading-312队列">3.1.2.队列</h3>
+<p>节点是构成同步队列的基础，同步器拥有首节点（head）和尾节点（tail），没有成功获取同步状态的线程将会成为节点加入该队列的尾部。</p>
+
+<ul>
+  <li>同步队列的基本结构
+同步器包含了两个节点类型的引用，一个指向首节点，一个指向尾节点。</li>
+</ul>
+
+<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/queue.jpg" width="500px" /></center>
+
+<ul>
+  <li>节点加入到同步队列中
+当一个线程成功的获取了同步状态，其他线程无法获取到同步状态，需要被构造成节点并加入到同步队列中，而加入这个队列的过程必须保证是线程安全的，因此同步器提供了一个基于CAS设置尾节点的方法：compareAndSetTail(Node expect, Node update)。</li>
+</ul>
+
+<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setHead.jpg" width="500px" /></center>
+
+<ul>
+  <li>首节点的设置
+同步队列遵循FIFO，首节点是获取同步状态成功的节点，首节点的线程在释放同步状态时，会唤醒后继节点，而后继节点将会在获取同步状态成功的同时将自己设置为首节点，由于只有一个线程能获取到同步状态，因此头结点的设置不需要CAS来保证。</li>
+</ul>
+
+<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setTail.jpg" width="500px" /></center>
+
+<h2 id="heading-32独占式同步状态的获取与释放">3.2.独占式同步状态的获取与释放</h2>
+
+<h3 id="heading-321acquire方法">3.2.1.acquire方法</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final void acquire(int arg) {
+    if (!tryAcquire(arg) &amp;&amp;
+            acquireQueued(addWaiter(Node.EXCLUSIVE), arg))
+        selfInterrupt();
+}
+</code></pre></div></div>
+<p>上述代码主要完成了同步状态获取、节点构造、加入同步队列以及再同步队列中自旋等待等相关工作：首先调用自定义同步器实现的tryAcquire(int arg)方法，该方法保证线程安全地获取同步状态，如果同步状态获取失败，则构造独占式同步节点，并通过addWaiter(Node node)方法将该节点加入到同步队列的尾部，最后调用acquireQueued(Node node, int arg)方法，使得该节点以“死循环”的方式获取同步状态（这里我们也叫做自旋）。如果获取不到则阻塞当前线程，而被阻塞线程的唤醒主要依靠前驱节点的出队或阻塞线程被中断来实现。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private Node addWaiter(Node mode) {
+    Node node = new Node(Thread.currentThread(), mode);
+    // Try the fast path of enq; backup to full enq on failure
+    Node pred = tail;
+    if (pred != null) {
+        node.prev = pred;
+        if (compareAndSetTail(pred, node)) {
+            pred.next = node;
+            return node;
+        }
+    }
+    enq(node);
+    return node;
+}
+
+private Node enq(final Node node) {
+    for (;;) {
+        Node t = tail;
+        if (t == null) { // Must initialize
+            if (compareAndSetHead(new Node()))
+                tail = head;
+        } else {
+            node.prev = t;
+            if (compareAndSetTail(t, node)) {
+                t.next = node;
+                return t;
+            }
+        }
+    }
+}
+</code></pre></div></div>
+
+<p>节点进入同步队列之后，就进入了一个自旋的过程，每个节点都在观察自己，当条件满足且获取到了同步状态之后，就从这个自旋状态退出。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>final boolean acquireQueued(final Node node, int arg) {
+    boolean failed = true;
+    try {
+        boolean interrupted = false;
+        for (;;) {
+            final Node p = node.predecessor();//获取前驱节点
+            if (p == head &amp;&amp; tryAcquire(arg)) {//前驱节点是首节点时 尝试获取同步状态
+                setHead(node);
+                p.next = null; // help GC
+                failed = false;
+                return interrupted;
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &amp;&amp;
+                    parkAndCheckInterrupt())
+                interrupted = true;
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+
+/** 当获取同步状态失败后 是否需要阻塞当前线程：
+当前驱节点等待状态是SIGNAL时，返回true，
+阻塞后等待前驱节点唤醒 */
+private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
+    int ws = pred.waitStatus;
+    if (ws == Node.SIGNAL)
+        return true;
+    if (ws &gt; 0) {
+        do {//处理等待状态为删除的节点
+            node.prev = pred = pred.prev;
+        } while (pred.waitStatus &gt; 0);
+        pred.next = node;
+    } else {
+        compareAndSetWaitStatus(pred, ws, Node.SIGNAL);
+    }
+    return false;
+}
+
+/** 阻塞当前线程并检查是否中断 */
+private final boolean parkAndCheckInterrupt() {
+    LockSupport.park(this);//阻塞当前线程
+    return Thread.interrupted();
+}
+
+private void cancelAcquire(Node node) {
+    if (node == null)
+        return;
+
+    node.thread = null;
+
+    // Skip cancelled predecessors
+    Node pred = node.prev;
+    while (pred.waitStatus &gt; 0)
+        node.prev = pred = pred.prev;
+
+    Node predNext = pred.next;
+
+    node.waitStatus = Node.CANCELLED;
+
+    // If we are the tail, remove ourselves.
+    if (node == tail &amp;&amp; compareAndSetTail(node, pred)) {
+        compareAndSetNext(pred, predNext, null);
+    } else {
+        // If successor needs signal, try to set pred's next-link
+        // so it will get one. Otherwise wake it up to propagate.
+        int ws;
+        if (pred != head &amp;&amp;
+                ((ws = pred.waitStatus) == Node.SIGNAL ||
+                        (ws &lt;= 0 &amp;&amp; compareAndSetWaitStatus(pred, ws, Node.SIGNAL))) &amp;&amp;
+                pred.thread != null) {
+            Node next = node.next;
+            if (next != null &amp;&amp; next.waitStatus &lt;= 0)
+                compareAndSetNext(pred, predNext, next);
+        } else {
+            unparkSuccessor(node);
+        }
+
+        node.next = node; // help GC
+    }
+}
+</code></pre></div></div>
+
+<p>头节点是成功获取同步状态的节点，而头节点释放同步状态后，将会唤醒后继节点，后继节点的线程被唤醒后需要检查自己的前驱节点是否为首节点，这样也保证了队列的“先进先出”原则</p>
+
+<h4 id="heading-acquireinterruptibly方法">acquireInterruptibly方法</h4>
+<h4 id="heading-tryacquirenanos方法">tryAcquireNanos方法</h4>
+<h4 id="heading-release方法">release方法</h4>
+
+<h3 id="heading-共享式同步状态的获取与释放">共享式同步状态的获取与释放</h3>
+
+<h4 id="heading-acquireshared方法">acquireShared方法</h4>
+<h4 id="heading-acquiresharedinterruptibly方法">acquireSharedInterruptibly方法</h4>
+<h4 id="heading-tryacquiresharednanos方法">tryAcquireSharedNanos方法</h4>
+<h4 id="heading-releaseshared方法">releaseShared方法</h4>
+
+<h3 id="heading-condition">Condition</h3>
+
+
+                    </div>
+                </div>
+            </div>
+            <footer class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="post-buttons">
+                        <a class="internal gotop" href="#page" title="Back to Top">Back to Top</a>
+                        
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" rel="prev" href="/blog/2018/10/21/raft-diff-paxos/" title=" 'paxos与raft一致性协议'"> ← paxos与raft一致性协议</a>
+                        
+                        
+                    </nav>
+                </div>
+            </footer>
+            <div class="misc-content">
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="the-footer">
+    <div class="unit-foot">
+        <div class="unit-inner unit-foot-inner">
+            <div class="misc vcard">
+                <div class="about">
+                    <h4><a href="/">About</a></h4>
+                    
+                        <p>No zero day.</p>
+                    
+                    <p><small>Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> and <a href="https://pages.github.com/" target="_blank">Github Pages</a>, &copy; 2018 Cuner.</small></p>
+                </div>
+                <div class="social-links">
+                    
+                    <a class="ico-rss" href="/feed.xml" rel="me" target="_blank" title="feed"></a>
+                    
+                        
+                    
+                        
+                            <a class="ico-github" href="https://github.com/Cuner" rel="me" target="_blank" title="github"></a>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="internal back-to-top">Back to Top</a>
+</footer>
+
+    </div>
+
+    <script>
+$(document).ready(function () {
+    var offset = 50,
+        duration = 500,
+        width = 960;
+    $(window).scroll(function () {
+        if ($(window).width() > width) {
+            if ($(this).scrollTop() > offset) {
+                $('footer').css('top', '20px');
+                $('footer .back-to-top').fadeIn(duration);
+            } else {
+                $('footer').css('top', 'auto');
+                $('footer .back-to-top').fadeOut(duration);
+            }
+        }
+    });
+    $(window).resize(function () {
+        if ($(window).width() < width) {
+            $('footer').css('top', 'auto');
+            $('footer .back-to-top').fadeOut(duration);
+        }
+        if ($(window).width() >= width && $(this).scrollTop() > offset) {
+            $('footer').css('top', '20px');
+            $('footer .back-to-top').fadeIn(duration);
+        }
+    });
+
+    $('footer .back-to-top, .gotop').on('click', function (event) {
+        event.preventDefault();
+        $('html, body').animate({
+            scrollTop: 0
+        }, duration);
+        return false;
+    });
+
+    $('.show-hidden').on('click', function () {
+        $(this).parent().next().toggleClass("hidden");
+        $(this).toggleClass("hidden");
+    });
+});
+</script>
+
+<!-- Google Analytics Event tracking -->
+
+
+<!-- Show menu overlay + Jekyll Simple Search option -->
+<script src="/assets/javascripts/jekyll-search.jquery.js"></script>
+<script>
+$(document).ready(function () {
+    $('.search-field').simpleJekyllSearch({
+      jsonFile: '/search.json',
+      template: '<li><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></li>',
+      searchResults: '.search-wrapper .results',
+      searchResultsTitle: '<h4>Search results</h4>',
+      noResults: '<p>Oh shucks<br/><small>Nothing found :(</small></p>'
+    });
+});
+
+(function ($, window, undefined) {
+    var closeOverlay = function () {
+        $('.nav-wrapper, .search-wrapper').removeAttr('style');
+        $(".nav-form, .search-form").removeClass('active');
+        $("body").removeClass('nav-overlay search-overlay');
+    };
+
+    $('.nav-global .btn-search').on('click', function () {
+        $('.search-wrapper').css({display: "block"});
+        $(".search-form").addClass('active');
+        $(".search-form").find('input').focus();
+        $("body").addClass('search-overlay');
+    });
+
+    $('.nav-global .btn-menu').on('click', function () {
+        $('.nav-wrapper').css({display: "block"});
+        $(".nav-form").addClass('active');
+        $(".nav-form .search-field").prop('disabled', true);
+        $("body").addClass('nav-overlay');
+    });
+
+    $('.nav-wrapper .btn-close, .search-wrapper .btn-close').on('click', function () {
+        closeOverlay();
+    });
+
+    $(document).on('keyup', function (e) {
+        if (e.keyCode === 27) {
+            closeOverlay();
+        }
+    });
+})(jQuery, window);
+</script>
+
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-buttons.min.js'></script>
+<script src="/assets/javascripts/unveil/jquery.unveil.min.js"></script>
+
+<script>
+    window.jQuery.fancybox || document.write('<script src="/assets/javascripts/fancybox/jquery.fancybox.pack.js?v=2.1.4"><\/script>')
+    window.jQuery.fancybox.helpers.buttons || document.write('<script src="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"><\/script>')
+</script>
+
+<script>
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/jquery.fancybox.css?v=2.1.4" type="text/css" />');
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" />');
+    $(".post-image").fancybox({
+        prevEffect: 'none',
+        nextEffect: 'none',
+        closeBtn: true,
+        helpers: {
+            title: {
+                type: 'float'
+            }
+        }
+    });
+    $(document).ready(function () {
+        $(".post-image > img").unveil(450);
+    });
+</script>
+
+</body>
+
+</html>

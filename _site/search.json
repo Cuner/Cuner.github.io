@@ -1,6 +1,13 @@
 [
   
     {
+      "title"      : "J.U.C之AQS队列同步器",
+      "url"        : "/blog/2018/11/09/java-concurrent-util-AQS/",
+      "date"       : "2018-11-09 00:00:00 +0800",
+      "shortdate"  : "November 09, 2018"
+    } ,
+  
+    {
       "title"      : "paxos与raft一致性协议",
       "url"        : "/blog/2018/10/21/raft-diff-paxos/",
       "date"       : "2018-10-21 00:00:00 +0800",

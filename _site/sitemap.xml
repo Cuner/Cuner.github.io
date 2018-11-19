@@ -61,6 +61,10 @@
 <lastmod>2018-10-21T00:00:00+08:00</lastmod>
 </url>
 <url>
+<loc>http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/</loc>
+<lastmod>2018-11-09T00:00:00+08:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/blog/</loc>
 </url>
 <url>
@@ -93,11 +97,11 @@
 <lastmod>2018-08-20T11:27:59+08:00</lastmod>
 </url>
 <url>
-<loc>http://localhost:4000/turkey/index.html</loc>
+<loc>http://localhost:4000/turkey/</loc>
 <lastmod>2018-05-23T15:29:03+08:00</lastmod>
 </url>
 <url>
-<loc>http://localhost:4000/turkey/resume/index.html</loc>
+<loc>http://localhost:4000/turkey/resume/</loc>
 <lastmod>2015-05-26T17:46:10+08:00</lastmod>
 </url>
 <url>

@@ -1,4 +1,4 @@
-source "https://rubygems.org"
+source "http://gems.rubyforge.org/"
 
 gem 'jekyll', '>= 3.6.3' # locked in to be consistent GitHub Pages.
 

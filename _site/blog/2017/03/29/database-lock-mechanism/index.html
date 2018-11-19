@@ -15,8 +15,9 @@
 <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
 <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
 
-<!-- Begin Jekyll SEO tag v2.3.0 -->
+<!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>数据库锁机制 | Cuner</title>
+<meta name="generator" content="Jekyll v3.7.4" />
 <meta property="og:title" content="数据库锁机制" />
 <meta property="og:locale" content="en" />
 <meta name="description" content="数据库锁机制" />
@@ -27,7 +28,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2017-03-29T00:00:00+08:00" />
 <script type="application/ld+json">
-{"name":null,"description":"数据库锁机制","author":null,"@type":"BlogPosting","url":"http://localhost:4000/blog/2017/03/29/database-lock-mechanism/","publisher":null,"image":null,"headline":"数据库锁机制","dateModified":"2017-03-29T00:00:00+08:00","datePublished":"2017-03-29T00:00:00+08:00","sameAs":null,"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2017/03/29/database-lock-mechanism/"},"@context":"http://schema.org"}</script>
+{"headline":"数据库锁机制","dateModified":"2017-03-29T00:00:00+08:00","datePublished":"2017-03-29T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2017/03/29/database-lock-mechanism/"},"description":"数据库锁机制","@type":"BlogPosting","url":"http://localhost:4000/blog/2017/03/29/database-lock-mechanism/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <meta name="keywords" content="mysql" />
@@ -146,7 +147,7 @@
      
         <li>
             <a href="/blog/categories/#database" title="database">
-            database <span>4</span></a>
+            database <span>6</span></a>
         </li>
     
 
@@ -263,11 +264,10 @@
       <li>乐观并发控制（又名“乐观锁”，Optimistic Concurrency Control，缩写“OCC”）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。</li>
       <li>乐观并发控制相信事务之间的数据竞争(data race)的概率是比较小的，因此尽可能直接做下去，直到提交的时候才去锁定，所以不会主动产生任何锁和死锁。但是在并发量高的情况下，可能导致某次数据修改多次重试，影响单次成功操作的时间。</li>
       <li>数据版本实现乐观锁：实现数据版本有两种方式，第一种是使用版本号，第二种是使用时间戳。使用版本号时，可以在数据初始化时指定一个版本号，每次对数据的更新操作都对版本号执行+1操作。并判断当前版本号是不是该数据的最新的版本号。
-        <div class="highlighter-rouge"><pre class="highlight"><code>update table 
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>update table 
 set date=1,version=version+1
 where id=#{id} and version=#{version};
-</code></pre>
-        </div>
+</code></pre></div>        </div>
       </li>
     </ol>
   </li>
@@ -283,7 +283,7 @@ where id=#{id} and version=#{version};
 <p>CAS 操作包含三个操作数 —— 内存位置（V）、预期原值（A）和新值(B)。如果内存位置的值与预期原值相匹配，那么处理器会自动将该位置值更新为新值。否则，处理器不做任何操作。无论哪种情况，它都会在 CAS 指令之前返回该位置的值。CAS 有效地说明了“我认为位置 V 应该包含值 A；如果包含该值，则将 B 放到这个位置；否则，不要更改该位置，只告诉我这个位置现在的值即可。”这其实和乐观锁的冲突检查+数据更新的原理是一样的。</p>
 
 <p>java.util.concurrent(J.U.C)就是建立在CAS之上的。相对于对于synchronized这种阻塞算法，CAS是非阻塞算法的一种常见实现。所以J.U.C在性能上有了很大的提升。</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>public class AtomicInteger extends Number implements java.io.Serializable {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class AtomicInteger extends Number implements java.io.Serializable {
     private volatile int value;  
  
     public final int get() {  
@@ -303,8 +303,7 @@ where id=#{id} and version=#{version};
         return unsafe.compareAndSwapInt(this, valueOffset, expect, update);  
     }  
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>参考：<br />
 <a href="http://www.importnew.com/20472.html">乐观锁的一种实现方式—CAS</a></p>
@@ -319,20 +318,18 @@ where id=#{id} and version=#{version};
 </ul>
 
 <p>step 1:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>select id,passCount,rejectCount,hideCount,warnCount,waitCount 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>select id,passCount,rejectCount,hideCount,warnCount,waitCount 
 from book.TradeItemAuditCount 
 where type = #{type} and date = #{date} and editor = #{editor} 
 and isDeleted = 0 limit 1
 
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>step 2:【失败重试】</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>update book.TradeItemAuditCount 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>update book.TradeItemAuditCount 
 set passCount = #{passCount} , rejectCount = #{rejectCount} , hideCount = #{hideCount} , warnCount = #{warnCount} , waitCount = #{waitCount} , updated = #{updated}
 where id = #{id} and passCount = #{oldPassCount} and rejectCount = #{oldRejectCount} and hideCount = #{oldHideCount} and warnCount = #{oldWarnCount} and waitCount = #{oldWaitCount}
 and isDeleted = 0 limit 1
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li>处理结果<br />
@@ -342,11 +339,10 @@ and isDeleted = 0 limit 1
 <h2 id="heading-案例2商品库存">案例2：商品库存</h2>
 <ul>
   <li>商品库存与上述案例1一致，都是对数据记录进行加减操作，发现库存的更新方式如下：
-    <div class="highlighter-rouge"><pre class="highlight"><code>update 库存表
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>update 库存表
 set stock=stock-1
 where id=#{id}
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>直接使用数据库的排它锁就简单的避免了并发导致的丢失更新问题，之前提到的一次只有一个事务拥有资源的排它锁，并发的更新操作都试图占有资源的排它锁，当资源上存在排它锁时，其他更新操作需要等待锁的释放</p>
@@ -357,33 +353,30 @@ where id=#{id}
 <h2 id="heading-案例3商品打标">案例3：商品打标</h2>
 <ul>
   <li>随着上打标的qps上涨，出现达标更新数据丢失的情况
-    <div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="nt">"tags"</span><span class="p">:</span><span class="s2">"16,32,233,22"</span><span class="p">,</span><span class="nt">"itemState"</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="nt">"hd"</span><span class="p">:</span><span class="s2">"ai:4|nd:18"</span><span class="p">,</span><span class="nt">"au"</span><span class="p">:</span><span class="s2">"baoming"</span><span class="p">}</span><span class="w">
-</span></code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"tags":"16,32,233,22","itemState":1,"hd":"ai:4|nd:18","au":"baoming"}
+</code></pre></div>    </div>
   </li>
   <li>处理方案
     <ol>
       <li>乐观锁：采用CAS
-        <div class="highlighter-rouge"><pre class="highlight"><code>update TradeItem
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>update TradeItem
 set extra=#{extra}
 where tradeItemId=#{tradeItemId} and extra=#{oldExtra}
-</code></pre>
-        </div>
+</code></pre></div>        </div>
         <p>这里使用长字符串做更新条件，会影响到SQL性能？？？</p>
       </li>
       <li>乐观锁：采用数据版本 
  表中新增version字段标识数据版本，作为数据更新的检查方式
-        <div class="highlighter-rouge"><pre class="highlight"><code>update TradeItem
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>update TradeItem
 set extra=#{extra} , version=version+1
 where tradeItemId=#{tradeItemId} and version=#{version}
-</code></pre>
-        </div>
+</code></pre></div>        </div>
         <p>此方案改造较大，还需要为表新增字段，而且采用乐观锁拥有这一律的弊端：重试带来的时间代价，一旦并发量上涨，某次更新操作的重试次数也会随之上涨，直接影响到暴露服务的响应时间。【限制重试次数能够一定程度上控制更新操作的响应时间，但是仍然会出现更新丢失的现象（让调用方进行重试操作，分摊单次请求的响应时间？）】</p>
       </li>
       <li>悲观锁<br />
 更新丢失的根本原因是执行查询、修改两个操作之间数据被另一事务修改了，单纯的UPDATE操作其实也是进行着先查询后修改的操作，没有产生更新丢失是因为数据上存在排它锁（sql server则是更新锁），在执行期间并不允许其他修改。同理我们将要打标的商品记录加上排它锁或者更新锁就能解决问题。<br />
 MySQL:
-        <div class="highlighter-rouge"><pre class="highlight"><code>start transaction;
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>start transaction;
 SELECT extra
 FROM TradeItem 
 WHERE tradeItemId=#{tradeItemId}
@@ -392,10 +385,9 @@ UPDATE TradeItem
 SET extra = bdo.AddTag(tag,extra)
 WHERE tradeItemId=#{tradeItemId};
 commit;
-</code></pre>
-        </div>
+</code></pre></div>        </div>
         <p>SQL SERVER:</p>
-        <div class="highlighter-rouge"><pre class="highlight"><code>BEGIN TRANSACTION --开始一个事务
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BEGIN TRANSACTION --开始一个事务
 SELECT extra
 FROM TradeItem WITH (UPDLOCK)
 WHERE tradeItemId=#{tradeItemId}
@@ -403,8 +395,7 @@ UPDATE TradeItem
 SET extra = bdo.AddTag(tag,extra)
 WHERE tradeItemId=#{tradeItemId}
 COMMIT TRANSACTION --提交事务
-</code></pre>
-        </div>
+</code></pre></div>        </div>
         <p>该方案避免了重试带来的开销，同时使用排它锁（更新锁）也没有额外增加锁的开销【直接把commit写到sql里面会被raptor拦截，只能使用dateSource.getConnection设置自动提交为false后提交】</p>
       </li>
     </ol>
