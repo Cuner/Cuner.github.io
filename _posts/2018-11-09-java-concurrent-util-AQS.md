@@ -125,6 +125,8 @@ static final class Node {
 }
 ```
 
+关于节点的状态state变化：当节点被创建，状态值默认为0；当有后继节点在等待，节点状态会被置为-1（SINGAL）；当节点共享式获取到同步状态，且无后继节点等待，节点状态会被设置为-3（PROPAGATE）；当节点获取同步状态超时或者被中断，节点状态将被置为1（CANCELLED）。
+
 主意：Node节点不仅用在同步队列中，AbstractQueuedSynchronizer中的Condition中的等待队列也是使用Node节点构建，所以其中有些字段在两种队列的共用，需要注意区分，Condition将在后文阐述。
 
 ### 3.1.2 队列
@@ -218,8 +220,7 @@ final boolean acquireQueued(final Node node, int arg) {
 }
 
 /** 当获取同步状态失败后 是否需要阻塞当前线程：
-当前驱节点等待状态是SIGNAL时，返回true，
-阻塞后等待前驱节点唤醒 */
+当前驱节点等待状态是SIGNAL时，返回true */
 private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
     int ws = pred.waitStatus;
     if (ws == Node.SIGNAL)
@@ -241,6 +242,11 @@ private final boolean parkAndCheckInterrupt() {
     return Thread.interrupted();
 }
 
+/** 取消当前线程获取同步状态的操作：
+1.如果需要取消的节点是尾节点，将尾节点指向前驱节点
+2.如果需要取消的节点属于中间节点（前驱节点不是首节点），将前驱节点的next指向后继节点（越过当前节点）
+3.上述两种case是为了订正next指针，通过后续唤醒后继节点，在shouldParkAfterFailedAcquire方法中订正pre指针
+*/
 private void cancelAcquire(Node node) {
     if (node == null)
         return;
@@ -271,28 +277,294 @@ private void cancelAcquire(Node node) {
             if (next != null && next.waitStatus <= 0)
                 compareAndSetNext(pred, predNext, next);
         } else {
-            unparkSuccessor(node);
+            unparkSuccessor(node);//唤醒后继节点
         }
 
         node.next = node; // help GC
     }
 }
+
+/** 唤醒后继节点 */
+private void unparkSuccessor(Node node) {
+    int ws = node.waitStatus;
+    if (ws < 0)
+        compareAndSetWaitStatus(node, ws, 0);
+        
+    Node s = node.next;
+    if (s == null || s.waitStatus > 0) {
+        s = null;
+        for (Node t = tail; t != null && t != node; t = t.prev)
+            if (t.waitStatus <= 0)
+                s = t;
+    }
+    if (s != null)
+        LockSupport.unpark(s.thread);
+}
 ```
 
 头节点是成功获取同步状态的节点，而头节点释放同步状态后，将会唤醒后继节点，后继节点的线程被唤醒后需要检查自己的前驱节点是否为首节点，这样也保证了队列的“先进先出”原则
 
-#### acquireInterruptibly方法
-#### tryAcquireNanos方法
-#### release方法
+### 3.2.2 acquireInterruptibly方法
+```
+public final void acquireInterruptibly(int arg)
+        throws InterruptedException {
+    if (Thread.interrupted())
+        throw new InterruptedException();
+    if (!tryAcquire(arg))
+        doAcquireInterruptibly(arg);
+}
 
-### 共享式同步状态的获取与释放
+private void doAcquireInterruptibly(int arg)
+        throws InterruptedException {
+    final Node node = addWaiter(Node.EXCLUSIVE);
+    boolean failed = true;
+    try {
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head && tryAcquire(arg)) {
+                setHead(node);
+                p.next = null; // help GC
+                failed = false;
+                return;
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &&
+                    parkAndCheckInterrupt())
+                throw new InterruptedException();
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+```
+acquireInterruptibly方法与acquire方法基本一致，只是在检查到中断后抛出InterruptedException。
 
-#### acquireShared方法
-#### acquireSharedInterruptibly方法
-#### tryAcquireSharedNanos方法
-#### releaseShared方法
+### 3.2.3 tryAcquireNanos方法
+```
+public final boolean tryAcquireNanos(int arg, long nanosTimeout)
+        throws InterruptedException {
+    if (Thread.interrupted())
+        throw new InterruptedException();
+    return tryAcquire(arg) ||
+            doAcquireNanos(arg, nanosTimeout);
+}
 
-### Condition
+private boolean doAcquireNanos(int arg, long nanosTimeout)
+        throws InterruptedException {
+    if (nanosTimeout <= 0L)
+        return false;
+    final long deadline = System.nanoTime() + nanosTimeout;
+    final Node node = addWaiter(Node.EXCLUSIVE);
+    boolean failed = true;
+    try {
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head && tryAcquire(arg)) {
+                setHead(node);
+                p.next = null; // help GC
+                failed = false;
+                return true;
+            }
+            nanosTimeout = deadline - System.nanoTime();
+            if (nanosTimeout <= 0L)
+                return false;
+            if (shouldParkAfterFailedAcquire(p, node) &&
+                    nanosTimeout > spinForTimeoutThreshold)
+                LockSupport.parkNanos(this, nanosTimeout);
+            if (Thread.interrupted())
+                throw new InterruptedException();
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+```
+tryAcquireNanos方法方法与acquireInterruptibly方法基本一致，只是增加了超时失败的机制。
 
+### 3.2.4 release方法
+```
+public final boolean release(int arg) {
+    if (tryRelease(arg)) {
+        Node h = head;
+        if (h != null && h.waitStatus != 0)
+            unparkSuccessor(h);
+        return true;
+    }
+    return false;
+}
+```
+主要是调用unparkSuccessor方法唤醒阻塞中的后继节点，唤醒后的后继节点会开始尝试获取同步状态。
+
+## 3.3 共享式同步状态的获取与释放
+
+### 3.3.1 acquireShared方法
+```
+public final void acquireShared(int arg) {
+    if (tryAcquireShared(arg) < 0)
+        doAcquireShared(arg);
+}
+
+private void doAcquireShared(int arg) {
+    final Node node = addWaiter(Node.SHARED);//1.新增SHARED类型的节点
+    boolean failed = true;
+    try {
+        boolean interrupted = false;
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head) {
+                int r = tryAcquireShared(arg);
+                if (r >= 0) {
+                    setHeadAndPropagate(node, r);//2.设置头节点并唤醒后继节点(因为共享式获取同步状态的特点，如果后继节点也是共享式节点，允许后继节点直接获取同步状态)
+                    p.next = null; // help GC
+                    if (interrupted)
+                        selfInterrupt();
+                    failed = false;
+                    return;
+                }
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &&
+                    parkAndCheckInterrupt())
+                interrupted = true;
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+
+private void setHeadAndPropagate(Node node, int propagate) {
+    Node h = head; // Record old head for check below
+    setHead(node);
+
+    //试图通知首节点的后继节点
+    if (propagate > 0 || h == null || h.waitStatus < 0 ||
+            (h = head) == null || h.waitStatus < 0) {
+        Node s = node.next;
+        if (s == null || s.isShared())
+            doReleaseShared();
+    }
+}
+
+private void doReleaseShared() {
+    for (;;) {
+        Node h = head;
+        if (h != null && h != tail) {
+            int ws = h.waitStatus;
+            if (ws == Node.SIGNAL) {
+                if (!compareAndSetWaitStatus(h, Node.SIGNAL, 0))
+                    continue;            // loop to recheck cases
+                unparkSuccessor(h);//唤醒后继节点
+            }
+            else if (ws == 0 &&
+                    !compareAndSetWaitStatus(h, 0, Node.PROPAGATE))
+                continue;                // loop on failed CAS
+        }
+        if (h == head)                   // loop if head changed
+            break;
+    }
+}
+```
+acquireShared方法与acquire方法的区别主要在于当获取到同步状态之后，除了将自身设置为首节点之外，还需要试图告知后继节点，允许共享式获取同步状态。（这里的doReleaseShared试图唤醒共享式节点）
+
+### 3.3.2 acquireSharedInterruptibly方法
+```
+public final void acquireSharedInterruptibly(int arg)
+        throws InterruptedException {
+    if (Thread.interrupted())
+        throw new InterruptedException();
+    if (tryAcquireShared(arg) < 0)
+        doAcquireSharedInterruptibly(arg);
+}
+
+private void doAcquireSharedInterruptibly(int arg)
+        throws InterruptedException {
+    final Node node = addWaiter(Node.SHARED);
+    boolean failed = true;
+    try {
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head) {
+                int r = tryAcquireShared(arg);
+                if (r >= 0) {
+                    setHeadAndPropagate(node, r);
+                    p.next = null; // help GC
+                    failed = false;
+                    return;
+                }
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &&
+                    parkAndCheckInterrupt())
+                throw new InterruptedException();
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+```
+acquireSharedInterruptibly方法与acquireShared方法基本一致，只是在检查到中断后抛出InterruptedException。
+
+### 3.3.3 tryAcquireSharedNanos方法
+```
+public final boolean tryAcquireSharedNanos(int arg, long nanosTimeout)
+        throws InterruptedException {
+    if (Thread.interrupted())
+        throw new InterruptedException();
+    return tryAcquireShared(arg) >= 0 ||
+            doAcquireSharedNanos(arg, nanosTimeout);
+}
+
+private boolean doAcquireSharedNanos(int arg, long nanosTimeout)
+        throws InterruptedException {
+    if (nanosTimeout <= 0L)
+        return false;
+    final long deadline = System.nanoTime() + nanosTimeout;
+    final Node node = addWaiter(Node.SHARED);
+    boolean failed = true;
+    try {
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head) {
+                int r = tryAcquireShared(arg);
+                if (r >= 0) {
+                    setHeadAndPropagate(node, r);
+                    p.next = null; // help GC
+                    failed = false;
+                    return true;
+                }
+            }
+            nanosTimeout = deadline - System.nanoTime();
+            if (nanosTimeout <= 0L)
+                return false;
+            if (shouldParkAfterFailedAcquire(p, node) &&
+                    nanosTimeout > spinForTimeoutThreshold)
+                LockSupport.parkNanos(this, nanosTimeout);
+            if (Thread.interrupted())
+                throw new InterruptedException();
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+```
+
+tryAcquireSharedNanos方法与acquireSharedInterruptibly方法基本一致，只是增加了超时失败的机制。
+
+### 3.3.4 releaseShared方法
+```
+public final boolean releaseShared(int arg) {
+    if (tryReleaseShared(arg)) {
+        doReleaseShared();
+        return true;
+    }
+    return false;
+}
+```
+
+同样releaseShared方法唤醒后继节点（这里doReleaseShared试图唤醒共享节点以及独占节点）
+
+## 4 Condition
 
 
