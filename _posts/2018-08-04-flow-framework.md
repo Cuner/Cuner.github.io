@@ -7,24 +7,24 @@ tags: [flow]
 redirect_from:
   - /2018/08/04/
 ---
-# 介绍
+# 1 介绍
 通用的流程编排框架，将整个流程以xml配置文件的形式管理起来：定义流程、管理上下文、控制流程的流转（按条件或者顺序），各个流程节点的执行（同步或者异步）。同时对每个流程节点进行监控以及统计，完成对流程的整体把控。
 
-# 基本概念
+# 2 基本概念
 
 - flow:数据流程对象
 - step:流程的子步骤，也叫流程节点
 - action:流程中各个步骤执行的操作
 - subflow:子流程，一个流程节点可以执行操作；也可以执行某个子流程
 
-# 用法
+# 3 用法
 
-## 1.定义流程的输入与输出
+## 3.1 定义流程的输入与输出
 
 - 定义输入为Data
 - 定义输出为Result
 
-## 2.定义步骤（子节点）
+## 3.2 定义步骤（子节点）
 
 所有的子节点需要实现接口org.cuner.flowframework.core.Action<Data, Result>
 
@@ -50,7 +50,7 @@ public class Action1 implements Action<Data, Result> {
 <bean id="action3" class="org.cuner.flowframework.test.action.Action3"/>
 ```
 
-## 3.通过xml配置定义流程
+## 3.3 通过xml配置定义流程
 
 详细的配置结构请查看xsd文件
 - `flows`标签为root标签，可包含多个`flow`标签
@@ -113,7 +113,7 @@ public class Action1 implements Action<Data, Result> {
 </flows>
 ```
 
-## 4.流程注入
+## 3.4 流程注入
 
 配置文件需要放在classpath下，案例中的配置文件就是在classpath下的flow.xml文件
 
@@ -127,14 +127,14 @@ public class Action1 implements Action<Data, Result> {
 </bean>
 ```
 
-## 5.执行
+## 3.5 执行
 
 ```
 Result result = flowManager.execute("mainFlow", data);
 ```
 由于各个步骤可异步执行，在主流程的执行中加入了闭锁，只有当所有步骤（包括异步的）执行完成，execute方法才能正确返回。
 
-## 6.查看日志
+## 3.6 查看日志
 可查看流程执行的完整堆栈，可以在logback.xml中如下配置
 ```
 <logger name="flow-record" level="info" additivity="false">
@@ -164,6 +164,6 @@ Result result = flowManager.execute("mainFlow", data);
 |----[step:step10 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
 ```
 
-# 源码
+# 4 源码
 
 最后，附上代码:https://github.com/Cuner/flow-framework

@@ -170,9 +170,7 @@
                         </ul>
                     </div>
                     <div itemprop="articleBody">
-                        <h1 id="heading-数据库锁机制">数据库锁机制</h1>
-
-<h2 id="heading-为什么需要锁">为什么需要锁</h2>
+                        <h1 id="heading-1为什么需要锁">1.为什么需要锁</h1>
 
 <ul>
   <li>死锁问题</li>
@@ -186,9 +184,9 @@
   </li>
 </ul>
 
-<h2 id="heading-锁的分类">锁的分类</h2>
+<h1 id="heading-2锁的分类">2.锁的分类</h1>
 
-<h3 id="heading-数据库维度">数据库维度</h3>
+<h2 id="heading-21数据库维度">2.1.数据库维度</h2>
 
 <ul>
   <li>共享锁:<br />
@@ -214,7 +212,7 @@
   </li>
 </ul>
 
-<h3 id="heading-锁机制">锁机制</h3>
+<h2 id="heading-22锁机制">2.2.锁机制</h2>
 
 <table>
   <thead>
@@ -251,7 +249,7 @@
 <a href="http://blog.chinaunix.net/uid-24111901-id-2627857.html">InnoDB锁机制</a><br />
 <a href="http://blog.itpub.net/13651903/viewspace-1091664/">SQL SERVER锁机制</a></p>
 
-<h3 id="heading-程序员思想维度">程序员思想维度</h3>
+<h2 id="heading-23程序员思想维度">2.3.程序员思想维度</h2>
 <ul>
   <li>悲观锁
     <ol>
@@ -276,7 +274,7 @@ where id=#{id} and version=#{version};
 <p>参考：<br />
 <a href="http://www.open-open.com/lib/view/open1452046967245.html">乐观锁与悲观锁</a></p>
 
-<h2 id="heading-乐观锁另一种实现方式cas">乐观锁另一种实现方式CAS</h2>
+<h1 id="heading-3乐观锁另一种实现方式cas">3.乐观锁另一种实现方式CAS</h1>
 
 <p>CAS是项乐观锁技术，当多个线程尝试使用CAS同时更新同一个变量时，只有其中一个线程能更新变量的值，而其它线程都失败，失败的线程并不会被挂起，而是被告知这次竞争中失败，并可以再次尝试。</p>
 
@@ -308,7 +306,7 @@ where id=#{id} and version=#{version};
 <p>参考：<br />
 <a href="http://www.importnew.com/20472.html">乐观锁的一种实现方式—CAS</a></p>
 
-<h2 id="heading-案例1初审统计数据迁移">案例1：初审统计数据迁移</h2>
+<h1 id="heading-案例1初审统计数据迁移">案例1：初审统计数据迁移</h1>
 
 <ul>
   <li>迁移背景<br />
@@ -336,7 +334,7 @@ and isDeleted = 0 limit 1
 一共扫描审核结果4335668条数据，对重试次数超过100的更新操作进行记录，发现更新操作出现大部分的重试，任务本身DB写操作的qps较低【都不需要通过控制台限制速率..】</li>
 </ul>
 
-<h2 id="heading-案例2商品库存">案例2：商品库存</h2>
+<h1 id="heading-案例2商品库存">案例2：商品库存</h1>
 <ul>
   <li>商品库存与上述案例1一致，都是对数据记录进行加减操作，发现库存的更新方式如下：
     <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>update 库存表
@@ -350,7 +348,7 @@ where id=#{id}
   <li>相比案例1的解决方案，案例2的解决方式直接使用了MySQL InnoDB更新操作本身就拥有的排它锁，不需要额外的开销，而案例1不必要的查询操作以及多次的重试操作严重影响到了数据迁移的性能，所以案例1是反面例子..</li>
 </ul>
 
-<h2 id="heading-案例3商品打标">案例3：商品打标</h2>
+<h1 id="heading-案例3商品打标">案例3：商品打标</h1>
 <ul>
   <li>随着上打标的qps上涨，出现达标更新数据丢失的情况
     <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{"tags":"16,32,233,22","itemState":1,"hd":"ai:4|nd:18","au":"baoming"}
@@ -401,8 +399,6 @@ COMMIT TRANSACTION --提交事务
     </ol>
   </li>
 </ul>
-
-<h2 id="heading-悲观锁乐观锁的取舍">悲观锁乐观锁的取舍</h2>
 
                     </div>
                 </div>

@@ -7,7 +7,7 @@ tags: [aop]
 redirect_from:
   - /2017/06/29/
 ---
-## 一、Spring AOP代理的相关属性
+# Spring AOP代理的相关属性
 
 - 开启AOP自动代理
 
@@ -22,7 +22,7 @@ redirect_from:
 - expose-proxy:目标对象内部的自我调用将无法实施切面中的增强
 
 
-## 二、AOP代理无法切入同类调用方法的问题
+# AOP代理无法切入同类调用方法的问题
 
 ```
 @Service

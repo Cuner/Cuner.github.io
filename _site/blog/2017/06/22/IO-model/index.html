@@ -176,7 +176,7 @@
   <li>将数据从内核拷贝到进程中</li>
 </ol>
 
-<h2 id="heading-同步阻塞io模型">同步阻塞I/O模型：</h2>
+<h1 id="heading-同步阻塞io模型">同步阻塞I/O模型：</h1>
 
 <ul>
   <li>
@@ -189,7 +189,7 @@
 
 <center><img src="/assets/images/post/2017-06-22-IO-model/同步阻塞.jpg" width="500" /></center>
 
-<h2 id="heading-同步非阻塞io模型">同步非阻塞I/O模型：</h2>
+<h1 id="heading-同步非阻塞io模型">同步非阻塞I/O模型：</h1>
 
 <ul>
   <li>
@@ -205,7 +205,7 @@
 
 <center><img src="/assets/images/post/2017-06-22-IO-model/同步非阻塞.jpg" width="500" /></center>
 
-<h3 id="heading-io复用模型">I/O复用模型：</h3>
+<h1 id="heading-io复用模型">I/O复用模型：</h1>
 
 <ul>
   <li>
@@ -229,7 +229,7 @@
 
 <center><img src="/assets/images/post/2017-06-22-IO-model/IO多路复用.jpg" width="500" /></center>
 
-<h2 id="heading-信号驱动io模型">信号驱动I/O模型：</h2>
+<h1 id="heading-信号驱动io模型">信号驱动I/O模型：</h1>
 
 <ul>
   <li>通过系统调用sigaction执行一个信号处理函数(此系统调用立即返回，进程继续工作，它是非阻塞的)。当数据准备就绪时，就为该进程生成一个SIGIO信号，通过信号回调通知应用程序调用recvfrom来读取数据</li>
@@ -237,7 +237,7 @@
 
 <center><img src="/assets/images/post/2017-06-22-IO-model/信号驱动.jpg" width="500" /></center>
 
-<h2 id="heading-异步io模型">异步I/O模型：</h2>
+<h1 id="heading-异步io模型">异步I/O模型：</h1>
 
 <ul>
   <li>用户进程发起read操作之后，立刻就可以开始去做其它的事。而另一方面，从kernel的角度，当它受到一个asynchronous read之后，首先它会立刻返回，所以不会对用户进程产生任何block。然后，kernel会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，kernel会给用户进程发送一个signal，告诉它read操作完成了。这种模型与信号驱动模型的主要区别是：信号驱动I/O由内核通知我们合适可以开始一个I/O操作；而异步I/O模型由内核通知我们I/O操作何时完成。</li>
@@ -245,7 +245,7 @@
 
 <center><img src="/assets/images/post/2017-06-22-IO-model/异步.jpg" width="500" /></center>
 
-<h2 id="heading-阻塞与非阻塞">阻塞与非阻塞</h2>
+<h1 id="heading-阻塞与非阻塞">阻塞与非阻塞</h1>
 
 <ul>
   <li>
@@ -258,7 +258,7 @@
 
 <center><img src="/assets/images/post/2017-06-22-IO-model/阻塞与非阻塞.jpg" width="500" /></center>
 
-<h2 id="heading-同步与异步">同步与异步</h2>
+<h1 id="heading-同步与异步">同步与异步</h1>
 
 <ul>
   <li>
@@ -271,7 +271,7 @@
 
 <center><img src="/assets/images/post/2017-06-22-IO-model/同步与异步.jpg" width="500" /></center>
 
-<h2 id="heading-总结">总结</h2>
+<h1 id="heading-总结">总结</h1>
 
 <ul>
   <li>

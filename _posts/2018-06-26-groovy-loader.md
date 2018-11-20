@@ -7,18 +7,18 @@ tags: [groovy]
 redirect_from:
   - /2018/06/26/
 ---
-# groovy loader背景
+# 1 groovy loader背景
 由于groovy动态语言的特性，使用方式与java一致，同时又特别适合与Spring的动态语言支持一起使用，所以基于java的groovy脚本的动态加载的使用场景还是比较多的
 
-# 简介
+# 2 简介
 动态加载指定目录下的groovy脚本，并将其注册为groovy bean，放置于ApplicationContext容器中，并使用命名空间进行分类区分(一个namespace对应于一个ApplicationContext)。同时能够动态感知到groovy脚本的新增、修改以及删除事件，并自动重新加载。
 
-# 原理
+# 3 原理
 - 使用spring配置文件来管理注册groovy bean：每一个spring配置文件作为一个ApplicationContext，管理一个namespace下的groovy bean
 - spring配置文件使用标签```<lang:groovy>```，通过指定script-source来加载指定路径下的groovy脚本，通过refresh-check-delay属性来定时动态加载每个groovy bean
 - 通过扫描监听指定路径下spring配置文件的变更，来接受groovy脚本的新增、删除事件
 
-### 监听器listener
+## 3.1 监听器listener
 由于我们需要动态获取groovy脚本的变更，包含更新、新增、删除。接收到groovy脚本变更后需要触发用户自定义事件，所以我们先提供一个待用户实现的监听器接口，用于接受groovy变更事件，并执行相应代码
 
 - GroovyRefreshedEvent
@@ -50,7 +50,7 @@ public interface GroovyRefreshedListener {
 
 这个需要用户来实现
 
-### 触发器trigger
+## 3.2 触发器trigger
 由于需要动态去发现groovy脚本的变更，需要通过定时轮训使用触发器去判断groovy脚本是否完成了变更。上述提到过，框架通过```<lang:Groovy>```来定时加载groovy脚本，通过扫描监听指定路径下spring配置文件的变更。通过这样的方式来接受groovy脚本的新增、删除事件。同样触发器也允许用户自定义，框架提供了一个默认的触发器
 
 - GroovyRefreshedListener
@@ -92,7 +92,7 @@ public class ResourceModifiedTrigger implements GroovyRefreshTrigger {
 ```
 默认的触发器就是通过spring配置文件上一次修改的时间，去判断文件是否被修改
 
-### groovy loader
+## 3.3 groovy loader
 初始化时会将指定目录下的groovy脚本动态加载成bean，并根据namespace注册到不同的Application容器中。注：以spring配置文件的名称作为namespace
 ```
 private void initLoadResources() {
@@ -124,7 +124,7 @@ private void initLoadResources() {
 }
 ```
 
-### spring配置文件
+## 3.4 spring配置文件
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -142,7 +142,7 @@ private void initLoadResources() {
 </beans>
 ```
 
-# 使用
+# 4 使用
 ```
 <bean id="listener" class="org.cuner.groovy.loader.test.TestListener"/><!--需要实现org.cuner.groovy.loader.listener.GroovyRefreshedListener -->
 <bean id="groovyLoader" class="org.cuner.groovy.loader.NamespacedGroovyLoader">
@@ -152,10 +152,10 @@ private void initLoadResources() {
 </bean>
 ```
 
-# 源码&Demo
+# 5 源码&Demo
 代码托管在Github上，并附有使用demo，欢迎下载运行: https://github.com/Cuner/groovy-loader
 
-# 版本升级 groovy-loader-v2
+# 6 版本升级 groovy-loader-v2
 v1版本存在的缺陷在于：由于使用了```<lang:groovy>```标签，spring定时去重加载groovy bean，即使这个bean没有被修改，由此会产生一些性能消耗问题。为了解决这点，v2实现了groovy脚本的加载以及groovy bean的注入。同时由定时扫描spring配置改为扫描目录下的所有groovy脚本来实现触发器。
 
 - GroovyScriptsModifiedTrigger

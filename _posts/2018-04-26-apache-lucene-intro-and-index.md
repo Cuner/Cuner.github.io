@@ -7,20 +7,18 @@ tags: [lucene]
 redirect_from:
   - /2018/04/26/
 ---
-# lucene简介和索引原理
-
-## Lucene简介
+# 1 Lucene简介
 Lucene是一个高效，全Java实现、开源、高性能、功能完整、易拓展，支持分词以及各种查询方式（前缀、模糊、正则等）、打分高亮、列式存储（DocValues）
 的全文检索库。仅支持纯文本文件的索引和搜索。
 
 <center><img src="/assets/images/post/2018-04-26-apache-lucene-intro-and-index/lucene-intro.png" width="500px"/></center>
 
-## lucene索引原理
+# 2 lucene索引原理
 每个字符串都指向包含此字符串的文档(Document)链表，此文档链表称为倒排表
 
 <center><img src="/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-construction.png" width="500px"/></center>
 
-### 索引创建过程
+## 2.1 索引创建过程
 
 <center><img src="/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-create-step.png" width="700px"/></center>
 
@@ -34,7 +32,7 @@ Lucene是一个高效，全Java实现、开源、高性能、功能完整、易�
 
 5.通过索引存储将索引写入硬盘
 
-### 检索过程
+## 2.2 检索过程
 
 <center><img src="/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-search-step.png" width="700px"/></center>
 
@@ -50,7 +48,7 @@ Lucene是一个高效，全Java实现、开源、高性能、功能完整、易�
 
 6.根据得到的文档和查询语句的相关性，对结果进行排序。(向量空间模型算法:通过各个关键词根在不同文档中的权重来比较文档与查询语句的相关性)
 
-### lucene索引基本概念
+## 2.3 lucene索引基本概念
 
 - 索引(index)
   - 在Lucene中一个索引是放在一个文件夹中的
@@ -68,10 +66,10 @@ Lucene的索引结构中，即保存了正向信息，也保存了反向信息
 - 正向信息：按层次保存了从索引，一直到词的包含关系：索引(Index) –> 段(segment) –> 文档(Document) –> 域(Field) –> 词(Term)，也即此索引包含了那些段，每个段包含了那些文档，每个文档包含了那些域，每个域包含了那些词
 - 反向信息：保存了词典到倒排表的映射：词(Term) –> 文档(Document)
 
-### lucene结构
+## 2.4 lucene结构
 全文索引绝大多数是通过倒排索引来做，倒排索引由两个部分组成，即词典和倒排表
 
-#### 索引结构
+### 2.4.1 索引结构
 lucene从4开始大量使用的数据结构是FST（Finite State Transducer）。FST有两个优点：  
 
 1）空间占用小。通过对词典中单词前缀和后缀的重复利用，压缩了存储空间，压缩率一般在3倍~20倍之间；   
@@ -103,7 +101,7 @@ lucene从4开始大量使用的数据结构是FST（Finite State Transducer）�
 - 插入acf时，因为是有序的，知道不会再有ab前缀的词了，这时就可以写tip和tim了，tim中写入后缀词块d、e和它们的倒排表位置ip_d,ip_e，tip中写入a，b和以ab为前缀的后缀词块位置
 - 插入acg时，计算出和acf共享前缀ac，这时输入已经结束，所有数据写入磁盘。tim中写入后缀词块f、g和相对应的倒排表位置，tip中写入c和以ac为前缀的后缀词块位置
 
-#### 倒排表结构
+### 2.4.2 倒排表结构
 Lucene现使用的倒排表结构叫[Frame of reference](https://www.elastic.co/blog/frame-of-reference-and-roaring-bitmaps)
 
 数据压缩：
@@ -120,9 +118,9 @@ Lucene现使用的倒排表结构叫[Frame of reference](https://www.elastic.co/
 [链表合并](http://www.cnblogs.com/forfuture1978/archive/2010/04/04/1704258.html)
 
 
-## 番外篇
+# 3 番外篇
 
-### [FST原理解析](http://blog.jobbole.com/80669/)
+## 3.1 [FST原理解析](http://blog.jobbole.com/80669/)
 
-### [跳跃表原理解析](https://www.cnblogs.com/George1994/p/7635731.html)
+## 3.2 [跳跃表原理解析](https://www.cnblogs.com/George1994/p/7635731.html)
 

@@ -8,20 +8,20 @@ redirect_from:
   - /2018/11/09/
 ---
 
-# 1.简介
+# 1 简介
 队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的的FIFO队列来完成资源的获取线程的排队工作。
 同步器的主要使用方式是继承，子类通过继承同步器并实现抽象方法来管理同步状态（基于模本方法模式）。子类被推荐定义为自定义同步组件的静态内部类（作为代理配合实现同步组件），同步器自身没有实现任何同步接口，它仅仅定义了同步状态的获取与释放来供自定义同步组件使用，同步器既可以独占式的获取同步状态也可以共享式的获取同步状态。
         
 
-# 2.队列同步器的接口
+# 2 队列同步器的接口
 同步器的设计是基于模板方法模式的，子类需要继承同步器并重写指定的方法，而后将同步器组合在自定义同步组件的实现中（委托模式），并调用同步器的模板方法，这些模板方法将会调用同步器子类中重写的方法
         
-## 2.1.访问、修改同步状态
+## 2.1 访问、修改同步状态
 - int getState()：获取当前同步状态
 - void setState(int newState)：设置当前同步状态
 - boolean compareAndSetState(int expect, int update)：使用CAS设置当前同步状态
 
-## 2.2.同步器可重写方法
+## 2.2 同步器可重写方法
 
 **独占式**
 - boolean tryAcquire(int arg)：独占式获取同步状态，实现该方法需要查询当前同步状态并判断是否符合预期，然后同步CAS设置同步状态。
@@ -32,7 +32,7 @@ redirect_from:
 - boolean tryReleaseShared(int arg)：共享式释放同步状态。
 - boolean isHeldExclusively()：当前同步器是否被当前线程独占
 
-## 2.3.同步器提供的模板方法
+## 2.3 同步器提供的模板方法
 
 **独占式**
 - void acquire(int arg)：独占式获取同步状态，如果当前线程获取同步状态成功，则返回，否则将会进入同步队列等待，该方法将会调用重写的tryAcquire(int arg)方法
@@ -56,12 +56,12 @@ redirect_from:
 - Collection<Thread> getExclusiveQueuedThreads()：获取等待在同步队列上等待独占式获取同步状态的线程集合。
 - Collection<Thread> getSharedQueuedThreads()：获取等待在同步队列上等待共享式获取同步状态的线程集合。
 
-# 3.队列同步器的实现分析
+# 3 队列同步器的实现分析
 
-## 3.1同步队列
+## 3.1 同步队列
 同步器依赖内部的同步队列（一个FIFO双向队列）来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成一个节点（Node），并将其加入到同步队列中，同时会阻塞当前线程，当同步状态释放是，会把首节点中的线程唤醒，使其再次尝试获取同步状态。
 
-### 3.1.1.节点
+### 3.1.1 节点
 同步队列中的节点（Node）用来保存获取同步状态失败的线程引用、等待状态以及前驱和后继节点。
 
 ```
@@ -127,7 +127,7 @@ static final class Node {
 
 主意：Node节点不仅用在同步队列中，AbstractQueuedSynchronizer中的Condition中的等待队列也是使用Node节点构建，所以其中有些字段在两种队列的共用，需要注意区分，Condition将在后文阐述。
 
-### 3.1.2.队列
+### 3.1.2 队列
 节点是构成同步队列的基础，同步器拥有首节点（head）和尾节点（tail），没有成功获取同步状态的线程将会成为节点加入该队列的尾部。
 
 - 同步队列的基本结构
@@ -146,9 +146,9 @@ static final class Node {
 <center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setTail.jpg" width="500px"/></center>
 
 
-## 3.2.独占式同步状态的获取与释放
+## 3.2 独占式同步状态的获取与释放
 
-### 3.2.1.acquire方法
+### 3.2.1 acquire方法
 
 ```
 public final void acquire(int arg) {

@@ -172,7 +172,7 @@
                     <div itemprop="articleBody">
                         <p>SPI的全名为Service Provider Interface。根据Java的SPI规范，我们可以定义一个服务接口，具体的实现由对应的实现者去提供，即Service Provider（服务提供者）。然后在使用的时候只要根据SPI的规范去获取对应的服务提供者的服务实现即可。简单来说，SPI就是一种为接口寻找服务的机制，基于这种机制，本文提出一种基于动态代理的spi框架的实现方式。</p>
 
-<h2 id="heading-1-基于统一的接口">1 基于统一的接口</h2>
+<h1 id="heading-1-基于统一的接口">1 基于统一的接口</h1>
 <p>该SPI框架的核心思想是通过JDK动态代理（代理对象必须为某个接口的实现），为接口寻找满足条件的服务实现。基于上述要求，需要提供一个统一的接口。</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public interface SpiBase&lt;T, R&gt; {
 
@@ -235,9 +235,9 @@
   <li>参数priority，决定某个服务实现的执行优先级，优先级越高，越先执行</li>
 </ul>
 
-<h2 id="heading-2-获取所有用户自定义的服务实现并实例化">2 获取所有用户自定义的服务实现并实例化</h2>
+<h1 id="heading-2-获取所有用户自定义的服务实现并实例化">2 获取所有用户自定义的服务实现并实例化</h1>
 
-<p>2.1 提供注解@BizSpi</p>
+<h2 id="heading-21-提供注解bizspi">2.1 提供注解@BizSpi</h2>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@Target({ElementType.TYPE})//目标作用于类
 @Retention(RetentionPolicy.RUNTIME)// 注解在class字节码文件中存在，在运行时可以通过反射获取到
 @Documented
@@ -248,7 +248,7 @@ public @interface BizSpi {
 
 <p>为了方便的找到用户提供的服务实现类，框架约束用户在其提供的服务实现类上加上注解@BizSpi，当然所有的服务实现类都需要实现统一的接口SpiBase，也可以实现某个继承SpiBase接口的自定义接口。</p>
 
-<p>2.2 实例化服务实现并保存至内存</p>
+<h2 id="heading-22-实例化服务实现并保存至内存">2.2 实例化服务实现并保存至内存</h2>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class SpiManager implements ApplicationListener&lt;ContextRefreshedEvent&gt; {
 
     private static Map&lt;Class, List&lt;SpiBase&gt;&gt; spiProviderMap = new ConcurrentHashMap&lt;Class, List&lt;SpiBase&gt;&gt;();
@@ -290,7 +290,7 @@ public @interface BizSpi {
 
 <p>这里通过约束的注解@BizSpi来拿到所有服务实现实例化后的对象，通过spiProviderMap来保存管理，其中spiProviderMap的key的集合是所有服务实现所实现的第一级接口（可以是SpiBase，也可以是继承自SpiBase的自定义接口），value则是key代表的接口所对应的所有服务实现实例化后的对象列表（可以看到列表通过SpiConfig中的priority值进行了重排序）。</p>
 
-<h2 id="heading-3动态代理">3.动态代理</h2>
+<h1 id="heading-3-动态代理">3 动态代理</h1>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class SpiProviderFactory&lt;T&gt; implements FactoryBean&lt;T&gt; {
 
     private Logger logger = LoggerFactory.getLogger(SpiProviderFactory.class);
@@ -331,7 +331,7 @@ public @interface BizSpi {
 
 <p>这里用到了工厂，这里需要传入参数targetClass，因为我们需要代理的接口可能是继承了SpiBase的自定义接口。通过服务实现类提供的condition方法可以从spiProviderMap中找到满足条件的服务，在通过SpiConfig的中参数决定服务执行的策略，最终将结果返回。</p>
 
-<h2 id="heading-4使用步骤">4.使用步骤</h2>
+<h1 id="heading-4-使用步骤">4 使用步骤</h1>
 <p>1.继承SpiBase得到自定义的SPI接口(可以添加自定义方法)
 2.为SPI接口提供多个服务实现类(注意类需要加上注解@BizSpi)，condition方法决定了服务是否满足执行条件，config方法返回的SpiConfig对象决定了服务执行的策略
 3.spring配置</p>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2018-11-19T17:51:02+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">J.U.C之AQS队列同步器</title><link href="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/" rel="alternate" type="text/html" title="J.U.C之AQS队列同步器" /><published>2018-11-09T00:00:00+08:00</published><updated>2018-11-09T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS</id><content type="html" xml:base="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/">&lt;h1 id=&quot;heading-1简介&quot;&gt;1.简介&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2018-11-20T10:33:33+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">J.U.C之AQS队列同步器</title><link href="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/" rel="alternate" type="text/html" title="J.U.C之AQS队列同步器" /><published>2018-11-09T00:00:00+08:00</published><updated>2018-11-09T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS</id><content type="html" xml:base="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/">&lt;h1 id=&quot;heading-1简介&quot;&gt;1.简介&lt;/h1&gt;
 &lt;p&gt;队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的的FIFO队列来完成资源的获取线程的排队工作。
 同步器的主要使用方式是继承，子类通过继承同步器并实现抽象方法来管理同步状态（基于模本方法模式）。子类被推荐定义为自定义同步组件的静态内部类（作为代理配合实现同步组件），同步器自身没有实现任何同步接口，它仅仅定义了同步状态的获取与释放来供自定义同步组件使用，同步器既可以独占式的获取同步状态也可以共享式的获取同步状态。&lt;/p&gt;
 
@@ -1040,7 +1040,7 @@ private void scanGroovyFiles(File file, String namespace) throws Exception {
 
 &lt;p&gt;参考：&lt;a href=&quot;https://tech.youzan.com/queuing_delay/&quot;&gt;有赞延迟队列设计&lt;/a&gt;&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="queue" /><summary type="html">延时队列的使用场景非常多，目前集中式场景可以使用JDK自带的delayQueue，本文使用redis队列来实现两种分布式的延时队列，并进行了对比分析</summary></entry><entry><title type="html">SPI框架（一）</title><link href="http://localhost:4000/blog/2018/05/24/spi-framework/" rel="alternate" type="text/html" title="SPI框架（一）" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/spi-framework</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/spi-framework/">&lt;p&gt;SPI的全名为Service Provider Interface。根据Java的SPI规范，我们可以定义一个服务接口，具体的实现由对应的实现者去提供，即Service Provider（服务提供者）。然后在使用的时候只要根据SPI的规范去获取对应的服务提供者的服务实现即可。简单来说，SPI就是一种为接口寻找服务的机制，基于这种机制，本文提出一种基于动态代理的spi框架的实现方式。&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-1-基于统一的接口&quot;&gt;1 基于统一的接口&lt;/h2&gt;
+&lt;h1 id=&quot;heading-1-基于统一的接口&quot;&gt;1 基于统一的接口&lt;/h1&gt;
 &lt;p&gt;该SPI框架的核心思想是通过JDK动态代理（代理对象必须为某个接口的实现），为接口寻找满足条件的服务实现。基于上述要求，需要提供一个统一的接口。&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public interface SpiBase&amp;lt;T, R&amp;gt; {
 
@@ -1103,9 +1103,9 @@ private void scanGroovyFiles(File file, String namespace) throws Exception {
   &lt;li&gt;参数priority，决定某个服务实现的执行优先级，优先级越高，越先执行&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;heading-2-获取所有用户自定义的服务实现并实例化&quot;&gt;2 获取所有用户自定义的服务实现并实例化&lt;/h2&gt;
+&lt;h1 id=&quot;heading-2-获取所有用户自定义的服务实现并实例化&quot;&gt;2 获取所有用户自定义的服务实现并实例化&lt;/h1&gt;
 
-&lt;p&gt;2.1 提供注解@BizSpi&lt;/p&gt;
+&lt;h2 id=&quot;heading-21-提供注解bizspi&quot;&gt;2.1 提供注解@BizSpi&lt;/h2&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Target({ElementType.TYPE})//目标作用于类
 @Retention(RetentionPolicy.RUNTIME)// 注解在class字节码文件中存在，在运行时可以通过反射获取到
 @Documented
@@ -1116,7 +1116,7 @@ public @interface BizSpi {
 
 &lt;p&gt;为了方便的找到用户提供的服务实现类，框架约束用户在其提供的服务实现类上加上注解@BizSpi，当然所有的服务实现类都需要实现统一的接口SpiBase，也可以实现某个继承SpiBase接口的自定义接口。&lt;/p&gt;
 
-&lt;p&gt;2.2 实例化服务实现并保存至内存&lt;/p&gt;
+&lt;h2 id=&quot;heading-22-实例化服务实现并保存至内存&quot;&gt;2.2 实例化服务实现并保存至内存&lt;/h2&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class SpiManager implements ApplicationListener&amp;lt;ContextRefreshedEvent&amp;gt; {
 
     private static Map&amp;lt;Class, List&amp;lt;SpiBase&amp;gt;&amp;gt; spiProviderMap = new ConcurrentHashMap&amp;lt;Class, List&amp;lt;SpiBase&amp;gt;&amp;gt;();
@@ -1158,7 +1158,7 @@ public @interface BizSpi {
 
 &lt;p&gt;这里通过约束的注解@BizSpi来拿到所有服务实现实例化后的对象，通过spiProviderMap来保存管理，其中spiProviderMap的key的集合是所有服务实现所实现的第一级接口（可以是SpiBase，也可以是继承自SpiBase的自定义接口），value则是key代表的接口所对应的所有服务实现实例化后的对象列表（可以看到列表通过SpiConfig中的priority值进行了重排序）。&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-3动态代理&quot;&gt;3.动态代理&lt;/h2&gt;
+&lt;h1 id=&quot;heading-3-动态代理&quot;&gt;3 动态代理&lt;/h1&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class SpiProviderFactory&amp;lt;T&amp;gt; implements FactoryBean&amp;lt;T&amp;gt; {
 
     private Logger logger = LoggerFactory.getLogger(SpiProviderFactory.class);
@@ -1199,7 +1199,7 @@ public @interface BizSpi {
 
 &lt;p&gt;这里用到了工厂，这里需要传入参数targetClass，因为我们需要代理的接口可能是继承了SpiBase的自定义接口。通过服务实现类提供的condition方法可以从spiProviderMap中找到满足条件的服务，在通过SpiConfig的中参数决定服务执行的策略，最终将结果返回。&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-4使用步骤&quot;&gt;4.使用步骤&lt;/h2&gt;
+&lt;h1 id=&quot;heading-4-使用步骤&quot;&gt;4 使用步骤&lt;/h1&gt;
 &lt;p&gt;1.继承SpiBase得到自定义的SPI接口(可以添加自定义方法)
 2.为SPI接口提供多个服务实现类(注意类需要加上注解@BizSpi)，condition方法决定了服务是否满足执行条件，config方法返回的SpiConfig对象决定了服务执行的策略
 3.spring配置&lt;/p&gt;
@@ -1218,20 +1218,18 @@ public @interface BizSpi {
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;5.demo
-代码托管在Github上，并附有使用demo，欢迎下载运行: https://github.com/Cuner/spi-framework&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="SPI" /><summary type="html">SPI的全名为Service Provider Interface。根据Java的SPI规范，我们可以定义一个服务接口，具体的实现由对应的实现者去提供，即Service Provider（服务提供者）。然后在使用的时候只要根据SPI的规范去获取对应的服务提供者的服务实现即可。简单来说，SPI就是一种为接口寻找服务的机制，基于这种机制，本文提出一种基于动态代理的spi框架的实现方式。</summary></entry><entry><title type="html">lucene简介和索引原理</title><link href="http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/" rel="alternate" type="text/html" title="lucene简介和索引原理" /><published>2018-04-26T00:00:00+08:00</published><updated>2018-04-26T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index</id><content type="html" xml:base="http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/">&lt;h1 id=&quot;heading-lucene简介和索引原理&quot;&gt;lucene简介和索引原理&lt;/h1&gt;
-
-&lt;h2 id=&quot;heading-lucene简介&quot;&gt;Lucene简介&lt;/h2&gt;
+代码托管在Github上，并附有使用demo，欢迎下载运行: https://github.com/Cuner/spi-framework&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="SPI" /><summary type="html">SPI的全名为Service Provider Interface。根据Java的SPI规范，我们可以定义一个服务接口，具体的实现由对应的实现者去提供，即Service Provider（服务提供者）。然后在使用的时候只要根据SPI的规范去获取对应的服务提供者的服务实现即可。简单来说，SPI就是一种为接口寻找服务的机制，基于这种机制，本文提出一种基于动态代理的spi框架的实现方式。</summary></entry><entry><title type="html">lucene简介和索引原理</title><link href="http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/" rel="alternate" type="text/html" title="lucene简介和索引原理" /><published>2018-04-26T00:00:00+08:00</published><updated>2018-04-26T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index</id><content type="html" xml:base="http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/">&lt;h1 id=&quot;heading-1lucene简介&quot;&gt;1.Lucene简介&lt;/h1&gt;
 &lt;p&gt;Lucene是一个高效，全Java实现、开源、高性能、功能完整、易拓展，支持分词以及各种查询方式（前缀、模糊、正则等）、打分高亮、列式存储（DocValues）
 的全文检索库。仅支持纯文本文件的索引和搜索。&lt;/p&gt;
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/lucene-intro.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
-&lt;h2 id=&quot;heading-lucene索引原理&quot;&gt;lucene索引原理&lt;/h2&gt;
+&lt;h1 id=&quot;heading-2lucene索引原理&quot;&gt;2.lucene索引原理&lt;/h1&gt;
 &lt;p&gt;每个字符串都指向包含此字符串的文档(Document)链表，此文档链表称为倒排表&lt;/p&gt;
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-construction.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
-&lt;h3 id=&quot;heading-索引创建过程&quot;&gt;索引创建过程&lt;/h3&gt;
+&lt;h2 id=&quot;heading-21索引创建过程&quot;&gt;2.1.索引创建过程&lt;/h2&gt;
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-create-step.png&quot; width=&quot;700px&quot; /&gt;&lt;/center&gt;
 
@@ -1245,7 +1243,7 @@ public @interface BizSpi {
 
 &lt;p&gt;5.通过索引存储将索引写入硬盘&lt;/p&gt;
 
-&lt;h3 id=&quot;heading-检索过程&quot;&gt;检索过程&lt;/h3&gt;
+&lt;h2 id=&quot;heading-22检索过程&quot;&gt;2.2.检索过程&lt;/h2&gt;
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-search-step.png&quot; width=&quot;700px&quot; /&gt;&lt;/center&gt;
 
@@ -1261,7 +1259,7 @@ public @interface BizSpi {
 
 &lt;p&gt;6.根据得到的文档和查询语句的相关性，对结果进行排序。(向量空间模型算法:通过各个关键词根在不同文档中的权重来比较文档与查询语句的相关性)&lt;/p&gt;
 
-&lt;h3 id=&quot;heading-lucene索引基本概念&quot;&gt;lucene索引基本概念&lt;/h3&gt;
+&lt;h2 id=&quot;heading-23lucene索引基本概念&quot;&gt;2.3.lucene索引基本概念&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;索引(index)
@@ -1298,10 +1296,10 @@ public @interface BizSpi {
   &lt;li&gt;反向信息：保存了词典到倒排表的映射：词(Term) –&amp;gt; 文档(Document)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;heading-lucene结构&quot;&gt;lucene结构&lt;/h3&gt;
+&lt;h2 id=&quot;heading-24lucene结构&quot;&gt;2.4.lucene结构&lt;/h2&gt;
 &lt;p&gt;全文索引绝大多数是通过倒排索引来做，倒排索引由两个部分组成，即词典和倒排表&lt;/p&gt;
 
-&lt;h4 id=&quot;heading-索引结构&quot;&gt;索引结构&lt;/h4&gt;
+&lt;h3 id=&quot;heading-241索引结构&quot;&gt;2.4.1.索引结构&lt;/h3&gt;
 &lt;p&gt;lucene从4开始大量使用的数据结构是FST（Finite State Transducer）。FST有两个优点：&lt;/p&gt;
 
 &lt;p&gt;1）空间占用小。通过对词典中单词前缀和后缀的重复利用，压缩了存储空间，压缩率一般在3倍~20倍之间；&lt;/p&gt;
@@ -1339,7 +1337,7 @@ public @interface BizSpi {
   &lt;li&gt;插入acg时，计算出和acf共享前缀ac，这时输入已经结束，所有数据写入磁盘。tim中写入后缀词块f、g和相对应的倒排表位置，tip中写入c和以ac为前缀的后缀词块位置&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;heading-倒排表结构&quot;&gt;倒排表结构&lt;/h4&gt;
+&lt;h3 id=&quot;heading-242倒排表结构&quot;&gt;2.4.2.倒排表结构&lt;/h3&gt;
 &lt;p&gt;Lucene现使用的倒排表结构叫&lt;a href=&quot;https://www.elastic.co/blog/frame-of-reference-and-roaring-bitmaps&quot;&gt;Frame of reference&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;数据压缩：
@@ -1355,26 +1353,26 @@ public @interface BizSpi {
 
 &lt;p&gt;&lt;a href=&quot;http://www.cnblogs.com/forfuture1978/archive/2010/04/04/1704258.html&quot;&gt;链表合并&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-番外篇&quot;&gt;番外篇&lt;/h2&gt;
+&lt;h1 id=&quot;heading-3番外篇&quot;&gt;3.番外篇&lt;/h1&gt;
 
-&lt;h3 id=&quot;heading-fst原理解析&quot;&gt;&lt;a href=&quot;http://blog.jobbole.com/80669/&quot;&gt;FST原理解析&lt;/a&gt;&lt;/h3&gt;
+&lt;h2 id=&quot;heading-31fst原理解析&quot;&gt;3.1&lt;a href=&quot;http://blog.jobbole.com/80669/&quot;&gt;FST原理解析&lt;/a&gt;&lt;/h2&gt;
 
-&lt;h3 id=&quot;heading-跳跃表原理解析&quot;&gt;&lt;a href=&quot;https://www.cnblogs.com/George1994/p/7635731.html&quot;&gt;跳跃表原理解析&lt;/a&gt;&lt;/h3&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="lucene" /><summary type="html">lucene简介和索引原理</summary></entry><entry><title type="html">HBASE的索引查询</title><link href="http://localhost:4000/blog/2017/12/25/hbase-search-index/" rel="alternate" type="text/html" title="HBASE的索引查询" /><published>2017-12-25T00:00:00+08:00</published><updated>2017-12-25T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/12/25/hbase-search-index</id><content type="html" xml:base="http://localhost:4000/blog/2017/12/25/hbase-search-index/">&lt;h3 id=&quot;heading-一级索引&quot;&gt;一级索引&lt;/h3&gt;
+&lt;h2 id=&quot;heading-32跳跃表原理解析&quot;&gt;3.2&lt;a href=&quot;https://www.cnblogs.com/George1994/p/7635731.html&quot;&gt;跳跃表原理解析&lt;/a&gt;&lt;/h2&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="lucene" /><summary type="html">1.Lucene简介 Lucene是一个高效，全Java实现、开源、高性能、功能完整、易拓展，支持分词以及各种查询方式（前缀、模糊、正则等）、打分高亮、列式存储（DocValues） 的全文检索库。仅支持纯文本文件的索引和搜索。</summary></entry><entry><title type="html">HBASE的索引查询</title><link href="http://localhost:4000/blog/2017/12/25/hbase-search-index/" rel="alternate" type="text/html" title="HBASE的索引查询" /><published>2017-12-25T00:00:00+08:00</published><updated>2017-12-25T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/12/25/hbase-search-index</id><content type="html" xml:base="http://localhost:4000/blog/2017/12/25/hbase-search-index/">&lt;h1 id=&quot;heading-一级索引&quot;&gt;一级索引&lt;/h1&gt;
 &lt;p&gt;在逻辑上，HBase的表数据按RowKey进行字典排序， RowKey实际上是数据表的一级索引，由于HBase本身没有二级索引机制，基于索引检索数据只能单纯地依靠RowKey。&lt;/p&gt;
 
-&lt;h3 id=&quot;heading-热点写&quot;&gt;热点写&lt;/h3&gt;
+&lt;h1 id=&quot;heading-热点写&quot;&gt;热点写&lt;/h1&gt;
 &lt;p&gt;大部分场景下，我们的rowkey总是顺序增大的，存在比较明显的问题就是&lt;strong&gt;热点写&lt;/strong&gt;，我们总是向最大的start key所在的region写数据，其次，由于热点，我们总是往最大的start key的region写记录，之前分裂出来的region不会被写数据，他们都处于半满状态，这样的分布也是不利的。如果在写比较频繁的场景下，数据增长太快，split的次数也会增多，由于split是比较耗费资源的。&lt;/p&gt;
 
-&lt;h3 id=&quot;heading-热点写的解决思路&quot;&gt;热点写的解决思路&lt;/h3&gt;
+&lt;h1 id=&quot;heading-热点写的解决思路&quot;&gt;热点写的解决思路&lt;/h1&gt;
 &lt;ul&gt;
   &lt;li&gt;随机散列(hash):hash就是rowkey前面由一串随机字符串组成，随机字符串生成方式可以由SHA或者MD5方式生成，那么新增的rowkey就不再是按顺序增大的了，就可以解决写热点问题&lt;/li&gt;
   &lt;li&gt;分区式:这种方式类似于mysql中的分表，结合当前的region数目对id取模作为rowkey的前缀。但是一旦region自然分裂，分裂出来的分区号会是一样的，会有部分热点写问题出现，一般通过增多预分区或者加入多级分区来避免这个问题，通过合理设定预分区可解决热点写问题，同时减少split带来的性能消耗。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;heading-一级索引的局限&quot;&gt;一级索引的局限&lt;/h3&gt;
+&lt;h1 id=&quot;heading-一级索引的局限&quot;&gt;一级索引的局限&lt;/h1&gt;
 &lt;p&gt;为了能支持多条件查询，开发者需要将所有可能作为查询条件的字段一一拼接到RowKey中，这是HBase开发中极为常见的做法，但是无论怎样设计，单一RowKey固有的局限性决定了它不可能有效地支持多条件查询。通常来说，RowKey只能针对条件中含有其首字段的查询给予令人满意的性能支持，在查询其他字段时，表现就差强人意了，在极端情况下某些字段的查询性能可能会退化为全表扫描的水平，这是因为字段在RowKey中的地位是不等价的，它们在RowKey中的排位决定了它们被检索时的性能表现，排序越靠前的字段在查询中越具有优势(类似于mysql联合索引的最左原则)，特别是首位字段具有特别的先发优势，如果查询中包含首位字段，检索时就可以通过首位字段的值确定RowKey的前缀部分，从而大幅度地收窄检索区间，如果不包含则只能在全体数据的RowKey上逐一查找，由此可以想见两者在性能上的差距.&lt;/p&gt;
 
-&lt;h3 id=&quot;heading-二级索引的解决方案&quot;&gt;二级索引的解决方案&lt;/h3&gt;
+&lt;h1 id=&quot;heading-二级索引的解决方案&quot;&gt;二级索引的解决方案&lt;/h1&gt;
 &lt;p&gt;&lt;strong&gt;原理&lt;/strong&gt;：“二级多列索引”是针对目标记录的某个或某些列建立的“键-值”数据，以列的值为键，以记录的RowKey为值，当以这些列为条件进行查询时，引擎可以通过检索相应的“键-值”数据快速找到目标记录。由于HBase本身并没有索引机制，为了确保非侵入性，引擎将索引视为普通数据存放在数据表中，所以，如何解决索引与主数据的划分存储是引擎第一个需要处理的问题，为了能获得最佳的性能表现，我们并没有将主数据和索引分表储存，而是将它们存放在了同一张表里，通过给索引和主数据的RowKey添加特别设计的Hash前缀，实现了在Region切分时，索引能够跟随其主数据划归到同一Region上，即任意Region上的主数据其索引也必定驻留在同一Region上，这样我们就能把从索引抓取目标主数据的性能损失降低到最小。与此同时，特别设计的Hash前缀还在逻辑上把索引与主数据进行了自动的分离，当全体数据按RowKey排序时，排在前面的都是索引，我们称之为索引区，排在后面的均为主数据，我们称之为主数据区。最后，通过给索引和主数据分配不同的Column Family，又在物理存储上把它们隔离了起来。逻辑和物理上的双重隔离避免了将两类数据存放在同一张表里带来的副作用，防止了它们之间的相互干扰，降低了数据维护的复杂性，可以说这是在性能和可维护性上达到的最佳平衡。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;方案：&lt;/strong&gt;&lt;/p&gt;
@@ -1399,7 +1397,7 @@ public @interface BizSpi {
   &lt;li&gt;假定需要查询满足条件q1=01 and q2=02的Sample记录，分析查询字段和索引匹配情况可知应使用索引a，也就是说我们首先确定了索引名，于是在Region 1上进行scan的区间将从主数据全集收窄至[0000-a, 0000-b)，接着拼接查询字段的值，我们得到了索引键：0102，scan区间又进一步收窄为[0000-a-0102, 0000-a-0103)，于是我们可以很快地找到0000-a-0102-0000|63af51b2这条索引，进而得到了索引值，也就是目标数据的RowKey：0000|63af51b2，通过在Region内执行Get操作，最终得到了目标数据&lt;/li&gt;
 &lt;/ul&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="hbase" /><summary type="html">一级索引 在逻辑上，HBase的表数据按RowKey进行字典排序， RowKey实际上是数据表的一级索引，由于HBase本身没有二级索引机制，基于索引检索数据只能单纯地依靠RowKey。</summary></entry><entry><title type="html">HBASE原理与架构</title><link href="http://localhost:4000/blog/2017/12/20/hbase-construction-theory/" rel="alternate" type="text/html" title="HBASE原理与架构" /><published>2017-12-20T00:00:00+08:00</published><updated>2017-12-20T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/12/20/hbase-construction-theory</id><content type="html" xml:base="http://localhost:4000/blog/2017/12/20/hbase-construction-theory/">&lt;p&gt;HBASE是一个构建在HDFS上的分布式列存储系统，比较起传统的关系型数据库的优点在于，可以实现高性能的并发读写操作。同时HBase不同于传统关系型数据库的面向行存储，HBase是面向列存储，列可以动态增加，列为空就不存储数据，能更好的节省存储空间。Hbase还会对数据进行透明切分，使得存储本身具有了水平伸缩性&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-hbase特点&quot;&gt;HBASE特点&lt;/h2&gt;
+&lt;h1 id=&quot;heading-1hbase特点&quot;&gt;1.HBASE特点&lt;/h1&gt;
 &lt;ul&gt;
   &lt;li&gt;数据量大:一个表可以有数十亿行，上百万列&lt;/li&gt;
   &lt;li&gt;无模式:每行都有一个可排序的主键和任意多的列，列可以根据需要动态的增加，同一张表中不同的行可以有截然不同的列&lt;/li&gt;
@@ -1409,7 +1407,7 @@ public @interface BizSpi {
   &lt;li&gt;数据类型单一:Hbase中的数据都是字符串，没有类型。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;heading-hbase数据模型&quot;&gt;HBASE数据模型&lt;/h2&gt;
+&lt;h1 id=&quot;heading-2hbase数据模型&quot;&gt;2.HBASE数据模型&lt;/h1&gt;
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-20-hbase-construction-theory/hbase-data-model.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
 &lt;ul&gt;
@@ -1422,9 +1420,9 @@ public @interface BizSpi {
 
 &lt;p&gt;Table在水平方向有一个或者多个Column Family组成，一个Column Family中可以由任意多个Column组成，即Column Family支持动态扩展，无需预先定义Column的数量以及类型，所有Column均以二进制格式存储，用户需要自行进行类型转换&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-hbase物理模型&quot;&gt;HBASE物理模型&lt;/h2&gt;
+&lt;h1 id=&quot;heading-3hbase物理模型&quot;&gt;3.HBASE物理模型&lt;/h1&gt;
 
-&lt;h3 id=&quot;heading-物理存储&quot;&gt;物理存储&lt;/h3&gt;
+&lt;h2 id=&quot;heading-31物理存储&quot;&gt;3.1.物理存储&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Table中所有行都按照row key的字典序排列&lt;/li&gt;
@@ -1441,7 +1439,7 @@ public @interface BizSpi {
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-20-hbase-construction-theory/hbase-region-store.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
-&lt;h3 id=&quot;heading-hbase架构以及基本组件&quot;&gt;HBASE架构以及基本组件&lt;/h3&gt;
+&lt;h2 id=&quot;heading-32hbase架构以及基本组件&quot;&gt;3.2.HBASE架构以及基本组件&lt;/h2&gt;
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-20-hbase-construction-theory/hbase-construction.jpg&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
@@ -1474,17 +1472,17 @@ public @interface BizSpi {
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-20-hbase-construction-theory/hbase-master-regionserver.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
-&lt;h2 id=&quot;heading-hbase写入过程&quot;&gt;HBASE写入过程&lt;/h2&gt;
+&lt;h1 id=&quot;heading-4hbase写入过程&quot;&gt;4.HBASE写入过程&lt;/h1&gt;
 
 &lt;p&gt;Client写入 -&amp;gt; 存入MemStore，一直到MemStore满 -&amp;gt; Flush成一个StoreFile，直至增长到一定阈值 -&amp;gt; 触发Compact合并操作 -&amp;gt; 多个StoreFile合并成一个StoreFile，同时进行版本合并和数据删除 -&amp;gt; 当StoreFiles Compact后，逐步形成越来越大的StoreFile -&amp;gt; 单个StoreFile大小超过一定阈值后，触发Split操作，把当前Region Split成2个Region，Region会下线，新Split出的2个孩子Region会被HMaster分配到相应的HRegionServer上，使得原先1个Region的压力得以分流到2个Region上
 由此过程可知，HBase只是增加数据，有所得更新和删除操作，都是在Compact阶段做的，所以，用户写操作只需要进入到内存即可立即返回，从而保证I/O高性能&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-hbase容灾日志恢复&quot;&gt;HBASE容灾(日志恢复)&lt;/h2&gt;
+&lt;h1 id=&quot;heading-5hbase容灾日志恢复&quot;&gt;5.HBASE容灾(日志恢复)&lt;/h1&gt;
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-20-hbase-construction-theory/hbase-hlog.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 &lt;p&gt;每次用户执行写入操作，首先是把Log写入到HLog中，HLog是标准的Hadoop Sequence File，由于Log数据量小，而且是顺序写，速度非常快；同时把数据写入到内存MemStore中，成功后返回给Client，所以对Client来说，HBase写的速度非常快，因为数据只要写入到内存中，就算成功了。接着检查MemStore是否已满，如果满了，就把内存中的MemStore Flush到磁盘上，形成一个新的StoreFile。HLog文件定期会滚动出新的，并删除旧的文件（已持久化到StoreFile中的数据）。当HRegionServer意外终止后，HMaster会通过Zookeeper感知到，HMaster首先会处理遗留的 HLog文件，将其中不同Region的Log数据进行拆分，分别放到相应region的目录下，然后再将失效的region重新分配，领取 到这些region的HRegionServer在Load Region的过程中，会发现有历史HLog需要处理，因此会Replay HLog中的数据到MemStore中，然后flush到StoreFiles，完成数据恢复&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-hbase容错性&quot;&gt;HBASE容错性&lt;/h2&gt;
+&lt;h1 id=&quot;heading-6hbase容错性&quot;&gt;6.HBASE容错性&lt;/h1&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;strong&gt;master容错&lt;/strong&gt;:Zookeeper重新选择一个新的Master
@@ -1497,7 +1495,7 @@ public @interface BizSpi {
   &lt;li&gt;&lt;strong&gt;zookeeper容错&lt;/strong&gt;:Zookeeper是一个可靠地服务，一般配置3或5个Zookeeper实例&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;heading-hbase检索和扫描如何找到某条记录对应的regionserver&quot;&gt;HBASE检索和扫描：如何找到某条记录对应的regionServer&lt;/h2&gt;
+&lt;h1 id=&quot;heading-7hbase检索和扫描如何找到某条记录对应的regionserver&quot;&gt;7.HBASE检索和扫描：如何找到某条记录对应的regionServer&lt;/h1&gt;
 
 &lt;p&gt;ROOT与META表
 Hbase中有两张特殊表，ROOT和META
@@ -1505,7 +1503,7 @@ META：记录了用户表的Region信息，可以有多个region
 ROOT：记录了META表的Region信息，ROOT中只有一个region
 Zookeeper中记录了ROOT表的location
 客户端访问数据的流程： 
-Client -&amp;gt; Zookeeper -&amp;gt; -ROOT- -&amp;gt; .META. -&amp;gt; 用户数据表&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="hbase" /><summary type="html">HBASE是一个构建在HDFS上的分布式列存储系统，比较起传统的关系型数据库的优点在于，可以实现高性能的并发读写操作。同时HBase不同于传统关系型数据库的面向行存储，HBase是面向列存储，列可以动态增加，列为空就不存储数据，能更好的节省存储空间。Hbase还会对数据进行透明切分，使得存储本身具有了水平伸缩性</summary></entry><entry><title type="html">HDFS分布式文件系统</title><link href="http://localhost:4000/blog/2017/12/05/hdfs-theory/" rel="alternate" type="text/html" title="HDFS分布式文件系统" /><published>2017-12-05T00:00:00+08:00</published><updated>2017-12-05T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/12/05/hdfs-theory</id><content type="html" xml:base="http://localhost:4000/blog/2017/12/05/hdfs-theory/">&lt;h2 id=&quot;heading-hdfs设计理念&quot;&gt;HDFS设计理念&lt;/h2&gt;
+Client -&amp;gt; Zookeeper -&amp;gt; -ROOT- -&amp;gt; .META. -&amp;gt; 用户数据表&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="hbase" /><summary type="html">HBASE是一个构建在HDFS上的分布式列存储系统，比较起传统的关系型数据库的优点在于，可以实现高性能的并发读写操作。同时HBase不同于传统关系型数据库的面向行存储，HBase是面向列存储，列可以动态增加，列为空就不存储数据，能更好的节省存储空间。Hbase还会对数据进行透明切分，使得存储本身具有了水平伸缩性</summary></entry><entry><title type="html">HDFS分布式文件系统</title><link href="http://localhost:4000/blog/2017/12/05/hdfs-theory/" rel="alternate" type="text/html" title="HDFS分布式文件系统" /><published>2017-12-05T00:00:00+08:00</published><updated>2017-12-05T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/12/05/hdfs-theory</id><content type="html" xml:base="http://localhost:4000/blog/2017/12/05/hdfs-theory/">&lt;h1 id=&quot;heading-hdfs设计理念&quot;&gt;HDFS设计理念&lt;/h1&gt;
 
 &lt;p&gt;Hadoop分布式文件系统(HDFS)被设计成适合运行在通用硬件上的分布式文件系统，HDFS是一个高度容错性的系统，适合部署在廉价的机器上。HDFS能提供高吞吐量的数据访问，非常适合大规模数据集上的应用。&lt;/p&gt;
 
@@ -1515,7 +1513,7 @@ Client -&amp;gt; Zookeeper -&amp;gt; -ROOT- -&amp;gt; .META. -&amp;gt; 用户数
   &lt;li&gt;&lt;b&gt;运行在普通廉价的服务器上:&lt;/b&gt;HDFS设计理念之一就是让它能运行在普通的硬件之上，即便硬件出现故障，也可以通过容错策略(错误检测和快速、自动的恢复)来保证数据的高可用。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;heading-hdfs基本概念&quot;&gt;HDFS基本概念&lt;/h2&gt;
+&lt;h1 id=&quot;heading-hdfs基本概念&quot;&gt;HDFS基本概念&lt;/h1&gt;
 &lt;p&gt;HDFS暴露了文件系统的名字空间，用户能够以文件的形式在上面存储数据。从内部看，一个文件其实被分成一个或多个数据块，这些块存储在一组Datanode上。Namenode执行文件系统的名字空间操作，比如打开、关闭、重命名文件或目录。它也负责确定数据块到具体Datanode节点的映射。Datanode负责处理文件系统客户端的读写请求。在Namenode的统一调度下进行数据块的创建、删除和复制&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;&lt;b&gt;数据块(block):&lt;/b&gt;大文件会被分割成多个block进行存储，block大小默认为64MB。每一个block会在多个datanode上存储多份副本，默认是3份。&lt;/li&gt;
@@ -1523,17 +1521,17 @@ Client -&amp;gt; Zookeeper -&amp;gt; -ROOT- -&amp;gt; .META. -&amp;gt; 用户数
   &lt;li&gt;&lt;b&gt;datanode:&lt;/b&gt;datanode就负责存储了，当然大部分容错机制都是在datanode上实现的。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;heading-hdfs基本架构图&quot;&gt;HDFS基本架构图&lt;/h2&gt;
+&lt;h1 id=&quot;heading-hdfs基本架构图&quot;&gt;HDFS基本架构图&lt;/h1&gt;
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-05-hdfs-theory/hdfs-construction.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 &lt;p&gt;Rack 是指机架的意思，一个block的三个副本通常会保存到两个或者两个以上的机柜中（当然是机柜中的服务器），这样做的目的是做防灾容错。&lt;/p&gt;
 
 &lt;p&gt;每个Datanode节点周期性地向Namenode发送心跳信号。网络割裂可能导致一部分Datanode跟Namenode失去联系。Namenode通过心跳信号的缺失来检测这一情况，并将这些近期不再发送心跳信号Datanode标记为宕机，不会再将新的IO请求发给它们。任何存储在宕机Datanode上的数据将不再有效。Datanode的宕机可能会引起一些数据块的副本系数低于指定值，Namenode不断地检测这些需要复制的数据块，一旦发现就启动复制操作。在下列情况下，可能需要重新复制：某个Datanode节点失效，某个副本遭到损坏，Datanode上的硬盘错误，或者文件的副本系数增大。&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-hdfs写文件流程&quot;&gt;HDFS写文件流程&lt;/h2&gt;
+&lt;h1 id=&quot;heading-hdfs写文件流程&quot;&gt;HDFS写文件流程&lt;/h1&gt;
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-05-hdfs-theory/hdfs-write.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
 &lt;p&gt;当客户端向HDFS文件写入数据的时候，一开始是写到本地临时文件中。假设该文件的副本系数设置为3，当本地临时文件累积到一个数据块的大小时，客户端会从Namenode获取一个Datanode列表用于存放副本。然后客户端开始向第一个Datanode传输数据，第一个Datanode一小部分一小部分(4 KB)地接收数据，将每一部分写入本地仓库，并同时传输该部分到列表中第二个Datanode节点。第二个Datanode也是这样，一小部分一小部分地接收数据，写入本地仓库，并同时传给第三个Datanode。最后，第三个Datanode接收数据并存储在本地。因此，Datanode能流水线式地从前一个节点接收数据，并在同时转发给下一个节点，数据以流水线的方式从前一个Datanode复制到下一个。
 【ps】另一种数据写入的方式是采用多路写，也就是同时别写入到三个Datanode里面。管道写需要时间去完成，所以它有很高的延迟，但是它能更好地利用网络带宽；多路写有着比较低的延迟，因为客户端只需要等待最慢的DataNode确认（假设其余都已成功确认）。但是写入需要共享发送服务器的网络带宽，这对于有着很高负载的系统来说是一个瓶颈。&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-hdfs读文件流程&quot;&gt;HDFS读文件流程&lt;/h2&gt;
+&lt;h1 id=&quot;heading-hdfs读文件流程&quot;&gt;HDFS读文件流程&lt;/h1&gt;
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-05-hdfs-theory/hdfs-read.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="hdfs" /><summary type="html">HDFS设计理念</summary></entry></feed>

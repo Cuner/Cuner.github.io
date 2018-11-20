@@ -9,7 +9,7 @@ redirect_from:
 ---
 HBASE是一个构建在HDFS上的分布式列存储系统，比较起传统的关系型数据库的优点在于，可以实现高性能的并发读写操作。同时HBase不同于传统关系型数据库的面向行存储，HBase是面向列存储，列可以动态增加，列为空就不存储数据，能更好的节省存储空间。Hbase还会对数据进行透明切分，使得存储本身具有了水平伸缩性
 
-## HBASE特点
+# 1 HBASE特点
 - 数据量大:一个表可以有数十亿行，上百万列
 - 无模式:每行都有一个可排序的主键和任意多的列，列可以根据需要动态的增加，同一张表中不同的行可以有截然不同的列
 - 面向列：面向列（族）的存储和权限控制，列（族）独立检索
@@ -17,7 +17,7 @@ HBASE是一个构建在HDFS上的分布式列存储系统，比较起传统的�
 - 数据多版本:每个单元中的数据可以有多个版本，默认情况下版本号自动分配，是单元格插入时的时间戳
 - 数据类型单一:Hbase中的数据都是字符串，没有类型。
 
-## HBASE数据模型
+# 2 HBASE数据模型
 <center><img src="/assets/images/post/2017-12-20-hbase-construction-theory/hbase-data-model.png" width="500px"/></center>
 
 - 行健(Rowkey):是Byte array，是表中每条记录的“主键”，方便快速查找，Rowkey的设计非常重要(检索方式)
@@ -28,9 +28,9 @@ HBASE是一个构建在HDFS上的分布式列存储系统，比较起传统的�
 
 Table在水平方向有一个或者多个Column Family组成，一个Column Family中可以由任意多个Column组成，即Column Family支持动态扩展，无需预先定义Column的数量以及类型，所有Column均以二进制格式存储，用户需要自行进行类型转换
 
-## HBASE物理模型
+# 3 HBASE物理模型
 
-### 物理存储
+## 3.1 物理存储
 
 - Table中所有行都按照row key的字典序排列
 - Table在行的方向上分割为多个Region(相当于一个region对应某张表的startRowkey到endRowKey的数据)
@@ -43,7 +43,7 @@ Table在水平方向有一个或者多个Column Family组成，一个Column Fami
 
 <center><img src="/assets/images/post/2017-12-20-hbase-construction-theory/hbase-region-store.png" width="500px"/></center>
 
-### HBASE架构以及基本组件
+## 3.2 HBASE架构以及基本组件
 
 <center><img src="/assets/images/post/2017-12-20-hbase-construction-theory/hbase-construction.jpg" width="500px"/></center>
 
@@ -65,19 +65,19 @@ Table在水平方向有一个或者多个Column Family组成，一个Column Fami
 
 <center><img src="/assets/images/post/2017-12-20-hbase-construction-theory/hbase-master-regionserver.png" width="500px"/></center>
 
-## HBASE写入过程
+# 4 HBASE写入过程
 
 Client写入 -> 存入MemStore，一直到MemStore满 -> Flush成一个StoreFile，直至增长到一定阈值 -> 触发Compact合并操作 -> 多个StoreFile合并成一个StoreFile，同时进行版本合并和数据删除 -> 当StoreFiles Compact后，逐步形成越来越大的StoreFile -> 单个StoreFile大小超过一定阈值后，触发Split操作，把当前Region Split成2个Region，Region会下线，新Split出的2个孩子Region会被HMaster分配到相应的HRegionServer上，使得原先1个Region的压力得以分流到2个Region上
 由此过程可知，HBase只是增加数据，有所得更新和删除操作，都是在Compact阶段做的，所以，用户写操作只需要进入到内存即可立即返回，从而保证I/O高性能
 
 
-## HBASE容灾(日志恢复)
+# 5 HBASE容灾(日志恢复)
 
 <center><img src="/assets/images/post/2017-12-20-hbase-construction-theory/hbase-hlog.png" width="500px"/></center>
 每次用户执行写入操作，首先是把Log写入到HLog中，HLog是标准的Hadoop Sequence File，由于Log数据量小，而且是顺序写，速度非常快；同时把数据写入到内存MemStore中，成功后返回给Client，所以对Client来说，HBase写的速度非常快，因为数据只要写入到内存中，就算成功了。接着检查MemStore是否已满，如果满了，就把内存中的MemStore Flush到磁盘上，形成一个新的StoreFile。HLog文件定期会滚动出新的，并删除旧的文件（已持久化到StoreFile中的数据）。当HRegionServer意外终止后，HMaster会通过Zookeeper感知到，HMaster首先会处理遗留的 HLog文件，将其中不同Region的Log数据进行拆分，分别放到相应region的目录下，然后再将失效的region重新分配，领取 到这些region的HRegionServer在Load Region的过程中，会发现有历史HLog需要处理，因此会Replay HLog中的数据到MemStore中，然后flush到StoreFiles，完成数据恢复
 
 
-## HBASE容错性
+# 6 HBASE容错性
 
 - **master容错**:Zookeeper重新选择一个新的Master
   - 无Master过程中，数据读取仍照常进行
@@ -85,7 +85,7 @@ Client写入 -> 存入MemStore，一直到MemStore满 -> Flush成一个StoreFile
 - **regionServer容错**:定时向Zookeeper汇报心跳，如果一旦时间内未出现心跳，Master将该RegionServer上的Region重新分配到其他RegionServer上，失效服务器上“预写”日志由主服务器进行分割并派送给新的RegionServer
 - **zookeeper容错**:Zookeeper是一个可靠地服务，一般配置3或5个Zookeeper实例
 
-## HBASE检索和扫描：如何找到某条记录对应的regionServer
+# 7 HBASE检索和扫描：如何找到某条记录对应的regionServer
 
 ROOT与META表
 Hbase中有两张特殊表，ROOT和META
