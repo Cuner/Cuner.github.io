@@ -194,7 +194,7 @@ private Node enq(final Node node) {
 }
 ```
 
-节点进入同步队列之后，就进入了一个自旋的过程，每个节点都在观察自己，当条件满足且获取到了同步状态之后，就从这个自旋状态退出。
+节点进入同步队列之后，就进入了一个自旋的过程，每个节点都在观察自己，当条件满足且获取到了同步状态之后，就从这个自旋状态退出。值得注意的是该方法对中断不敏感。
         
 ```
 final boolean acquireQueued(final Node node, int arg) {
@@ -202,9 +202,9 @@ final boolean acquireQueued(final Node node, int arg) {
     try {
         boolean interrupted = false;
         for (;;) {
-            final Node p = node.predecessor();//获取前驱节点
-            if (p == head && tryAcquire(arg)) {//前驱节点是首节点时 尝试获取同步状态
-                setHead(node);
+            final Node p = node.predecessor();//1.获取前驱节点
+            if (p == head && tryAcquire(arg)) {//2.前驱节点是首节点时 尝试获取同步状态
+                setHead(node);//3.获取同步状态成功后，将自己设置为首节点
                 p.next = null; // help GC
                 failed = false;
                 return interrupted;
@@ -302,7 +302,7 @@ private void unparkSuccessor(Node node) {
 }
 ```
 
-头节点是成功获取同步状态的节点，而头节点释放同步状态后，将会唤醒后继节点，后继节点的线程被唤醒后需要检查自己的前驱节点是否为首节点，这样也保证了队列的“先进先出”原则
+头节点是成功获取同步状态的节点，每当新的节点获取到同步状态后，该节点就会被设置为首节点，而头节点释放同步状态后，将会唤醒后继节点，后继节点的线程被唤醒后需要检查自己的前驱节点是否为首节点，这样也保证了队列的“先进先出”原则
 
 ### 3.2.2 acquireInterruptibly方法
 ```
@@ -383,6 +383,7 @@ private boolean doAcquireNanos(int arg, long nanosTimeout)
 tryAcquireNanos方法方法与acquireInterruptibly方法基本一致，只是增加了超时失败的机制。
 
 ### 3.2.4 release方法
+当前线程获取同步状态并执行了响应逻辑之后，就需要释放同步状态，是的后续节点能够获取到同步状态。通过调用同步器的release方法可以释放同步状态，该方法在释放了同步状态之后，会唤醒后继节点，进而使后继节点重新尝试获取同步状态。
 ```
 public final boolean release(int arg) {
     if (tryRelease(arg)) {
@@ -399,6 +400,7 @@ public final boolean release(int arg) {
 ## 3.3 共享式同步状态的获取与释放
 
 ### 3.3.1 acquireShared方法
+共享式获取与独占式获取的最主要区别在于同一时刻能否有多个线程同时获取到同步状态。通过调用acquireShared方法能够共享式的获取同步状态。
 ```
 public final void acquireShared(int arg) {
     if (tryAcquireShared(arg) < 0)
@@ -465,6 +467,7 @@ private void doReleaseShared() {
     }
 }
 ```
+在acquireShared方法中，同步器调用tryAcquireShared方法尝试获取同步状态，tryAcquireShared方法返回值类型为int，当返回值大于等于0则代表能获取到同步状态（当返回值为0则代表只有当前节点共享式获取到了同步状态）。
 acquireShared方法与acquire方法的区别主要在于当获取到同步状态之后，除了将自身设置为首节点之外，还需要试图告知后继节点，允许共享式获取同步状态。（这里的doReleaseShared试图唤醒共享式节点）
 
 ### 3.3.2 acquireSharedInterruptibly方法
@@ -553,6 +556,7 @@ private boolean doAcquireSharedNanos(int arg, long nanosTimeout)
 tryAcquireSharedNanos方法与acquireSharedInterruptibly方法基本一致，只是增加了超时失败的机制。
 
 ### 3.3.4 releaseShared方法
+该方法在释同步状态后，将会唤醒处于等待状态的节点。它和独占式主要区别在于该方法必须保证同步状态被安全释放，因为释放同步状态的操作会同时来自多个线程。
 ```
 public final boolean releaseShared(int arg) {
     if (tryReleaseShared(arg)) {
@@ -563,8 +567,48 @@ public final boolean releaseShared(int arg) {
 }
 ```
 
-同样releaseShared方法唤醒后继节点（这里doReleaseShared试图唤醒共享节点以及独占节点）
-
-## 4 Condition
+## 4 番外篇：关于节点加入到同步队列中的同步操作
+当新的节点加入到同步队列中，其实是包含的两个操作的，一个是将新节点的pre指针指向尾节点，一个是将tail指针指向新节点，而AbstractQueuedSynchronizer是通过CAS来保证同步的
+```
+private Node enq(final Node node) {
+    for (;;) {
+        Node t = tail;
+        if (t == null) { // Must initialize
+            if (compareAndSetHead(new Node()))
+                tail = head;
+        } else {
+            node.prev = t;
+            if (compareAndSetTail(t, node)) {
+                t.next = node;
+                return t;
+            }
+        }
+    }
+}
+```
+主要逻辑再else方法块里面，通过循环以及CAS操作来保证这两个操作的同步，否则会因为并发加入节点，导致队列错乱。写者在阅读《java多线程编程核心技术》学习到了一种非阻塞算法，感叹精妙之余分享如下：
+```
+private Node enq(final Node node) {
+    while(true) {
+        Node curTail = tail;
+        Node tailNext = curTail.next;
+        if (curTail == tail) {
+            if (tailNext != null) {
+                //队列处于中间状态，推进尾节点
+                compareAndSetTail(curTail, tailNext);
+            } else {
+                //处于稳定状态 尝试插入新节点
+                if (compareAndSetNext(curTail, null, Node)) {
+                    Node.pre = curTail;
+                    //插入成功，推进尾节点
+                    compareAndSetTail(curTail, Node);
+                    return true;
+                }
+            }
+        }
+    }
+}
+```
+其中compareAndSetTail方法以及compareAndSetTail方法都是AbstractQueuedSynchronizer自带方法
 
 
