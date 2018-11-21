@@ -170,21 +170,21 @@
                         </ul>
                     </div>
                     <div itemprop="articleBody">
-                        <h1 id="heading-1简介">1.简介</h1>
+                        <h1 id="heading-1-简介">1 简介</h1>
 <p>队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的的FIFO队列来完成资源的获取线程的排队工作。
 同步器的主要使用方式是继承，子类通过继承同步器并实现抽象方法来管理同步状态（基于模本方法模式）。子类被推荐定义为自定义同步组件的静态内部类（作为代理配合实现同步组件），同步器自身没有实现任何同步接口，它仅仅定义了同步状态的获取与释放来供自定义同步组件使用，同步器既可以独占式的获取同步状态也可以共享式的获取同步状态。</p>
 
-<h1 id="heading-2队列同步器的接口">2.队列同步器的接口</h1>
+<h1 id="heading-2-队列同步器的接口">2 队列同步器的接口</h1>
 <p>同步器的设计是基于模板方法模式的，子类需要继承同步器并重写指定的方法，而后将同步器组合在自定义同步组件的实现中（委托模式），并调用同步器的模板方法，这些模板方法将会调用同步器子类中重写的方法</p>
 
-<h2 id="heading-21访问修改同步状态">2.1.访问、修改同步状态</h2>
+<h2 id="heading-21-访问修改同步状态">2.1 访问、修改同步状态</h2>
 <ul>
   <li>int getState()：获取当前同步状态</li>
   <li>void setState(int newState)：设置当前同步状态</li>
   <li>boolean compareAndSetState(int expect, int update)：使用CAS设置当前同步状态</li>
 </ul>
 
-<h2 id="heading-22同步器可重写方法">2.2.同步器可重写方法</h2>
+<h2 id="heading-22-同步器可重写方法">2.2 同步器可重写方法</h2>
 
 <p><strong>独占式</strong></p>
 <ul>
@@ -199,7 +199,7 @@
   <li>boolean isHeldExclusively()：当前同步器是否被当前线程独占</li>
 </ul>
 
-<h2 id="heading-23同步器提供的模板方法">2.3.同步器提供的模板方法</h2>
+<h2 id="heading-23-同步器提供的模板方法">2.3 同步器提供的模板方法</h2>
 
 <p><strong>独占式</strong></p>
 <ul>
@@ -229,12 +229,12 @@
   <li>Collection<Thread> getSharedQueuedThreads()：获取等待在同步队列上等待共享式获取同步状态的线程集合。</Thread></li>
 </ul>
 
-<h1 id="heading-3队列同步器的实现分析">3.队列同步器的实现分析</h1>
+<h1 id="heading-3-队列同步器的实现分析">3 队列同步器的实现分析</h1>
 
-<h2 id="heading-31同步队列">3.1同步队列</h2>
+<h2 id="heading-31-同步队列">3.1 同步队列</h2>
 <p>同步器依赖内部的同步队列（一个FIFO双向队列）来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成一个节点（Node），并将其加入到同步队列中，同时会阻塞当前线程，当同步状态释放是，会把首节点中的线程唤醒，使其再次尝试获取同步状态。</p>
 
-<h3 id="heading-311节点">3.1.1.节点</h3>
+<h3 id="heading-311-节点">3.1.1 节点</h3>
 <p>同步队列中的节点（Node）用来保存获取同步状态失败的线程引用、等待状态以及前驱和后继节点。</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>static final class Node {
@@ -297,9 +297,11 @@
 }
 </code></pre></div></div>
 
+<p>关于节点的状态state变化：当节点被创建，状态值默认为0；当有后继节点在等待，节点状态会被置为-1（SINGAL）；当节点共享式获取到同步状态，且无后继节点等待，节点状态会被设置为-3（PROPAGATE）；当节点获取同步状态超时或者被中断，节点状态将被置为1（CANCELLED）。</p>
+
 <p>主意：Node节点不仅用在同步队列中，AbstractQueuedSynchronizer中的Condition中的等待队列也是使用Node节点构建，所以其中有些字段在两种队列的共用，需要注意区分，Condition将在后文阐述。</p>
 
-<h3 id="heading-312队列">3.1.2.队列</h3>
+<h3 id="heading-312-队列">3.1.2 队列</h3>
 <p>节点是构成同步队列的基础，同步器拥有首节点（head）和尾节点（tail），没有成功获取同步状态的线程将会成为节点加入该队列的尾部。</p>
 
 <ul>
@@ -323,9 +325,9 @@
 
 <center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setTail.jpg" width="500px" /></center>
 
-<h2 id="heading-32独占式同步状态的获取与释放">3.2.独占式同步状态的获取与释放</h2>
+<h2 id="heading-32-独占式同步状态的获取与释放">3.2 独占式同步状态的获取与释放</h2>
 
-<h3 id="heading-321acquire方法">3.2.1.acquire方法</h3>
+<h3 id="heading-321-acquire方法">3.2.1 acquire方法</h3>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final void acquire(int arg) {
     if (!tryAcquire(arg) &amp;&amp;
@@ -367,16 +369,16 @@ private Node enq(final Node node) {
 }
 </code></pre></div></div>
 
-<p>节点进入同步队列之后，就进入了一个自旋的过程，每个节点都在观察自己，当条件满足且获取到了同步状态之后，就从这个自旋状态退出。</p>
+<p>节点进入同步队列之后，就进入了一个自旋的过程，每个节点都在观察自己，当条件满足且获取到了同步状态之后，就从这个自旋状态退出。值得注意的是该方法对中断不敏感。</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>final boolean acquireQueued(final Node node, int arg) {
     boolean failed = true;
     try {
         boolean interrupted = false;
         for (;;) {
-            final Node p = node.predecessor();//获取前驱节点
-            if (p == head &amp;&amp; tryAcquire(arg)) {//前驱节点是首节点时 尝试获取同步状态
-                setHead(node);
+            final Node p = node.predecessor();//1.获取前驱节点
+            if (p == head &amp;&amp; tryAcquire(arg)) {//2.前驱节点是首节点时 尝试获取同步状态
+                setHead(node);//3.获取同步状态成功后，将自己设置为首节点
                 p.next = null; // help GC
                 failed = false;
                 return interrupted;
@@ -392,8 +394,7 @@ private Node enq(final Node node) {
 }
 
 /** 当获取同步状态失败后 是否需要阻塞当前线程：
-当前驱节点等待状态是SIGNAL时，返回true，
-阻塞后等待前驱节点唤醒 */
+当前驱节点等待状态是SIGNAL时，返回true */
 private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
     int ws = pred.waitStatus;
     if (ws == Node.SIGNAL)
@@ -415,6 +416,11 @@ private final boolean parkAndCheckInterrupt() {
     return Thread.interrupted();
 }
 
+/** 取消当前线程获取同步状态的操作：
+1.如果需要取消的节点是尾节点，将尾节点指向前驱节点
+2.如果需要取消的节点属于中间节点（前驱节点不是首节点），将前驱节点的next指向后继节点（越过当前节点）
+3.上述两种case是为了订正next指针，通过后续唤醒后继节点，在shouldParkAfterFailedAcquire方法中订正pre指针
+*/
 private void cancelAcquire(Node node) {
     if (node == null)
         return;
@@ -445,28 +451,330 @@ private void cancelAcquire(Node node) {
             if (next != null &amp;&amp; next.waitStatus &lt;= 0)
                 compareAndSetNext(pred, predNext, next);
         } else {
-            unparkSuccessor(node);
+            unparkSuccessor(node);//唤醒后继节点
         }
 
         node.next = node; // help GC
     }
 }
+
+/** 唤醒后继节点 */
+private void unparkSuccessor(Node node) {
+    int ws = node.waitStatus;
+    if (ws &lt; 0)
+        compareAndSetWaitStatus(node, ws, 0);
+        
+    Node s = node.next;
+    if (s == null || s.waitStatus &gt; 0) {
+        s = null;
+        for (Node t = tail; t != null &amp;&amp; t != node; t = t.prev)
+            if (t.waitStatus &lt;= 0)
+                s = t;
+    }
+    if (s != null)
+        LockSupport.unpark(s.thread);
+}
 </code></pre></div></div>
 
-<p>头节点是成功获取同步状态的节点，而头节点释放同步状态后，将会唤醒后继节点，后继节点的线程被唤醒后需要检查自己的前驱节点是否为首节点，这样也保证了队列的“先进先出”原则</p>
+<p>头节点是成功获取同步状态的节点，每当新的节点获取到同步状态后，该节点就会被设置为首节点，而头节点释放同步状态后，将会唤醒后继节点，后继节点的线程被唤醒后需要检查自己的前驱节点是否为首节点，这样也保证了队列的“先进先出”原则</p>
 
-<h4 id="heading-acquireinterruptibly方法">acquireInterruptibly方法</h4>
-<h4 id="heading-tryacquirenanos方法">tryAcquireNanos方法</h4>
-<h4 id="heading-release方法">release方法</h4>
+<h3 id="heading-322-acquireinterruptibly方法">3.2.2 acquireInterruptibly方法</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final void acquireInterruptibly(int arg)
+        throws InterruptedException {
+    if (Thread.interrupted())
+        throw new InterruptedException();
+    if (!tryAcquire(arg))
+        doAcquireInterruptibly(arg);
+}
 
-<h3 id="heading-共享式同步状态的获取与释放">共享式同步状态的获取与释放</h3>
+private void doAcquireInterruptibly(int arg)
+        throws InterruptedException {
+    final Node node = addWaiter(Node.EXCLUSIVE);
+    boolean failed = true;
+    try {
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head &amp;&amp; tryAcquire(arg)) {
+                setHead(node);
+                p.next = null; // help GC
+                failed = false;
+                return;
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &amp;&amp;
+                    parkAndCheckInterrupt())
+                throw new InterruptedException();
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+</code></pre></div></div>
+<p>acquireInterruptibly方法与acquire方法基本一致，只是在检查到中断后抛出InterruptedException。</p>
 
-<h4 id="heading-acquireshared方法">acquireShared方法</h4>
-<h4 id="heading-acquiresharedinterruptibly方法">acquireSharedInterruptibly方法</h4>
-<h4 id="heading-tryacquiresharednanos方法">tryAcquireSharedNanos方法</h4>
-<h4 id="heading-releaseshared方法">releaseShared方法</h4>
+<h3 id="heading-323-tryacquirenanos方法">3.2.3 tryAcquireNanos方法</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final boolean tryAcquireNanos(int arg, long nanosTimeout)
+        throws InterruptedException {
+    if (Thread.interrupted())
+        throw new InterruptedException();
+    return tryAcquire(arg) ||
+            doAcquireNanos(arg, nanosTimeout);
+}
 
-<h3 id="heading-condition">Condition</h3>
+private boolean doAcquireNanos(int arg, long nanosTimeout)
+        throws InterruptedException {
+    if (nanosTimeout &lt;= 0L)
+        return false;
+    final long deadline = System.nanoTime() + nanosTimeout;
+    final Node node = addWaiter(Node.EXCLUSIVE);
+    boolean failed = true;
+    try {
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head &amp;&amp; tryAcquire(arg)) {
+                setHead(node);
+                p.next = null; // help GC
+                failed = false;
+                return true;
+            }
+            nanosTimeout = deadline - System.nanoTime();
+            if (nanosTimeout &lt;= 0L)
+                return false;
+            if (shouldParkAfterFailedAcquire(p, node) &amp;&amp;
+                    nanosTimeout &gt; spinForTimeoutThreshold)
+                LockSupport.parkNanos(this, nanosTimeout);
+            if (Thread.interrupted())
+                throw new InterruptedException();
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+</code></pre></div></div>
+<p>tryAcquireNanos方法方法与acquireInterruptibly方法基本一致，只是增加了超时失败的机制。</p>
+
+<h3 id="heading-324-release方法">3.2.4 release方法</h3>
+<p>当前线程获取同步状态并执行了响应逻辑之后，就需要释放同步状态，是的后续节点能够获取到同步状态。通过调用同步器的release方法可以释放同步状态，该方法在释放了同步状态之后，会唤醒后继节点，进而使后继节点重新尝试获取同步状态。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final boolean release(int arg) {
+    if (tryRelease(arg)) {
+        Node h = head;
+        if (h != null &amp;&amp; h.waitStatus != 0)
+            unparkSuccessor(h);
+        return true;
+    }
+    return false;
+}
+</code></pre></div></div>
+<p>主要是调用unparkSuccessor方法唤醒阻塞中的后继节点，唤醒后的后继节点会开始尝试获取同步状态。</p>
+
+<h2 id="heading-33-共享式同步状态的获取与释放">3.3 共享式同步状态的获取与释放</h2>
+
+<h3 id="heading-331-acquireshared方法">3.3.1 acquireShared方法</h3>
+<p>共享式获取与独占式获取的最主要区别在于同一时刻能否有多个线程同时获取到同步状态。通过调用acquireShared方法能够共享式的获取同步状态。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final void acquireShared(int arg) {
+    if (tryAcquireShared(arg) &lt; 0)
+        doAcquireShared(arg);
+}
+
+private void doAcquireShared(int arg) {
+    final Node node = addWaiter(Node.SHARED);//1.新增SHARED类型的节点
+    boolean failed = true;
+    try {
+        boolean interrupted = false;
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head) {
+                int r = tryAcquireShared(arg);
+                if (r &gt;= 0) {
+                    setHeadAndPropagate(node, r);//2.设置头节点并唤醒后继节点(因为共享式获取同步状态的特点，如果后继节点也是共享式节点，允许后继节点直接获取同步状态)
+                    p.next = null; // help GC
+                    if (interrupted)
+                        selfInterrupt();
+                    failed = false;
+                    return;
+                }
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &amp;&amp;
+                    parkAndCheckInterrupt())
+                interrupted = true;
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+
+private void setHeadAndPropagate(Node node, int propagate) {
+    Node h = head; // Record old head for check below
+    setHead(node);
+
+    //试图通知首节点的后继节点
+    if (propagate &gt; 0 || h == null || h.waitStatus &lt; 0 ||
+            (h = head) == null || h.waitStatus &lt; 0) {
+        Node s = node.next;
+        if (s == null || s.isShared())
+            doReleaseShared();
+    }
+}
+
+private void doReleaseShared() {
+    for (;;) {
+        Node h = head;
+        if (h != null &amp;&amp; h != tail) {
+            int ws = h.waitStatus;
+            if (ws == Node.SIGNAL) {
+                if (!compareAndSetWaitStatus(h, Node.SIGNAL, 0))
+                    continue;            // loop to recheck cases
+                unparkSuccessor(h);//唤醒后继节点
+            }
+            else if (ws == 0 &amp;&amp;
+                    !compareAndSetWaitStatus(h, 0, Node.PROPAGATE))
+                continue;                // loop on failed CAS
+        }
+        if (h == head)                   // loop if head changed
+            break;
+    }
+}
+</code></pre></div></div>
+<p>在acquireShared方法中，同步器调用tryAcquireShared方法尝试获取同步状态，tryAcquireShared方法返回值类型为int，当返回值大于等于0则代表能获取到同步状态（当返回值为0则代表只有当前节点共享式获取到了同步状态）。
+acquireShared方法与acquire方法的区别主要在于当获取到同步状态之后，除了将自身设置为首节点之外，还需要试图告知后继节点，允许共享式获取同步状态。（这里的doReleaseShared试图唤醒共享式节点）</p>
+
+<h3 id="heading-332-acquiresharedinterruptibly方法">3.3.2 acquireSharedInterruptibly方法</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final void acquireSharedInterruptibly(int arg)
+        throws InterruptedException {
+    if (Thread.interrupted())
+        throw new InterruptedException();
+    if (tryAcquireShared(arg) &lt; 0)
+        doAcquireSharedInterruptibly(arg);
+}
+
+private void doAcquireSharedInterruptibly(int arg)
+        throws InterruptedException {
+    final Node node = addWaiter(Node.SHARED);
+    boolean failed = true;
+    try {
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head) {
+                int r = tryAcquireShared(arg);
+                if (r &gt;= 0) {
+                    setHeadAndPropagate(node, r);
+                    p.next = null; // help GC
+                    failed = false;
+                    return;
+                }
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &amp;&amp;
+                    parkAndCheckInterrupt())
+                throw new InterruptedException();
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+</code></pre></div></div>
+<p>acquireSharedInterruptibly方法与acquireShared方法基本一致，只是在检查到中断后抛出InterruptedException。</p>
+
+<h3 id="heading-333-tryacquiresharednanos方法">3.3.3 tryAcquireSharedNanos方法</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final boolean tryAcquireSharedNanos(int arg, long nanosTimeout)
+        throws InterruptedException {
+    if (Thread.interrupted())
+        throw new InterruptedException();
+    return tryAcquireShared(arg) &gt;= 0 ||
+            doAcquireSharedNanos(arg, nanosTimeout);
+}
+
+private boolean doAcquireSharedNanos(int arg, long nanosTimeout)
+        throws InterruptedException {
+    if (nanosTimeout &lt;= 0L)
+        return false;
+    final long deadline = System.nanoTime() + nanosTimeout;
+    final Node node = addWaiter(Node.SHARED);
+    boolean failed = true;
+    try {
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head) {
+                int r = tryAcquireShared(arg);
+                if (r &gt;= 0) {
+                    setHeadAndPropagate(node, r);
+                    p.next = null; // help GC
+                    failed = false;
+                    return true;
+                }
+            }
+            nanosTimeout = deadline - System.nanoTime();
+            if (nanosTimeout &lt;= 0L)
+                return false;
+            if (shouldParkAfterFailedAcquire(p, node) &amp;&amp;
+                    nanosTimeout &gt; spinForTimeoutThreshold)
+                LockSupport.parkNanos(this, nanosTimeout);
+            if (Thread.interrupted())
+                throw new InterruptedException();
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+</code></pre></div></div>
+
+<p>tryAcquireSharedNanos方法与acquireSharedInterruptibly方法基本一致，只是增加了超时失败的机制。</p>
+
+<h3 id="heading-334-releaseshared方法">3.3.4 releaseShared方法</h3>
+<p>该方法在释同步状态后，将会唤醒处于等待状态的节点。它和独占式主要区别在于该方法必须保证同步状态被安全释放，因为释放同步状态的操作会同时来自多个线程。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final boolean releaseShared(int arg) {
+    if (tryReleaseShared(arg)) {
+        doReleaseShared();
+        return true;
+    }
+    return false;
+}
+</code></pre></div></div>
+
+<h2 id="heading-4-番外篇关于节点加入到同步队列中的同步操作">4 番外篇：关于节点加入到同步队列中的同步操作</h2>
+<p>当新的节点加入到同步队列中，其实是包含的两个操作的，一个是将新节点的pre指针指向尾节点，一个是将tail指针指向新节点，而AbstractQueuedSynchronizer是通过CAS来保证同步的</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private Node enq(final Node node) {
+    for (;;) {
+        Node t = tail;
+        if (t == null) { // Must initialize
+            if (compareAndSetHead(new Node()))
+                tail = head;
+        } else {
+            node.prev = t;
+            if (compareAndSetTail(t, node)) {
+                t.next = node;
+                return t;
+            }
+        }
+    }
+}
+</code></pre></div></div>
+<p>主要逻辑再else方法块里面，通过循环以及CAS操作来保证这两个操作的同步，否则会因为并发加入节点，导致队列错乱。写者在阅读《java多线程编程核心技术》学习到了一种非阻塞算法，感叹精妙之余分享如下：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private Node enq(final Node node) {
+    while(true) {
+        Node curTail = tail;
+        Node tailNext = curTail.next;
+        if (curTail == tail) {
+            if (tailNext != null) {
+                //队列处于中间状态，推进尾节点
+                compareAndSetTail(curTail, tailNext);
+            } else {
+                //处于稳定状态 尝试插入新节点
+                if (compareAndSetNext(curTail, null, Node)) {
+                    Node.pre = curTail;
+                    //插入成功，推进尾节点
+                    compareAndSetTail(curTail, Node);
+                    return true;
+                }
+            }
+        }
+    }
+}
+</code></pre></div></div>
+<p>其中compareAndSetTail方法以及compareAndSetTail方法都是AbstractQueuedSynchronizer自带方法</p>
 
 
                     </div>

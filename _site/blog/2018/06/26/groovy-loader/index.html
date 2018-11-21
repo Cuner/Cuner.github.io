@@ -170,20 +170,20 @@
                         </ul>
                     </div>
                     <div itemprop="articleBody">
-                        <h1 id="heading-groovy-loader背景">groovy loader背景</h1>
+                        <h1 id="heading-1-groovy-loader背景">1 groovy loader背景</h1>
 <p>由于groovy动态语言的特性，使用方式与java一致，同时又特别适合与Spring的动态语言支持一起使用，所以基于java的groovy脚本的动态加载的使用场景还是比较多的</p>
 
-<h1 id="heading-简介">简介</h1>
+<h1 id="heading-2-简介">2 简介</h1>
 <p>动态加载指定目录下的groovy脚本，并将其注册为groovy bean，放置于ApplicationContext容器中，并使用命名空间进行分类区分(一个namespace对应于一个ApplicationContext)。同时能够动态感知到groovy脚本的新增、修改以及删除事件，并自动重新加载。</p>
 
-<h1 id="heading-原理">原理</h1>
+<h1 id="heading-3-原理">3 原理</h1>
 <ul>
   <li>使用spring配置文件来管理注册groovy bean：每一个spring配置文件作为一个ApplicationContext，管理一个namespace下的groovy bean</li>
   <li>spring配置文件使用标签<code class="highlighter-rouge">&lt;lang:groovy&gt;</code>，通过指定script-source来加载指定路径下的groovy脚本，通过refresh-check-delay属性来定时动态加载每个groovy bean</li>
   <li>通过扫描监听指定路径下spring配置文件的变更，来接受groovy脚本的新增、删除事件</li>
 </ul>
 
-<h3 id="heading-监听器listener">监听器listener</h3>
+<h2 id="heading-31-监听器listener">3.1 监听器listener</h2>
 <p>由于我们需要动态获取groovy脚本的变更，包含更新、新增、删除。接收到groovy脚本变更后需要触发用户自定义事件，所以我们先提供一个待用户实现的监听器接口，用于接受groovy变更事件，并执行相应代码</p>
 
 <ul>
@@ -218,7 +218,7 @@
 
 <p>这个需要用户来实现</p>
 
-<h3 id="heading-触发器trigger">触发器trigger</h3>
+<h2 id="heading-32-触发器trigger">3.2 触发器trigger</h2>
 <p>由于需要动态去发现groovy脚本的变更，需要通过定时轮训使用触发器去判断groovy脚本是否完成了变更。上述提到过，框架通过<code class="highlighter-rouge">&lt;lang:Groovy&gt;</code>来定时加载groovy脚本，通过扫描监听指定路径下spring配置文件的变更。通过这样的方式来接受groovy脚本的新增、删除事件。同样触发器也允许用户自定义，框架提供了一个默认的触发器</p>
 
 <ul>
@@ -261,7 +261,7 @@
   </li>
 </ul>
 
-<h3 id="heading-groovy-loader">groovy loader</h3>
+<h2 id="heading-33-groovy-loader">3.3 groovy loader</h2>
 <p>初始化时会将指定目录下的groovy脚本动态加载成bean，并根据namespace注册到不同的Application容器中。注：以spring配置文件的名称作为namespace</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private void initLoadResources() {
     if (MapUtils.isNotEmpty(this.namespacedContext)) {
@@ -292,7 +292,7 @@
 }
 </code></pre></div></div>
 
-<h3 id="heading-spring配置文件">spring配置文件</h3>
+<h2 id="heading-34-spring配置文件">3.4 spring配置文件</h2>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
 <span class="nt">&lt;beans</span> <span class="na">xmlns=</span><span class="s">"http://www.springframework.org/schema/beans"</span>
        <span class="na">xmlns:context=</span><span class="s">"http://www.springframework.org/schema/context"</span>
@@ -309,7 +309,7 @@
 <span class="nt">&lt;/beans&gt;</span>
 </code></pre></div></div>
 
-<h1 id="heading-使用">使用</h1>
+<h1 id="heading-4-使用">4 使用</h1>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;bean id="listener" class="org.cuner.groovy.loader.test.TestListener"/&gt;&lt;!--需要实现org.cuner.groovy.loader.listener.GroovyRefreshedListener --&gt;
 &lt;bean id="groovyLoader" class="org.cuner.groovy.loader.NamespacedGroovyLoader"&gt;
     &lt;property name="groovyResourcesDir" value=""/&gt;&lt;!--指定spring groovy配置文件目录，若不设置或者为空则默认为classpath下/spring/groovy目录--&gt;
@@ -318,10 +318,10 @@
 &lt;/bean&gt;
 </code></pre></div></div>
 
-<h1 id="heading-源码demo">源码&amp;Demo</h1>
+<h1 id="heading-5-源码demo">5 源码&amp;Demo</h1>
 <p>代码托管在Github上，并附有使用demo，欢迎下载运行: https://github.com/Cuner/groovy-loader</p>
 
-<h1 id="heading-版本升级-groovy-loader-v2">版本升级 groovy-loader-v2</h1>
+<h1 id="heading-6-版本升级-groovy-loader-v2">6 版本升级 groovy-loader-v2</h1>
 <p>v1版本存在的缺陷在于：由于使用了<code class="highlighter-rouge">&lt;lang:groovy&gt;</code>标签，spring定时去重加载groovy bean，即使这个bean没有被修改，由此会产生一些性能消耗问题。为了解决这点，v2实现了groovy脚本的加载以及groovy bean的注入。同时由定时扫描spring配置改为扫描目录下的所有groovy脚本来实现触发器。</p>
 
 <ul>

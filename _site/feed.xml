@@ -1,18 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2018-11-20T10:33:33+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">J.U.C之AQS队列同步器</title><link href="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/" rel="alternate" type="text/html" title="J.U.C之AQS队列同步器" /><published>2018-11-09T00:00:00+08:00</published><updated>2018-11-09T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS</id><content type="html" xml:base="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/">&lt;h1 id=&quot;heading-1简介&quot;&gt;1.简介&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2018-11-21T17:39:55+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">J.U.C之AQS队列同步器</title><link href="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/" rel="alternate" type="text/html" title="J.U.C之AQS队列同步器" /><published>2018-11-09T00:00:00+08:00</published><updated>2018-11-09T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS</id><content type="html" xml:base="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/">&lt;h1 id=&quot;heading-1-简介&quot;&gt;1 简介&lt;/h1&gt;
 &lt;p&gt;队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的的FIFO队列来完成资源的获取线程的排队工作。
 同步器的主要使用方式是继承，子类通过继承同步器并实现抽象方法来管理同步状态（基于模本方法模式）。子类被推荐定义为自定义同步组件的静态内部类（作为代理配合实现同步组件），同步器自身没有实现任何同步接口，它仅仅定义了同步状态的获取与释放来供自定义同步组件使用，同步器既可以独占式的获取同步状态也可以共享式的获取同步状态。&lt;/p&gt;
 
-&lt;h1 id=&quot;heading-2队列同步器的接口&quot;&gt;2.队列同步器的接口&lt;/h1&gt;
+&lt;h1 id=&quot;heading-2-队列同步器的接口&quot;&gt;2 队列同步器的接口&lt;/h1&gt;
 &lt;p&gt;同步器的设计是基于模板方法模式的，子类需要继承同步器并重写指定的方法，而后将同步器组合在自定义同步组件的实现中（委托模式），并调用同步器的模板方法，这些模板方法将会调用同步器子类中重写的方法&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-21访问修改同步状态&quot;&gt;2.1.访问、修改同步状态&lt;/h2&gt;
+&lt;h2 id=&quot;heading-21-访问修改同步状态&quot;&gt;2.1 访问、修改同步状态&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;int getState()：获取当前同步状态&lt;/li&gt;
   &lt;li&gt;void setState(int newState)：设置当前同步状态&lt;/li&gt;
   &lt;li&gt;boolean compareAndSetState(int expect, int update)：使用CAS设置当前同步状态&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;heading-22同步器可重写方法&quot;&gt;2.2.同步器可重写方法&lt;/h2&gt;
+&lt;h2 id=&quot;heading-22-同步器可重写方法&quot;&gt;2.2 同步器可重写方法&lt;/h2&gt;
 
 &lt;p&gt;&lt;strong&gt;独占式&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -27,7 +27,7 @@
   &lt;li&gt;boolean isHeldExclusively()：当前同步器是否被当前线程独占&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;heading-23同步器提供的模板方法&quot;&gt;2.3.同步器提供的模板方法&lt;/h2&gt;
+&lt;h2 id=&quot;heading-23-同步器提供的模板方法&quot;&gt;2.3 同步器提供的模板方法&lt;/h2&gt;
 
 &lt;p&gt;&lt;strong&gt;独占式&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -57,12 +57,12 @@
   &lt;li&gt;Collection&lt;Thread&gt; getSharedQueuedThreads()：获取等待在同步队列上等待共享式获取同步状态的线程集合。&lt;/Thread&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;heading-3队列同步器的实现分析&quot;&gt;3.队列同步器的实现分析&lt;/h1&gt;
+&lt;h1 id=&quot;heading-3-队列同步器的实现分析&quot;&gt;3 队列同步器的实现分析&lt;/h1&gt;
 
-&lt;h2 id=&quot;heading-31同步队列&quot;&gt;3.1同步队列&lt;/h2&gt;
+&lt;h2 id=&quot;heading-31-同步队列&quot;&gt;3.1 同步队列&lt;/h2&gt;
 &lt;p&gt;同步器依赖内部的同步队列（一个FIFO双向队列）来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成一个节点（Node），并将其加入到同步队列中，同时会阻塞当前线程，当同步状态释放是，会把首节点中的线程唤醒，使其再次尝试获取同步状态。&lt;/p&gt;
 
-&lt;h3 id=&quot;heading-311节点&quot;&gt;3.1.1.节点&lt;/h3&gt;
+&lt;h3 id=&quot;heading-311-节点&quot;&gt;3.1.1 节点&lt;/h3&gt;
 &lt;p&gt;同步队列中的节点（Node）用来保存获取同步状态失败的线程引用、等待状态以及前驱和后继节点。&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;static final class Node {
@@ -125,9 +125,11 @@
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
+&lt;p&gt;关于节点的状态state变化：当节点被创建，状态值默认为0；当有后继节点在等待，节点状态会被置为-1（SINGAL）；当节点共享式获取到同步状态，且无后继节点等待，节点状态会被设置为-3（PROPAGATE）；当节点获取同步状态超时或者被中断，节点状态将被置为1（CANCELLED）。&lt;/p&gt;
+
 &lt;p&gt;主意：Node节点不仅用在同步队列中，AbstractQueuedSynchronizer中的Condition中的等待队列也是使用Node节点构建，所以其中有些字段在两种队列的共用，需要注意区分，Condition将在后文阐述。&lt;/p&gt;
 
-&lt;h3 id=&quot;heading-312队列&quot;&gt;3.1.2.队列&lt;/h3&gt;
+&lt;h3 id=&quot;heading-312-队列&quot;&gt;3.1.2 队列&lt;/h3&gt;
 &lt;p&gt;节点是构成同步队列的基础，同步器拥有首节点（head）和尾节点（tail），没有成功获取同步状态的线程将会成为节点加入该队列的尾部。&lt;/p&gt;
 
 &lt;ul&gt;
@@ -151,9 +153,9 @@
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-11-09-java-concurrent-util-AQS/setTail.jpg&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
-&lt;h2 id=&quot;heading-32独占式同步状态的获取与释放&quot;&gt;3.2.独占式同步状态的获取与释放&lt;/h2&gt;
+&lt;h2 id=&quot;heading-32-独占式同步状态的获取与释放&quot;&gt;3.2 独占式同步状态的获取与释放&lt;/h2&gt;
 
-&lt;h3 id=&quot;heading-321acquire方法&quot;&gt;3.2.1.acquire方法&lt;/h3&gt;
+&lt;h3 id=&quot;heading-321-acquire方法&quot;&gt;3.2.1 acquire方法&lt;/h3&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public final void acquire(int arg) {
     if (!tryAcquire(arg) &amp;amp;&amp;amp;
@@ -195,16 +197,16 @@ private Node enq(final Node node) {
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;节点进入同步队列之后，就进入了一个自旋的过程，每个节点都在观察自己，当条件满足且获取到了同步状态之后，就从这个自旋状态退出。&lt;/p&gt;
+&lt;p&gt;节点进入同步队列之后，就进入了一个自旋的过程，每个节点都在观察自己，当条件满足且获取到了同步状态之后，就从这个自旋状态退出。值得注意的是该方法对中断不敏感。&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;final boolean acquireQueued(final Node node, int arg) {
     boolean failed = true;
     try {
         boolean interrupted = false;
         for (;;) {
-            final Node p = node.predecessor();//获取前驱节点
-            if (p == head &amp;amp;&amp;amp; tryAcquire(arg)) {//前驱节点是首节点时 尝试获取同步状态
-                setHead(node);
+            final Node p = node.predecessor();//1.获取前驱节点
+            if (p == head &amp;amp;&amp;amp; tryAcquire(arg)) {//2.前驱节点是首节点时 尝试获取同步状态
+                setHead(node);//3.获取同步状态成功后，将自己设置为首节点
                 p.next = null; // help GC
                 failed = false;
                 return interrupted;
@@ -220,8 +222,7 @@ private Node enq(final Node node) {
 }
 
 /** 当获取同步状态失败后 是否需要阻塞当前线程：
-当前驱节点等待状态是SIGNAL时，返回true，
-阻塞后等待前驱节点唤醒 */
+当前驱节点等待状态是SIGNAL时，返回true */
 private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
     int ws = pred.waitStatus;
     if (ws == Node.SIGNAL)
@@ -243,6 +244,11 @@ private final boolean parkAndCheckInterrupt() {
     return Thread.interrupted();
 }
 
+/** 取消当前线程获取同步状态的操作：
+1.如果需要取消的节点是尾节点，将尾节点指向前驱节点
+2.如果需要取消的节点属于中间节点（前驱节点不是首节点），将前驱节点的next指向后继节点（越过当前节点）
+3.上述两种case是为了订正next指针，通过后续唤醒后继节点，在shouldParkAfterFailedAcquire方法中订正pre指针
+*/
 private void cancelAcquire(Node node) {
     if (node == null)
         return;
@@ -273,28 +279,330 @@ private void cancelAcquire(Node node) {
             if (next != null &amp;amp;&amp;amp; next.waitStatus &amp;lt;= 0)
                 compareAndSetNext(pred, predNext, next);
         } else {
-            unparkSuccessor(node);
+            unparkSuccessor(node);//唤醒后继节点
         }
 
         node.next = node; // help GC
     }
 }
+
+/** 唤醒后继节点 */
+private void unparkSuccessor(Node node) {
+    int ws = node.waitStatus;
+    if (ws &amp;lt; 0)
+        compareAndSetWaitStatus(node, ws, 0);
+        
+    Node s = node.next;
+    if (s == null || s.waitStatus &amp;gt; 0) {
+        s = null;
+        for (Node t = tail; t != null &amp;amp;&amp;amp; t != node; t = t.prev)
+            if (t.waitStatus &amp;lt;= 0)
+                s = t;
+    }
+    if (s != null)
+        LockSupport.unpark(s.thread);
+}
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;头节点是成功获取同步状态的节点，而头节点释放同步状态后，将会唤醒后继节点，后继节点的线程被唤醒后需要检查自己的前驱节点是否为首节点，这样也保证了队列的“先进先出”原则&lt;/p&gt;
+&lt;p&gt;头节点是成功获取同步状态的节点，每当新的节点获取到同步状态后，该节点就会被设置为首节点，而头节点释放同步状态后，将会唤醒后继节点，后继节点的线程被唤醒后需要检查自己的前驱节点是否为首节点，这样也保证了队列的“先进先出”原则&lt;/p&gt;
 
-&lt;h4 id=&quot;heading-acquireinterruptibly方法&quot;&gt;acquireInterruptibly方法&lt;/h4&gt;
-&lt;h4 id=&quot;heading-tryacquirenanos方法&quot;&gt;tryAcquireNanos方法&lt;/h4&gt;
-&lt;h4 id=&quot;heading-release方法&quot;&gt;release方法&lt;/h4&gt;
+&lt;h3 id=&quot;heading-322-acquireinterruptibly方法&quot;&gt;3.2.2 acquireInterruptibly方法&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public final void acquireInterruptibly(int arg)
+        throws InterruptedException {
+    if (Thread.interrupted())
+        throw new InterruptedException();
+    if (!tryAcquire(arg))
+        doAcquireInterruptibly(arg);
+}
 
-&lt;h3 id=&quot;heading-共享式同步状态的获取与释放&quot;&gt;共享式同步状态的获取与释放&lt;/h3&gt;
+private void doAcquireInterruptibly(int arg)
+        throws InterruptedException {
+    final Node node = addWaiter(Node.EXCLUSIVE);
+    boolean failed = true;
+    try {
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head &amp;amp;&amp;amp; tryAcquire(arg)) {
+                setHead(node);
+                p.next = null; // help GC
+                failed = false;
+                return;
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &amp;amp;&amp;amp;
+                    parkAndCheckInterrupt())
+                throw new InterruptedException();
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;acquireInterruptibly方法与acquire方法基本一致，只是在检查到中断后抛出InterruptedException。&lt;/p&gt;
 
-&lt;h4 id=&quot;heading-acquireshared方法&quot;&gt;acquireShared方法&lt;/h4&gt;
-&lt;h4 id=&quot;heading-acquiresharedinterruptibly方法&quot;&gt;acquireSharedInterruptibly方法&lt;/h4&gt;
-&lt;h4 id=&quot;heading-tryacquiresharednanos方法&quot;&gt;tryAcquireSharedNanos方法&lt;/h4&gt;
-&lt;h4 id=&quot;heading-releaseshared方法&quot;&gt;releaseShared方法&lt;/h4&gt;
+&lt;h3 id=&quot;heading-323-tryacquirenanos方法&quot;&gt;3.2.3 tryAcquireNanos方法&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public final boolean tryAcquireNanos(int arg, long nanosTimeout)
+        throws InterruptedException {
+    if (Thread.interrupted())
+        throw new InterruptedException();
+    return tryAcquire(arg) ||
+            doAcquireNanos(arg, nanosTimeout);
+}
 
-&lt;h3 id=&quot;heading-condition&quot;&gt;Condition&lt;/h3&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">1.简介 队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的的FIFO队列来完成资源的获取线程的排队工作。 同步器的主要使用方式是继承，子类通过继承同步器并实现抽象方法来管理同步状态（基于模本方法模式）。子类被推荐定义为自定义同步组件的静态内部类（作为代理配合实现同步组件），同步器自身没有实现任何同步接口，它仅仅定义了同步状态的获取与释放来供自定义同步组件使用，同步器既可以独占式的获取同步状态也可以共享式的获取同步状态。</summary></entry><entry><title type="html">paxos与raft一致性协议</title><link href="http://localhost:4000/blog/2018/10/21/raft-diff-paxos/" rel="alternate" type="text/html" title="paxos与raft一致性协议" /><published>2018-10-21T00:00:00+08:00</published><updated>2018-10-21T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/10/21/raft-diff-paxos</id><content type="html" xml:base="http://localhost:4000/blog/2018/10/21/raft-diff-paxos/">&lt;h1 id=&quot;heading-一致性协议&quot;&gt;一致性协议&lt;/h1&gt;
+private boolean doAcquireNanos(int arg, long nanosTimeout)
+        throws InterruptedException {
+    if (nanosTimeout &amp;lt;= 0L)
+        return false;
+    final long deadline = System.nanoTime() + nanosTimeout;
+    final Node node = addWaiter(Node.EXCLUSIVE);
+    boolean failed = true;
+    try {
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head &amp;amp;&amp;amp; tryAcquire(arg)) {
+                setHead(node);
+                p.next = null; // help GC
+                failed = false;
+                return true;
+            }
+            nanosTimeout = deadline - System.nanoTime();
+            if (nanosTimeout &amp;lt;= 0L)
+                return false;
+            if (shouldParkAfterFailedAcquire(p, node) &amp;amp;&amp;amp;
+                    nanosTimeout &amp;gt; spinForTimeoutThreshold)
+                LockSupport.parkNanos(this, nanosTimeout);
+            if (Thread.interrupted())
+                throw new InterruptedException();
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;tryAcquireNanos方法方法与acquireInterruptibly方法基本一致，只是增加了超时失败的机制。&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-324-release方法&quot;&gt;3.2.4 release方法&lt;/h3&gt;
+&lt;p&gt;当前线程获取同步状态并执行了响应逻辑之后，就需要释放同步状态，是的后续节点能够获取到同步状态。通过调用同步器的release方法可以释放同步状态，该方法在释放了同步状态之后，会唤醒后继节点，进而使后继节点重新尝试获取同步状态。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public final boolean release(int arg) {
+    if (tryRelease(arg)) {
+        Node h = head;
+        if (h != null &amp;amp;&amp;amp; h.waitStatus != 0)
+            unparkSuccessor(h);
+        return true;
+    }
+    return false;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;主要是调用unparkSuccessor方法唤醒阻塞中的后继节点，唤醒后的后继节点会开始尝试获取同步状态。&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-33-共享式同步状态的获取与释放&quot;&gt;3.3 共享式同步状态的获取与释放&lt;/h2&gt;
+
+&lt;h3 id=&quot;heading-331-acquireshared方法&quot;&gt;3.3.1 acquireShared方法&lt;/h3&gt;
+&lt;p&gt;共享式获取与独占式获取的最主要区别在于同一时刻能否有多个线程同时获取到同步状态。通过调用acquireShared方法能够共享式的获取同步状态。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public final void acquireShared(int arg) {
+    if (tryAcquireShared(arg) &amp;lt; 0)
+        doAcquireShared(arg);
+}
+
+private void doAcquireShared(int arg) {
+    final Node node = addWaiter(Node.SHARED);//1.新增SHARED类型的节点
+    boolean failed = true;
+    try {
+        boolean interrupted = false;
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head) {
+                int r = tryAcquireShared(arg);
+                if (r &amp;gt;= 0) {
+                    setHeadAndPropagate(node, r);//2.设置头节点并唤醒后继节点(因为共享式获取同步状态的特点，如果后继节点也是共享式节点，允许后继节点直接获取同步状态)
+                    p.next = null; // help GC
+                    if (interrupted)
+                        selfInterrupt();
+                    failed = false;
+                    return;
+                }
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &amp;amp;&amp;amp;
+                    parkAndCheckInterrupt())
+                interrupted = true;
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+
+private void setHeadAndPropagate(Node node, int propagate) {
+    Node h = head; // Record old head for check below
+    setHead(node);
+
+    //试图通知首节点的后继节点
+    if (propagate &amp;gt; 0 || h == null || h.waitStatus &amp;lt; 0 ||
+            (h = head) == null || h.waitStatus &amp;lt; 0) {
+        Node s = node.next;
+        if (s == null || s.isShared())
+            doReleaseShared();
+    }
+}
+
+private void doReleaseShared() {
+    for (;;) {
+        Node h = head;
+        if (h != null &amp;amp;&amp;amp; h != tail) {
+            int ws = h.waitStatus;
+            if (ws == Node.SIGNAL) {
+                if (!compareAndSetWaitStatus(h, Node.SIGNAL, 0))
+                    continue;            // loop to recheck cases
+                unparkSuccessor(h);//唤醒后继节点
+            }
+            else if (ws == 0 &amp;amp;&amp;amp;
+                    !compareAndSetWaitStatus(h, 0, Node.PROPAGATE))
+                continue;                // loop on failed CAS
+        }
+        if (h == head)                   // loop if head changed
+            break;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;在acquireShared方法中，同步器调用tryAcquireShared方法尝试获取同步状态，tryAcquireShared方法返回值类型为int，当返回值大于等于0则代表能获取到同步状态（当返回值为0则代表只有当前节点共享式获取到了同步状态）。
+acquireShared方法与acquire方法的区别主要在于当获取到同步状态之后，除了将自身设置为首节点之外，还需要试图告知后继节点，允许共享式获取同步状态。（这里的doReleaseShared试图唤醒共享式节点）&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-332-acquiresharedinterruptibly方法&quot;&gt;3.3.2 acquireSharedInterruptibly方法&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public final void acquireSharedInterruptibly(int arg)
+        throws InterruptedException {
+    if (Thread.interrupted())
+        throw new InterruptedException();
+    if (tryAcquireShared(arg) &amp;lt; 0)
+        doAcquireSharedInterruptibly(arg);
+}
+
+private void doAcquireSharedInterruptibly(int arg)
+        throws InterruptedException {
+    final Node node = addWaiter(Node.SHARED);
+    boolean failed = true;
+    try {
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head) {
+                int r = tryAcquireShared(arg);
+                if (r &amp;gt;= 0) {
+                    setHeadAndPropagate(node, r);
+                    p.next = null; // help GC
+                    failed = false;
+                    return;
+                }
+            }
+            if (shouldParkAfterFailedAcquire(p, node) &amp;amp;&amp;amp;
+                    parkAndCheckInterrupt())
+                throw new InterruptedException();
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;acquireSharedInterruptibly方法与acquireShared方法基本一致，只是在检查到中断后抛出InterruptedException。&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-333-tryacquiresharednanos方法&quot;&gt;3.3.3 tryAcquireSharedNanos方法&lt;/h3&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public final boolean tryAcquireSharedNanos(int arg, long nanosTimeout)
+        throws InterruptedException {
+    if (Thread.interrupted())
+        throw new InterruptedException();
+    return tryAcquireShared(arg) &amp;gt;= 0 ||
+            doAcquireSharedNanos(arg, nanosTimeout);
+}
+
+private boolean doAcquireSharedNanos(int arg, long nanosTimeout)
+        throws InterruptedException {
+    if (nanosTimeout &amp;lt;= 0L)
+        return false;
+    final long deadline = System.nanoTime() + nanosTimeout;
+    final Node node = addWaiter(Node.SHARED);
+    boolean failed = true;
+    try {
+        for (;;) {
+            final Node p = node.predecessor();
+            if (p == head) {
+                int r = tryAcquireShared(arg);
+                if (r &amp;gt;= 0) {
+                    setHeadAndPropagate(node, r);
+                    p.next = null; // help GC
+                    failed = false;
+                    return true;
+                }
+            }
+            nanosTimeout = deadline - System.nanoTime();
+            if (nanosTimeout &amp;lt;= 0L)
+                return false;
+            if (shouldParkAfterFailedAcquire(p, node) &amp;amp;&amp;amp;
+                    nanosTimeout &amp;gt; spinForTimeoutThreshold)
+                LockSupport.parkNanos(this, nanosTimeout);
+            if (Thread.interrupted())
+                throw new InterruptedException();
+        }
+    } finally {
+        if (failed)
+            cancelAcquire(node);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;tryAcquireSharedNanos方法与acquireSharedInterruptibly方法基本一致，只是增加了超时失败的机制。&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-334-releaseshared方法&quot;&gt;3.3.4 releaseShared方法&lt;/h3&gt;
+&lt;p&gt;该方法在释同步状态后，将会唤醒处于等待状态的节点。它和独占式主要区别在于该方法必须保证同步状态被安全释放，因为释放同步状态的操作会同时来自多个线程。&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public final boolean releaseShared(int arg) {
+    if (tryReleaseShared(arg)) {
+        doReleaseShared();
+        return true;
+    }
+    return false;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;heading-4-番外篇关于节点加入到同步队列中的同步操作&quot;&gt;4 番外篇：关于节点加入到同步队列中的同步操作&lt;/h2&gt;
+&lt;p&gt;当新的节点加入到同步队列中，其实是包含的两个操作的，一个是将新节点的pre指针指向尾节点，一个是将tail指针指向新节点，而AbstractQueuedSynchronizer是通过CAS来保证同步的&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;private Node enq(final Node node) {
+    for (;;) {
+        Node t = tail;
+        if (t == null) { // Must initialize
+            if (compareAndSetHead(new Node()))
+                tail = head;
+        } else {
+            node.prev = t;
+            if (compareAndSetTail(t, node)) {
+                t.next = node;
+                return t;
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;主要逻辑再else方法块里面，通过循环以及CAS操作来保证这两个操作的同步，否则会因为并发加入节点，导致队列错乱。写者在阅读《java多线程编程核心技术》学习到了一种非阻塞算法，感叹精妙之余分享如下：&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;private Node enq(final Node node) {
+    while(true) {
+        Node curTail = tail;
+        Node tailNext = curTail.next;
+        if (curTail == tail) {
+            if (tailNext != null) {
+                //队列处于中间状态，推进尾节点
+                compareAndSetTail(curTail, tailNext);
+            } else {
+                //处于稳定状态 尝试插入新节点
+                if (compareAndSetNext(curTail, null, Node)) {
+                    Node.pre = curTail;
+                    //插入成功，推进尾节点
+                    compareAndSetTail(curTail, Node);
+                    return true;
+                }
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;其中compareAndSetTail方法以及compareAndSetTail方法都是AbstractQueuedSynchronizer自带方法&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">1 简介 队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的的FIFO队列来完成资源的获取线程的排队工作。 同步器的主要使用方式是继承，子类通过继承同步器并实现抽象方法来管理同步状态（基于模本方法模式）。子类被推荐定义为自定义同步组件的静态内部类（作为代理配合实现同步组件），同步器自身没有实现任何同步接口，它仅仅定义了同步状态的获取与释放来供自定义同步组件使用，同步器既可以独占式的获取同步状态也可以共享式的获取同步状态。</summary></entry><entry><title type="html">paxos与raft一致性协议</title><link href="http://localhost:4000/blog/2018/10/21/raft-diff-paxos/" rel="alternate" type="text/html" title="paxos与raft一致性协议" /><published>2018-10-21T00:00:00+08:00</published><updated>2018-10-21T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/10/21/raft-diff-paxos</id><content type="html" xml:base="http://localhost:4000/blog/2018/10/21/raft-diff-paxos/">&lt;h1 id=&quot;heading-1-一致性协议&quot;&gt;1 一致性协议&lt;/h1&gt;
 &lt;p&gt;一致性协议简单来说，是一种保障集群中所有机器上的数据达到一致的协议。最直观的最好理解的一致性协议，例如2PC、3PC，便是在做数据操作时，对集群中的所有机器同时做数据操作，仅当集群中的全部机器操作成功后，所有机器保证一致后，该数据操作才成功，否则只要有一台机器因为网络等其他原因导致数据操作失败，该数据操作就会失败，其他操作成功的机器也会全部进行数据回滚。
 上述一致性协议虽然简单，但相对保守，且无法应对机器宕机、网络分区等故障问题。针对这种情况，paxos以及raft等一致性协议应运而生。
 新一代的一致性协议有如下特点：&lt;/p&gt;
@@ -305,7 +613,7 @@ private void cancelAcquire(Node node) {
   &lt;li&gt;在出现机器宕机或者网络分区后，集群仍能正常工作，且保证集群一致性，同时当机器重启或者网络恢复后，也能保证集群一致性（利用持久化数据存储）&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;heading-paxos以及raft介绍&quot;&gt;paxos以及raft介绍&lt;/h1&gt;
+&lt;h1 id=&quot;heading-2-paxos以及raft介绍&quot;&gt;2 paxos以及raft介绍&lt;/h1&gt;
 &lt;p&gt;下面是关于两种一致性协议的相关论文的详细讲解，这里就不再赘述&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;PAXOS
@@ -324,9 +632,9 @@ private void cancelAcquire(Node node) {
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;heading-paxos以及raft异同这里的paxos指的是multi-paxos&quot;&gt;paxos以及raft异同（这里的paxos指的是Multi-Paxos）&lt;/h1&gt;
+&lt;h1 id=&quot;heading-3-paxos以及raft异同这里的paxos指的是multi-paxos&quot;&gt;3 paxos以及raft异同（这里的paxos指的是Multi-Paxos）&lt;/h1&gt;
 
-&lt;h2 id=&quot;heading-相同点&quot;&gt;相同点&lt;/h2&gt;
+&lt;h2 id=&quot;heading-31-相同点&quot;&gt;3.1 相同点&lt;/h2&gt;
 &lt;ul&gt;
   &lt;li&gt;保障一致性：一个日志一旦被提交(得到多数派的赞成），就不会丢失，也不可能更改&lt;/li&gt;
   &lt;li&gt;协议都使用一个唯一的整数作为标识符来标明leader的合法性，paxos叫做proposer-id，ZAB叫epoch，VR叫view，raft叫term。&lt;/li&gt;
@@ -334,7 +642,7 @@ private void cancelAcquire(Node node) {
   &lt;li&gt;都是利用了同一个性质：两个多数派集合之间存在一个公共成员&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;heading-差异点&quot;&gt;差异点&lt;/h2&gt;
+&lt;h2 id=&quot;heading-32-差异点&quot;&gt;3.2 差异点&lt;/h2&gt;
 &lt;p&gt;1.理论与实践&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;paxos是理论上的一致性协议，虽然高效但是难以理解，难以在实际环境中实现，而一些paxos实现的一致性系统最终也产生一些偏离；&lt;/li&gt;
@@ -379,12 +687,12 @@ private void cancelAcquire(Node node) {
   &lt;li&gt;raft的日志条目具有强顺序性，强调日志的连续性，不允许出现空洞，领导人永远不会覆盖或者删除自己的日志，它只会增加条目，新选举出的Leader已经拥有全部的可以被提交的日志&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;heading-混淆概念&quot;&gt;混淆概念&lt;/h1&gt;
+&lt;h1 id=&quot;heading-4-混淆概念&quot;&gt;4 混淆概念&lt;/h1&gt;
 
-&lt;p&gt;raft以及paxos协议中针对每个提案，都有一个全局唯一的递增id，用来表示某个提案的唯一性，这里的提案可以对应为客户端的一次请求或者一条指令。而paxos协议中，每个提案对应一个编号以及提案值，这里的编号与上述的提案id不同，该编号的概念存在于某个提案A从提出到被决策的生命周期中(在该生命中期中自增且唯一)，也可以理解为某个提案A被提出者提出的字数编号，例如序列为100的提案被第一次提出、被第二次提出。&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="consensus" /><summary type="html">一致性协议 一致性协议简单来说，是一种保障集群中所有机器上的数据达到一致的协议。最直观的最好理解的一致性协议，例如2PC、3PC，便是在做数据操作时，对集群中的所有机器同时做数据操作，仅当集群中的全部机器操作成功后，所有机器保证一致后，该数据操作才成功，否则只要有一台机器因为网络等其他原因导致数据操作失败，该数据操作就会失败，其他操作成功的机器也会全部进行数据回滚。 上述一致性协议虽然简单，但相对保守，且无法应对机器宕机、网络分区等故障问题。针对这种情况，paxos以及raft等一致性协议应运而生。 新一代的一致性协议有如下特点： 采取过半原则：即当集群中大于一半的机器认同该数据操作，且数据操作成功后，该数据操作被集群认可（因为任何两个多数派集合中至少有一个成员是公共的） 允许集群中出现部分机器不一致性，且时刻异步进行着机器之前数据的同步 选举出leader协助集群中机器间数据的同步 在出现机器宕机或者网络分区后，集群仍能正常工作，且保证集群一致性，同时当机器重启或者网络恢复后，也能保证集群一致性（利用持久化数据存储）</summary></entry><entry><title type="html">基于配置的流程管理框架</title><link href="http://localhost:4000/blog/2018/08/04/flow-framework/" rel="alternate" type="text/html" title="基于配置的流程管理框架" /><published>2018-08-04T00:00:00+08:00</published><updated>2018-08-04T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/08/04/flow-framework</id><content type="html" xml:base="http://localhost:4000/blog/2018/08/04/flow-framework/">&lt;h1 id=&quot;heading-介绍&quot;&gt;介绍&lt;/h1&gt;
+&lt;p&gt;raft以及paxos协议中针对每个提案，都有一个全局唯一的递增id，用来表示某个提案的唯一性，这里的提案可以对应为客户端的一次请求或者一条指令。而paxos协议中，每个提案对应一个编号以及提案值，这里的编号与上述的提案id不同，该编号的概念存在于某个提案A从提出到被决策的生命周期中(在该生命中期中自增且唯一)，也可以理解为某个提案A被提出者提出的字数编号，例如序列为100的提案被第一次提出、被第二次提出。&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="consensus" /><summary type="html">1 一致性协议 一致性协议简单来说，是一种保障集群中所有机器上的数据达到一致的协议。最直观的最好理解的一致性协议，例如2PC、3PC，便是在做数据操作时，对集群中的所有机器同时做数据操作，仅当集群中的全部机器操作成功后，所有机器保证一致后，该数据操作才成功，否则只要有一台机器因为网络等其他原因导致数据操作失败，该数据操作就会失败，其他操作成功的机器也会全部进行数据回滚。 上述一致性协议虽然简单，但相对保守，且无法应对机器宕机、网络分区等故障问题。针对这种情况，paxos以及raft等一致性协议应运而生。 新一代的一致性协议有如下特点： 采取过半原则：即当集群中大于一半的机器认同该数据操作，且数据操作成功后，该数据操作被集群认可（因为任何两个多数派集合中至少有一个成员是公共的） 允许集群中出现部分机器不一致性，且时刻异步进行着机器之前数据的同步 选举出leader协助集群中机器间数据的同步 在出现机器宕机或者网络分区后，集群仍能正常工作，且保证集群一致性，同时当机器重启或者网络恢复后，也能保证集群一致性（利用持久化数据存储）</summary></entry><entry><title type="html">基于配置的流程管理框架</title><link href="http://localhost:4000/blog/2018/08/04/flow-framework/" rel="alternate" type="text/html" title="基于配置的流程管理框架" /><published>2018-08-04T00:00:00+08:00</published><updated>2018-08-04T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/08/04/flow-framework</id><content type="html" xml:base="http://localhost:4000/blog/2018/08/04/flow-framework/">&lt;h1 id=&quot;heading-1-介绍&quot;&gt;1 介绍&lt;/h1&gt;
 &lt;p&gt;通用的流程编排框架，将整个流程以xml配置文件的形式管理起来：定义流程、管理上下文、控制流程的流转（按条件或者顺序），各个流程节点的执行（同步或者异步）。同时对每个流程节点进行监控以及统计，完成对流程的整体把控。&lt;/p&gt;
 
-&lt;h1 id=&quot;heading-基本概念&quot;&gt;基本概念&lt;/h1&gt;
+&lt;h1 id=&quot;heading-2-基本概念&quot;&gt;2 基本概念&lt;/h1&gt;
 
 &lt;ul&gt;
   &lt;li&gt;flow:数据流程对象&lt;/li&gt;
@@ -393,16 +701,16 @@ private void cancelAcquire(Node node) {
   &lt;li&gt;subflow:子流程，一个流程节点可以执行操作；也可以执行某个子流程&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;heading-用法&quot;&gt;用法&lt;/h1&gt;
+&lt;h1 id=&quot;heading-3-用法&quot;&gt;3 用法&lt;/h1&gt;
 
-&lt;h2 id=&quot;heading-1定义流程的输入与输出&quot;&gt;1.定义流程的输入与输出&lt;/h2&gt;
+&lt;h2 id=&quot;heading-31-定义流程的输入与输出&quot;&gt;3.1 定义流程的输入与输出&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;定义输入为Data&lt;/li&gt;
   &lt;li&gt;定义输出为Result&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;heading-2定义步骤子节点&quot;&gt;2.定义步骤（子节点）&lt;/h2&gt;
+&lt;h2 id=&quot;heading-32-定义步骤子节点&quot;&gt;3.2 定义步骤（子节点）&lt;/h2&gt;
 
 &lt;p&gt;所有的子节点需要实现接口org.cuner.flowframework.core.Action&amp;lt;Data, Result&amp;gt;&lt;/p&gt;
 
@@ -426,7 +734,7 @@ private void cancelAcquire(Node node) {
 &amp;lt;bean id=&quot;action3&quot; class=&quot;org.cuner.flowframework.test.action.Action3&quot;/&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;heading-3通过xml配置定义流程&quot;&gt;3.通过xml配置定义流程&lt;/h2&gt;
+&lt;h2 id=&quot;heading-33-通过xml配置定义流程&quot;&gt;3.3 通过xml配置定义流程&lt;/h2&gt;
 
 &lt;p&gt;详细的配置结构请查看xsd文件&lt;/p&gt;
 &lt;ul&gt;
@@ -502,7 +810,7 @@ private void cancelAcquire(Node node) {
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/flows&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;heading-4流程注入&quot;&gt;4.流程注入&lt;/h2&gt;
+&lt;h2 id=&quot;heading-34-流程注入&quot;&gt;3.4 流程注入&lt;/h2&gt;
 
 &lt;p&gt;配置文件需要放在classpath下，案例中的配置文件就是在classpath下的flow.xml文件&lt;/p&gt;
 
@@ -515,13 +823,13 @@ private void cancelAcquire(Node node) {
 &amp;lt;/bean&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;heading-5执行&quot;&gt;5.执行&lt;/h2&gt;
+&lt;h2 id=&quot;heading-35-执行&quot;&gt;3.5 执行&lt;/h2&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Result result = flowManager.execute(&quot;mainFlow&quot;, data);
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;由于各个步骤可异步执行，在主流程的执行中加入了闭锁，只有当所有步骤（包括异步的）执行完成，execute方法才能正确返回。&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-6查看日志&quot;&gt;6.查看日志&lt;/h2&gt;
+&lt;h2 id=&quot;heading-36-查看日志&quot;&gt;3.6 查看日志&lt;/h2&gt;
 &lt;p&gt;可查看流程执行的完整堆栈，可以在logback.xml中如下配置&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;logger name=&quot;flow-record&quot; level=&quot;info&quot; additivity=&quot;false&quot;&amp;gt;
     &amp;lt;appender-ref ref=&quot;FLOW_RECORD&quot;/&amp;gt;
@@ -549,22 +857,22 @@ private void cancelAcquire(Node node) {
 |----[step:step10 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h1 id=&quot;heading-源码&quot;&gt;源码&lt;/h1&gt;
+&lt;h1 id=&quot;heading-4-源码&quot;&gt;4 源码&lt;/h1&gt;
 
-&lt;p&gt;最后，附上代码:https://github.com/Cuner/flow-framework&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="flow" /><summary type="html">介绍 通用的流程编排框架，将整个流程以xml配置文件的形式管理起来：定义流程、管理上下文、控制流程的流转（按条件或者顺序），各个流程节点的执行（同步或者异步）。同时对每个流程节点进行监控以及统计，完成对流程的整体把控。</summary></entry><entry><title type="html">基于spring的groovy动态加载</title><link href="http://localhost:4000/blog/2018/06/26/groovy-loader/" rel="alternate" type="text/html" title="基于spring的groovy动态加载" /><published>2018-06-26T00:00:00+08:00</published><updated>2018-06-26T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/06/26/groovy-loader</id><content type="html" xml:base="http://localhost:4000/blog/2018/06/26/groovy-loader/">&lt;h1 id=&quot;heading-groovy-loader背景&quot;&gt;groovy loader背景&lt;/h1&gt;
+&lt;p&gt;最后，附上代码:https://github.com/Cuner/flow-framework&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="flow" /><summary type="html">1 介绍 通用的流程编排框架，将整个流程以xml配置文件的形式管理起来：定义流程、管理上下文、控制流程的流转（按条件或者顺序），各个流程节点的执行（同步或者异步）。同时对每个流程节点进行监控以及统计，完成对流程的整体把控。</summary></entry><entry><title type="html">基于spring的groovy动态加载</title><link href="http://localhost:4000/blog/2018/06/26/groovy-loader/" rel="alternate" type="text/html" title="基于spring的groovy动态加载" /><published>2018-06-26T00:00:00+08:00</published><updated>2018-06-26T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/06/26/groovy-loader</id><content type="html" xml:base="http://localhost:4000/blog/2018/06/26/groovy-loader/">&lt;h1 id=&quot;heading-1-groovy-loader背景&quot;&gt;1 groovy loader背景&lt;/h1&gt;
 &lt;p&gt;由于groovy动态语言的特性，使用方式与java一致，同时又特别适合与Spring的动态语言支持一起使用，所以基于java的groovy脚本的动态加载的使用场景还是比较多的&lt;/p&gt;
 
-&lt;h1 id=&quot;heading-简介&quot;&gt;简介&lt;/h1&gt;
+&lt;h1 id=&quot;heading-2-简介&quot;&gt;2 简介&lt;/h1&gt;
 &lt;p&gt;动态加载指定目录下的groovy脚本，并将其注册为groovy bean，放置于ApplicationContext容器中，并使用命名空间进行分类区分(一个namespace对应于一个ApplicationContext)。同时能够动态感知到groovy脚本的新增、修改以及删除事件，并自动重新加载。&lt;/p&gt;
 
-&lt;h1 id=&quot;heading-原理&quot;&gt;原理&lt;/h1&gt;
+&lt;h1 id=&quot;heading-3-原理&quot;&gt;3 原理&lt;/h1&gt;
 &lt;ul&gt;
   &lt;li&gt;使用spring配置文件来管理注册groovy bean：每一个spring配置文件作为一个ApplicationContext，管理一个namespace下的groovy bean&lt;/li&gt;
   &lt;li&gt;spring配置文件使用标签&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;lang:groovy&amp;gt;&lt;/code&gt;，通过指定script-source来加载指定路径下的groovy脚本，通过refresh-check-delay属性来定时动态加载每个groovy bean&lt;/li&gt;
   &lt;li&gt;通过扫描监听指定路径下spring配置文件的变更，来接受groovy脚本的新增、删除事件&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;heading-监听器listener&quot;&gt;监听器listener&lt;/h3&gt;
+&lt;h2 id=&quot;heading-31-监听器listener&quot;&gt;3.1 监听器listener&lt;/h2&gt;
 &lt;p&gt;由于我们需要动态获取groovy脚本的变更，包含更新、新增、删除。接收到groovy脚本变更后需要触发用户自定义事件，所以我们先提供一个待用户实现的监听器接口，用于接受groovy变更事件，并执行相应代码&lt;/p&gt;
 
 &lt;ul&gt;
@@ -599,7 +907,7 @@ private void cancelAcquire(Node node) {
 
 &lt;p&gt;这个需要用户来实现&lt;/p&gt;
 
-&lt;h3 id=&quot;heading-触发器trigger&quot;&gt;触发器trigger&lt;/h3&gt;
+&lt;h2 id=&quot;heading-32-触发器trigger&quot;&gt;3.2 触发器trigger&lt;/h2&gt;
 &lt;p&gt;由于需要动态去发现groovy脚本的变更，需要通过定时轮训使用触发器去判断groovy脚本是否完成了变更。上述提到过，框架通过&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;lang:Groovy&amp;gt;&lt;/code&gt;来定时加载groovy脚本，通过扫描监听指定路径下spring配置文件的变更。通过这样的方式来接受groovy脚本的新增、删除事件。同样触发器也允许用户自定义，框架提供了一个默认的触发器&lt;/p&gt;
 
 &lt;ul&gt;
@@ -642,7 +950,7 @@ private void cancelAcquire(Node node) {
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;heading-groovy-loader&quot;&gt;groovy loader&lt;/h3&gt;
+&lt;h2 id=&quot;heading-33-groovy-loader&quot;&gt;3.3 groovy loader&lt;/h2&gt;
 &lt;p&gt;初始化时会将指定目录下的groovy脚本动态加载成bean，并根据namespace注册到不同的Application容器中。注：以spring配置文件的名称作为namespace&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;private void initLoadResources() {
     if (MapUtils.isNotEmpty(this.namespacedContext)) {
@@ -673,7 +981,7 @@ private void cancelAcquire(Node node) {
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;heading-spring配置文件&quot;&gt;spring配置文件&lt;/h3&gt;
+&lt;h2 id=&quot;heading-34-spring配置文件&quot;&gt;3.4 spring配置文件&lt;/h2&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;beans&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;xmlns=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://www.springframework.org/schema/beans&quot;&lt;/span&gt;
        &lt;span class=&quot;na&quot;&gt;xmlns:context=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://www.springframework.org/schema/context&quot;&lt;/span&gt;
@@ -690,7 +998,7 @@ private void cancelAcquire(Node node) {
 &lt;span class=&quot;nt&quot;&gt;&amp;lt;/beans&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h1 id=&quot;heading-使用&quot;&gt;使用&lt;/h1&gt;
+&lt;h1 id=&quot;heading-4-使用&quot;&gt;4 使用&lt;/h1&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;bean id=&quot;listener&quot; class=&quot;org.cuner.groovy.loader.test.TestListener&quot;/&amp;gt;&amp;lt;!--需要实现org.cuner.groovy.loader.listener.GroovyRefreshedListener --&amp;gt;
 &amp;lt;bean id=&quot;groovyLoader&quot; class=&quot;org.cuner.groovy.loader.NamespacedGroovyLoader&quot;&amp;gt;
     &amp;lt;property name=&quot;groovyResourcesDir&quot; value=&quot;&quot;/&amp;gt;&amp;lt;!--指定spring groovy配置文件目录，若不设置或者为空则默认为classpath下/spring/groovy目录--&amp;gt;
@@ -699,10 +1007,10 @@ private void cancelAcquire(Node node) {
 &amp;lt;/bean&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h1 id=&quot;heading-源码demo&quot;&gt;源码&amp;amp;Demo&lt;/h1&gt;
+&lt;h1 id=&quot;heading-5-源码demo&quot;&gt;5 源码&amp;amp;Demo&lt;/h1&gt;
 &lt;p&gt;代码托管在Github上，并附有使用demo，欢迎下载运行: https://github.com/Cuner/groovy-loader&lt;/p&gt;
 
-&lt;h1 id=&quot;heading-版本升级-groovy-loader-v2&quot;&gt;版本升级 groovy-loader-v2&lt;/h1&gt;
+&lt;h1 id=&quot;heading-6-版本升级-groovy-loader-v2&quot;&gt;6 版本升级 groovy-loader-v2&lt;/h1&gt;
 &lt;p&gt;v1版本存在的缺陷在于：由于使用了&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;lang:groovy&amp;gt;&lt;/code&gt;标签，spring定时去重加载groovy bean，即使这个bean没有被修改，由此会产生一些性能消耗问题。为了解决这点，v2实现了groovy脚本的加载以及groovy bean的注入。同时由定时扫描spring配置改为扫描目录下的所有groovy脚本来实现触发器。&lt;/p&gt;
 
 &lt;ul&gt;
@@ -800,9 +1108,9 @@ private void scanGroovyFiles(File file, String namespace) throws Exception {
 &lt;p&gt;groovy文件夹下第一级文件夹名称拼接namespacePrefix作为namespace，每个namespace分配一个ApplicationContext容器，每个namespace对应的bean都由各自的beanfactory加载注入，避免同名类加载导致的错误。同时groovy脚本更新后产生新的groovy bean之后，还需要移除之前的groovy bean，值得额外注意的是需要移除注入缓存，否则会报错：Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
 注意：由于我们不需要groovy的metaclass信息，这里对metaClass进行清除来进行优化&lt;/p&gt;
 
-&lt;p&gt;最后，附上代码:https://github.com/Cuner/groovy-loader-v2&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="groovy" /><summary type="html">groovy loader背景 由于groovy动态语言的特性，使用方式与java一致，同时又特别适合与Spring的动态语言支持一起使用，所以基于java的groovy脚本的动态加载的使用场景还是比较多的</summary></entry><entry><title type="html">基于redis的分布式延时队列</title><link href="http://localhost:4000/blog/2018/05/30/delay-queue/" rel="alternate" type="text/html" title="基于redis的分布式延时队列" /><published>2018-05-30T00:00:00+08:00</published><updated>2018-05-30T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/30/delay-queue</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/30/delay-queue/">&lt;p&gt;延时队列的使用场景非常多，目前集中式场景可以使用JDK自带的delayQueue，本文使用redis队列来实现两种分布式的延时队列，并进行了对比分析&lt;/p&gt;
+&lt;p&gt;最后，附上代码:https://github.com/Cuner/groovy-loader-v2&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="groovy" /><summary type="html">1 groovy loader背景 由于groovy动态语言的特性，使用方式与java一致，同时又特别适合与Spring的动态语言支持一起使用，所以基于java的groovy脚本的动态加载的使用场景还是比较多的</summary></entry><entry><title type="html">基于redis的分布式延时队列</title><link href="http://localhost:4000/blog/2018/05/30/delay-queue/" rel="alternate" type="text/html" title="基于redis的分布式延时队列" /><published>2018-05-30T00:00:00+08:00</published><updated>2018-05-30T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/30/delay-queue</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/30/delay-queue/">&lt;p&gt;延时队列的使用场景非常多，目前集中式场景可以使用JDK自带的delayQueue，本文使用redis队列来实现两种分布式的延时队列，并进行了对比分析&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-1封装统一的队列消息结构&quot;&gt;1.封装统一的队列消息结构&lt;/h2&gt;
+&lt;h1 id=&quot;heading-1-封装统一的队列消息结构&quot;&gt;1 封装统一的队列消息结构&lt;/h1&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class DelayMessage {
 
     /**
@@ -834,7 +1142,7 @@ private void scanGroovyFiles(File file, String namespace) throws Exception {
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;heading-2-同步延时队列&quot;&gt;2. 同步延时队列&lt;/h2&gt;
+&lt;h1 id=&quot;heading-2-同步延时队列&quot;&gt;2 同步延时队列&lt;/h1&gt;
 &lt;p&gt;原理：通过LRANG获取队列头部元素，从而获得到期时间，当数据达到到期时间后，通过LPOP取出数据。并发情况下会加分布式锁，同一时刻只能有一个线程访问队列并阻塞等待数据准备完成(达到延时时间)。当线程获取到可以返回的数据后，才能释放锁。&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public DelayMessage pop() {
     while (true) {
@@ -884,7 +1192,7 @@ private void scanGroovyFiles(File file, String namespace) throws Exception {
   &lt;li&gt;支持delay时间的动态调整&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;heading-3-并发延时队列&quot;&gt;3. 并发延时队列&lt;/h2&gt;
+&lt;h1 id=&quot;heading-3-并发延时队列&quot;&gt;3 并发延时队列&lt;/h1&gt;
 &lt;p&gt;原理：直接通过LPOP取出数据，当数据达到到期时间后立即返回，若未达到到期时间，线程sleep至到期时间后将数据返回。这样就允许队列在无分布式锁的情况下并行消费。
 存在的问题：从数据LPOP移除队列到数据返回之间有一段时间间隔，如果系统在这段时间出现异常，比如宕机、重启等等，就会出现数据丢失的情况。为了避免此种情况，引入了ack的方式，在通过LPOP去除数据后，随机将数据存储到另外一个临时redis set中，在用户接受到消息并处理完成后手动执行ack方法后才将数据从临时set中移除。而在机器重启时，再将改临时set里面的数据重新put到延时队列中。&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public DelayMessage pop() {
@@ -930,7 +1238,7 @@ private void scanGroovyFiles(File file, String namespace) throws Exception {
   &lt;li&gt;&lt;strong&gt;autoAck为false时，必须在处理完消息后手动调用ack方法，否则会导致应用重启后重新开始消费&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;heading-4性能对比&quot;&gt;4.性能对比&lt;/h2&gt;
+&lt;h1 id=&quot;heading-4-性能对比&quot;&gt;4 性能对比&lt;/h1&gt;
 
 &lt;ul&gt;
   &lt;li&gt;RedisConcurrentDelayQueue和RedisSynDelayQueue的简单对比，数据是线下单机环境测试数据&lt;/li&gt;
@@ -1031,10 +1339,10 @@ private void scanGroovyFiles(File file, String namespace) throws Exception {
   &lt;li&gt;RedisSynDelayQueue在并发消费的场景下性能较差，不推荐使用。&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&quot;heading-5项目代码&quot;&gt;5.项目代码&lt;/h2&gt;
+&lt;h1 id=&quot;heading-5-项目代码&quot;&gt;5 项目代码&lt;/h1&gt;
 &lt;p&gt;代码托管在Github上，并附有使用demo，欢迎下载运行: https://github.com/Cuner/delay-queue&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-6切换思路&quot;&gt;6.切换思路&lt;/h2&gt;
+&lt;h1 id=&quot;heading-6-切换思路&quot;&gt;6 切换思路&lt;/h1&gt;
 &lt;p&gt;当有延时任务或者延时消息产生时，暂时将延时任务/消息存放至某个容器里面(可以是数据记录的方式存储在db，也可以存储在redis zset中等等)，然后采用定时器不断去轮训容器里面的各个延时任务/消息，当扫描获取到达到过期时间的延时任务/消息后，将其推送到消息队列中以供消费，推送成功后再将其从容器里移除。
 值得注意的是，同一个达到到期时间的延时任务/消息，可能会被连续的两次扫描命中（延时任务/消息从容器移除有延时），最后导致消息重复消费。&lt;/p&gt;
 
@@ -1218,18 +1526,18 @@ public @interface BizSpi {
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;5.demo
-代码托管在Github上，并附有使用demo，欢迎下载运行: https://github.com/Cuner/spi-framework&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="SPI" /><summary type="html">SPI的全名为Service Provider Interface。根据Java的SPI规范，我们可以定义一个服务接口，具体的实现由对应的实现者去提供，即Service Provider（服务提供者）。然后在使用的时候只要根据SPI的规范去获取对应的服务提供者的服务实现即可。简单来说，SPI就是一种为接口寻找服务的机制，基于这种机制，本文提出一种基于动态代理的spi框架的实现方式。</summary></entry><entry><title type="html">lucene简介和索引原理</title><link href="http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/" rel="alternate" type="text/html" title="lucene简介和索引原理" /><published>2018-04-26T00:00:00+08:00</published><updated>2018-04-26T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index</id><content type="html" xml:base="http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/">&lt;h1 id=&quot;heading-1lucene简介&quot;&gt;1.Lucene简介&lt;/h1&gt;
+代码托管在Github上，并附有使用demo，欢迎下载运行: https://github.com/Cuner/spi-framework&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="SPI" /><summary type="html">SPI的全名为Service Provider Interface。根据Java的SPI规范，我们可以定义一个服务接口，具体的实现由对应的实现者去提供，即Service Provider（服务提供者）。然后在使用的时候只要根据SPI的规范去获取对应的服务提供者的服务实现即可。简单来说，SPI就是一种为接口寻找服务的机制，基于这种机制，本文提出一种基于动态代理的spi框架的实现方式。</summary></entry><entry><title type="html">lucene简介和索引原理</title><link href="http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/" rel="alternate" type="text/html" title="lucene简介和索引原理" /><published>2018-04-26T00:00:00+08:00</published><updated>2018-04-26T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index</id><content type="html" xml:base="http://localhost:4000/blog/2018/04/26/apache-lucene-intro-and-index/">&lt;h1 id=&quot;heading-1-lucene简介&quot;&gt;1 Lucene简介&lt;/h1&gt;
 &lt;p&gt;Lucene是一个高效，全Java实现、开源、高性能、功能完整、易拓展，支持分词以及各种查询方式（前缀、模糊、正则等）、打分高亮、列式存储（DocValues）
 的全文检索库。仅支持纯文本文件的索引和搜索。&lt;/p&gt;
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/lucene-intro.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
-&lt;h1 id=&quot;heading-2lucene索引原理&quot;&gt;2.lucene索引原理&lt;/h1&gt;
+&lt;h1 id=&quot;heading-2-lucene索引原理&quot;&gt;2 lucene索引原理&lt;/h1&gt;
 &lt;p&gt;每个字符串都指向包含此字符串的文档(Document)链表，此文档链表称为倒排表&lt;/p&gt;
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-construction.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
-&lt;h2 id=&quot;heading-21索引创建过程&quot;&gt;2.1.索引创建过程&lt;/h2&gt;
+&lt;h2 id=&quot;heading-21-索引创建过程&quot;&gt;2.1 索引创建过程&lt;/h2&gt;
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-create-step.png&quot; width=&quot;700px&quot; /&gt;&lt;/center&gt;
 
@@ -1243,7 +1551,7 @@ public @interface BizSpi {
 
 &lt;p&gt;5.通过索引存储将索引写入硬盘&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-22检索过程&quot;&gt;2.2.检索过程&lt;/h2&gt;
+&lt;h2 id=&quot;heading-22-检索过程&quot;&gt;2.2 检索过程&lt;/h2&gt;
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-04-26-apache-lucene-intro-and-index/index-search-step.png&quot; width=&quot;700px&quot; /&gt;&lt;/center&gt;
 
@@ -1259,7 +1567,7 @@ public @interface BizSpi {
 
 &lt;p&gt;6.根据得到的文档和查询语句的相关性，对结果进行排序。(向量空间模型算法:通过各个关键词根在不同文档中的权重来比较文档与查询语句的相关性)&lt;/p&gt;
 
-&lt;h2 id=&quot;heading-23lucene索引基本概念&quot;&gt;2.3.lucene索引基本概念&lt;/h2&gt;
+&lt;h2 id=&quot;heading-23-lucene索引基本概念&quot;&gt;2.3 lucene索引基本概念&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;索引(index)
@@ -1296,10 +1604,10 @@ public @interface BizSpi {
   &lt;li&gt;反向信息：保存了词典到倒排表的映射：词(Term) –&amp;gt; 文档(Document)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;heading-24lucene结构&quot;&gt;2.4.lucene结构&lt;/h2&gt;
+&lt;h2 id=&quot;heading-24-lucene结构&quot;&gt;2.4 lucene结构&lt;/h2&gt;
 &lt;p&gt;全文索引绝大多数是通过倒排索引来做，倒排索引由两个部分组成，即词典和倒排表&lt;/p&gt;
 
-&lt;h3 id=&quot;heading-241索引结构&quot;&gt;2.4.1.索引结构&lt;/h3&gt;
+&lt;h3 id=&quot;heading-241-索引结构&quot;&gt;2.4.1 索引结构&lt;/h3&gt;
 &lt;p&gt;lucene从4开始大量使用的数据结构是FST（Finite State Transducer）。FST有两个优点：&lt;/p&gt;
 
 &lt;p&gt;1）空间占用小。通过对词典中单词前缀和后缀的重复利用，压缩了存储空间，压缩率一般在3倍~20倍之间；&lt;/p&gt;
@@ -1337,7 +1645,7 @@ public @interface BizSpi {
   &lt;li&gt;插入acg时，计算出和acf共享前缀ac，这时输入已经结束，所有数据写入磁盘。tim中写入后缀词块f、g和相对应的倒排表位置，tip中写入c和以ac为前缀的后缀词块位置&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&quot;heading-242倒排表结构&quot;&gt;2.4.2.倒排表结构&lt;/h3&gt;
+&lt;h3 id=&quot;heading-242-倒排表结构&quot;&gt;2.4.2 倒排表结构&lt;/h3&gt;
 &lt;p&gt;Lucene现使用的倒排表结构叫&lt;a href=&quot;https://www.elastic.co/blog/frame-of-reference-and-roaring-bitmaps&quot;&gt;Frame of reference&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;数据压缩：
@@ -1353,11 +1661,11 @@ public @interface BizSpi {
 
 &lt;p&gt;&lt;a href=&quot;http://www.cnblogs.com/forfuture1978/archive/2010/04/04/1704258.html&quot;&gt;链表合并&lt;/a&gt;&lt;/p&gt;
 
-&lt;h1 id=&quot;heading-3番外篇&quot;&gt;3.番外篇&lt;/h1&gt;
+&lt;h1 id=&quot;heading-3-番外篇&quot;&gt;3 番外篇&lt;/h1&gt;
 
-&lt;h2 id=&quot;heading-31fst原理解析&quot;&gt;3.1&lt;a href=&quot;http://blog.jobbole.com/80669/&quot;&gt;FST原理解析&lt;/a&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;heading-31-fst原理解析&quot;&gt;3.1 &lt;a href=&quot;http://blog.jobbole.com/80669/&quot;&gt;FST原理解析&lt;/a&gt;&lt;/h2&gt;
 
-&lt;h2 id=&quot;heading-32跳跃表原理解析&quot;&gt;3.2&lt;a href=&quot;https://www.cnblogs.com/George1994/p/7635731.html&quot;&gt;跳跃表原理解析&lt;/a&gt;&lt;/h2&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="lucene" /><summary type="html">1.Lucene简介 Lucene是一个高效，全Java实现、开源、高性能、功能完整、易拓展，支持分词以及各种查询方式（前缀、模糊、正则等）、打分高亮、列式存储（DocValues） 的全文检索库。仅支持纯文本文件的索引和搜索。</summary></entry><entry><title type="html">HBASE的索引查询</title><link href="http://localhost:4000/blog/2017/12/25/hbase-search-index/" rel="alternate" type="text/html" title="HBASE的索引查询" /><published>2017-12-25T00:00:00+08:00</published><updated>2017-12-25T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/12/25/hbase-search-index</id><content type="html" xml:base="http://localhost:4000/blog/2017/12/25/hbase-search-index/">&lt;h1 id=&quot;heading-一级索引&quot;&gt;一级索引&lt;/h1&gt;
+&lt;h2 id=&quot;heading-32-跳跃表原理解析&quot;&gt;3.2 &lt;a href=&quot;https://www.cnblogs.com/George1994/p/7635731.html&quot;&gt;跳跃表原理解析&lt;/a&gt;&lt;/h2&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="lucene" /><summary type="html">1 Lucene简介 Lucene是一个高效，全Java实现、开源、高性能、功能完整、易拓展，支持分词以及各种查询方式（前缀、模糊、正则等）、打分高亮、列式存储（DocValues） 的全文检索库。仅支持纯文本文件的索引和搜索。</summary></entry><entry><title type="html">HBASE的索引查询</title><link href="http://localhost:4000/blog/2017/12/25/hbase-search-index/" rel="alternate" type="text/html" title="HBASE的索引查询" /><published>2017-12-25T00:00:00+08:00</published><updated>2017-12-25T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/12/25/hbase-search-index</id><content type="html" xml:base="http://localhost:4000/blog/2017/12/25/hbase-search-index/">&lt;h1 id=&quot;heading-一级索引&quot;&gt;一级索引&lt;/h1&gt;
 &lt;p&gt;在逻辑上，HBase的表数据按RowKey进行字典排序， RowKey实际上是数据表的一级索引，由于HBase本身没有二级索引机制，基于索引检索数据只能单纯地依靠RowKey。&lt;/p&gt;
 
 &lt;h1 id=&quot;heading-热点写&quot;&gt;热点写&lt;/h1&gt;
@@ -1397,7 +1705,7 @@ public @interface BizSpi {
   &lt;li&gt;假定需要查询满足条件q1=01 and q2=02的Sample记录，分析查询字段和索引匹配情况可知应使用索引a，也就是说我们首先确定了索引名，于是在Region 1上进行scan的区间将从主数据全集收窄至[0000-a, 0000-b)，接着拼接查询字段的值，我们得到了索引键：0102，scan区间又进一步收窄为[0000-a-0102, 0000-a-0103)，于是我们可以很快地找到0000-a-0102-0000|63af51b2这条索引，进而得到了索引值，也就是目标数据的RowKey：0000|63af51b2，通过在Region内执行Get操作，最终得到了目标数据&lt;/li&gt;
 &lt;/ul&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="hbase" /><summary type="html">一级索引 在逻辑上，HBase的表数据按RowKey进行字典排序， RowKey实际上是数据表的一级索引，由于HBase本身没有二级索引机制，基于索引检索数据只能单纯地依靠RowKey。</summary></entry><entry><title type="html">HBASE原理与架构</title><link href="http://localhost:4000/blog/2017/12/20/hbase-construction-theory/" rel="alternate" type="text/html" title="HBASE原理与架构" /><published>2017-12-20T00:00:00+08:00</published><updated>2017-12-20T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/12/20/hbase-construction-theory</id><content type="html" xml:base="http://localhost:4000/blog/2017/12/20/hbase-construction-theory/">&lt;p&gt;HBASE是一个构建在HDFS上的分布式列存储系统，比较起传统的关系型数据库的优点在于，可以实现高性能的并发读写操作。同时HBase不同于传统关系型数据库的面向行存储，HBase是面向列存储，列可以动态增加，列为空就不存储数据，能更好的节省存储空间。Hbase还会对数据进行透明切分，使得存储本身具有了水平伸缩性&lt;/p&gt;
 
-&lt;h1 id=&quot;heading-1hbase特点&quot;&gt;1.HBASE特点&lt;/h1&gt;
+&lt;h1 id=&quot;heading-1-hbase特点&quot;&gt;1 HBASE特点&lt;/h1&gt;
 &lt;ul&gt;
   &lt;li&gt;数据量大:一个表可以有数十亿行，上百万列&lt;/li&gt;
   &lt;li&gt;无模式:每行都有一个可排序的主键和任意多的列，列可以根据需要动态的增加，同一张表中不同的行可以有截然不同的列&lt;/li&gt;
@@ -1407,7 +1715,7 @@ public @interface BizSpi {
   &lt;li&gt;数据类型单一:Hbase中的数据都是字符串，没有类型。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;heading-2hbase数据模型&quot;&gt;2.HBASE数据模型&lt;/h1&gt;
+&lt;h1 id=&quot;heading-2-hbase数据模型&quot;&gt;2 HBASE数据模型&lt;/h1&gt;
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-20-hbase-construction-theory/hbase-data-model.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
 &lt;ul&gt;
@@ -1420,9 +1728,9 @@ public @interface BizSpi {
 
 &lt;p&gt;Table在水平方向有一个或者多个Column Family组成，一个Column Family中可以由任意多个Column组成，即Column Family支持动态扩展，无需预先定义Column的数量以及类型，所有Column均以二进制格式存储，用户需要自行进行类型转换&lt;/p&gt;
 
-&lt;h1 id=&quot;heading-3hbase物理模型&quot;&gt;3.HBASE物理模型&lt;/h1&gt;
+&lt;h1 id=&quot;heading-3-hbase物理模型&quot;&gt;3 HBASE物理模型&lt;/h1&gt;
 
-&lt;h2 id=&quot;heading-31物理存储&quot;&gt;3.1.物理存储&lt;/h2&gt;
+&lt;h2 id=&quot;heading-31-物理存储&quot;&gt;3.1 物理存储&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Table中所有行都按照row key的字典序排列&lt;/li&gt;
@@ -1439,7 +1747,7 @@ public @interface BizSpi {
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-20-hbase-construction-theory/hbase-region-store.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
-&lt;h2 id=&quot;heading-32hbase架构以及基本组件&quot;&gt;3.2.HBASE架构以及基本组件&lt;/h2&gt;
+&lt;h2 id=&quot;heading-32-hbase架构以及基本组件&quot;&gt;3.2 HBASE架构以及基本组件&lt;/h2&gt;
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-20-hbase-construction-theory/hbase-construction.jpg&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
@@ -1472,17 +1780,17 @@ public @interface BizSpi {
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-20-hbase-construction-theory/hbase-master-regionserver.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
-&lt;h1 id=&quot;heading-4hbase写入过程&quot;&gt;4.HBASE写入过程&lt;/h1&gt;
+&lt;h1 id=&quot;heading-4-hbase写入过程&quot;&gt;4 HBASE写入过程&lt;/h1&gt;
 
 &lt;p&gt;Client写入 -&amp;gt; 存入MemStore，一直到MemStore满 -&amp;gt; Flush成一个StoreFile，直至增长到一定阈值 -&amp;gt; 触发Compact合并操作 -&amp;gt; 多个StoreFile合并成一个StoreFile，同时进行版本合并和数据删除 -&amp;gt; 当StoreFiles Compact后，逐步形成越来越大的StoreFile -&amp;gt; 单个StoreFile大小超过一定阈值后，触发Split操作，把当前Region Split成2个Region，Region会下线，新Split出的2个孩子Region会被HMaster分配到相应的HRegionServer上，使得原先1个Region的压力得以分流到2个Region上
 由此过程可知，HBase只是增加数据，有所得更新和删除操作，都是在Compact阶段做的，所以，用户写操作只需要进入到内存即可立即返回，从而保证I/O高性能&lt;/p&gt;
 
-&lt;h1 id=&quot;heading-5hbase容灾日志恢复&quot;&gt;5.HBASE容灾(日志恢复)&lt;/h1&gt;
+&lt;h1 id=&quot;heading-5-hbase容灾日志恢复&quot;&gt;5 HBASE容灾(日志恢复)&lt;/h1&gt;
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-20-hbase-construction-theory/hbase-hlog.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 &lt;p&gt;每次用户执行写入操作，首先是把Log写入到HLog中，HLog是标准的Hadoop Sequence File，由于Log数据量小，而且是顺序写，速度非常快；同时把数据写入到内存MemStore中，成功后返回给Client，所以对Client来说，HBase写的速度非常快，因为数据只要写入到内存中，就算成功了。接着检查MemStore是否已满，如果满了，就把内存中的MemStore Flush到磁盘上，形成一个新的StoreFile。HLog文件定期会滚动出新的，并删除旧的文件（已持久化到StoreFile中的数据）。当HRegionServer意外终止后，HMaster会通过Zookeeper感知到，HMaster首先会处理遗留的 HLog文件，将其中不同Region的Log数据进行拆分，分别放到相应region的目录下，然后再将失效的region重新分配，领取 到这些region的HRegionServer在Load Region的过程中，会发现有历史HLog需要处理，因此会Replay HLog中的数据到MemStore中，然后flush到StoreFiles，完成数据恢复&lt;/p&gt;
 
-&lt;h1 id=&quot;heading-6hbase容错性&quot;&gt;6.HBASE容错性&lt;/h1&gt;
+&lt;h1 id=&quot;heading-6-hbase容错性&quot;&gt;6 HBASE容错性&lt;/h1&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;strong&gt;master容错&lt;/strong&gt;:Zookeeper重新选择一个新的Master
@@ -1495,7 +1803,7 @@ public @interface BizSpi {
   &lt;li&gt;&lt;strong&gt;zookeeper容错&lt;/strong&gt;:Zookeeper是一个可靠地服务，一般配置3或5个Zookeeper实例&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;heading-7hbase检索和扫描如何找到某条记录对应的regionserver&quot;&gt;7.HBASE检索和扫描：如何找到某条记录对应的regionServer&lt;/h1&gt;
+&lt;h1 id=&quot;heading-7-hbase检索和扫描如何找到某条记录对应的regionserver&quot;&gt;7 HBASE检索和扫描：如何找到某条记录对应的regionServer&lt;/h1&gt;
 
 &lt;p&gt;ROOT与META表
 Hbase中有两张特殊表，ROOT和META

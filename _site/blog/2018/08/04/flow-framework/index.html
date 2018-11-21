@@ -170,10 +170,10 @@
                         </ul>
                     </div>
                     <div itemprop="articleBody">
-                        <h1 id="heading-介绍">介绍</h1>
+                        <h1 id="heading-1-介绍">1 介绍</h1>
 <p>通用的流程编排框架，将整个流程以xml配置文件的形式管理起来：定义流程、管理上下文、控制流程的流转（按条件或者顺序），各个流程节点的执行（同步或者异步）。同时对每个流程节点进行监控以及统计，完成对流程的整体把控。</p>
 
-<h1 id="heading-基本概念">基本概念</h1>
+<h1 id="heading-2-基本概念">2 基本概念</h1>
 
 <ul>
   <li>flow:数据流程对象</li>
@@ -182,16 +182,16 @@
   <li>subflow:子流程，一个流程节点可以执行操作；也可以执行某个子流程</li>
 </ul>
 
-<h1 id="heading-用法">用法</h1>
+<h1 id="heading-3-用法">3 用法</h1>
 
-<h2 id="heading-1定义流程的输入与输出">1.定义流程的输入与输出</h2>
+<h2 id="heading-31-定义流程的输入与输出">3.1 定义流程的输入与输出</h2>
 
 <ul>
   <li>定义输入为Data</li>
   <li>定义输出为Result</li>
 </ul>
 
-<h2 id="heading-2定义步骤子节点">2.定义步骤（子节点）</h2>
+<h2 id="heading-32-定义步骤子节点">3.2 定义步骤（子节点）</h2>
 
 <p>所有的子节点需要实现接口org.cuner.flowframework.core.Action&lt;Data, Result&gt;</p>
 
@@ -215,7 +215,7 @@
 &lt;bean id="action3" class="org.cuner.flowframework.test.action.Action3"/&gt;
 </code></pre></div></div>
 
-<h2 id="heading-3通过xml配置定义流程">3.通过xml配置定义流程</h2>
+<h2 id="heading-33-通过xml配置定义流程">3.3 通过xml配置定义流程</h2>
 
 <p>详细的配置结构请查看xsd文件</p>
 <ul>
@@ -291,7 +291,7 @@
 <span class="nt">&lt;/flows&gt;</span>
 </code></pre></div></div>
 
-<h2 id="heading-4流程注入">4.流程注入</h2>
+<h2 id="heading-34-流程注入">3.4 流程注入</h2>
 
 <p>配置文件需要放在classpath下，案例中的配置文件就是在classpath下的flow.xml文件</p>
 
@@ -304,13 +304,13 @@
 &lt;/bean&gt;
 </code></pre></div></div>
 
-<h2 id="heading-5执行">5.执行</h2>
+<h2 id="heading-35-执行">3.5 执行</h2>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Result result = flowManager.execute("mainFlow", data);
 </code></pre></div></div>
 <p>由于各个步骤可异步执行，在主流程的执行中加入了闭锁，只有当所有步骤（包括异步的）执行完成，execute方法才能正确返回。</p>
 
-<h2 id="heading-6查看日志">6.查看日志</h2>
+<h2 id="heading-36-查看日志">3.6 查看日志</h2>
 <p>可查看流程执行的完整堆栈，可以在logback.xml中如下配置</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;logger name="flow-record" level="info" additivity="false"&gt;
     &lt;appender-ref ref="FLOW_RECORD"/&gt;
@@ -338,7 +338,7 @@
 |----[step:step10 | start:2018-08-04 21:03:23,380 | end:2018-08-04 21:03:23,380 | cost:0]
 </code></pre></div></div>
 
-<h1 id="heading-源码">源码</h1>
+<h1 id="heading-4-源码">4 源码</h1>
 
 <p>最后，附上代码:https://github.com/Cuner/flow-framework</p>
 
