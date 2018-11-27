@@ -59,7 +59,7 @@ redirect_from:
 # 3 队列同步器的实现分析
 
 ## 3.1 同步队列
-同步器依赖内部的同步队列（一个FIFO双向队列）来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成一个节点（Node），并将其加入到同步队列中，同时会阻塞当前线程，当同步状态释放是，会把首节点中的线程唤醒，使其再次尝试获取同步状态。
+同步器依赖内部的同步队列（一个FIFO双向队列）来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成一个节点（Node），并将其加入到同步队列中，同时会阻塞当前线程，当同步状态释放时，会把前驱节点为首节点的节点中的线程唤醒，使其再次尝试获取同步状态。
 
 ### 3.1.1 节点
 同步队列中的节点（Node）用来保存获取同步状态失败的线程引用、等待状态以及前驱和后继节点。
@@ -136,18 +136,18 @@ static final class Node {
 
 同步器包含了两个节点类型的引用，一个指向首节点，一个指向尾节点。
 
-<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setHead.jpg" width="500px"/></center>
+<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/queue.jpg" width="500px"/></center>
 
 - 节点加入到同步队列中  
 
 当一个线程成功的获取了同步状态，其他线程无法获取到同步状态，需要被构造成节点并加入到同步队列中，而加入这个队列的过程必须保证是线程安全的，因此同步器提供了一个基于CAS设置尾节点的方法：compareAndSetTail(Node expect, Node update)。
 
-<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/queue.jpg" width="500px"/></center>
+<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setTail.jpg" width="500px"/></center>
 
 - 首节点的设置
 同步队列遵循FIFO，首节点是获取同步状态成功的节点，首节点的线程在释放同步状态时，会唤醒后继节点，而后继节点将会在获取同步状态成功的同时将自己设置为首节点，由于只有一个线程能获取到同步状态，因此头结点的设置不需要CAS来保证。
 
-<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setTail.jpg" width="500px"/></center>
+<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setHead.jpg" width="500px"/></center>
 
 
 ## 3.2 独占式同步状态的获取与释放
