@@ -9,7 +9,7 @@ redirect_from:
 ---
 
 # 1 简介
-队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的的FIFO队列来完成资源的获取线程的排队工作。
+队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个volatile int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的FIFO队列来完成资源的获取线程的排队工作。
 同步器的主要使用方式是继承，子类通过继承同步器并实现抽象方法来管理同步状态（基于模本方法模式）。子类被推荐定义为自定义同步组件的静态内部类（作为代理配合实现同步组件），同步器自身没有实现任何同步接口，它仅仅定义了同步状态的获取与释放来供自定义同步组件使用，同步器既可以独占式的获取同步状态也可以共享式的获取同步状态。
         
 
@@ -127,20 +127,22 @@ static final class Node {
 
 关于节点的状态state变化：当节点被创建，状态值默认为0；当有后继节点在等待，节点状态会被置为-1（SINGAL）；当节点共享式获取到同步状态，且无后继节点等待，节点状态会被设置为-3（PROPAGATE）；当节点获取同步状态超时或者被中断，节点状态将被置为1（CANCELLED）。
 
-主意：Node节点不仅用在同步队列中，AbstractQueuedSynchronizer中的Condition中的等待队列也是使用Node节点构建，所以其中有些字段在两种队列的共用，需要注意区分，Condition将在后文阐述。
+主意：Node节点不仅用在同步队列中，AbstractQueuedSynchronizer中的Condition中的等待队列也是使用Node节点构建，所以其中有些字段在两种队列的共用，需要注意区分，Condition将在后面介绍ReenTrantLock的文章中阐述。
 
 ### 3.1.2 队列
 节点是构成同步队列的基础，同步器拥有首节点（head）和尾节点（tail），没有成功获取同步状态的线程将会成为节点加入该队列的尾部。
 
-- 同步队列的基本结构
+- 同步队列的基本结构  
+
 同步器包含了两个节点类型的引用，一个指向首节点，一个指向尾节点。
 
-<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/queue.jpg" width="500px"/></center>
+<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setHead.jpg" width="500px"/></center>
 
-- 节点加入到同步队列中
+- 节点加入到同步队列中  
+
 当一个线程成功的获取了同步状态，其他线程无法获取到同步状态，需要被构造成节点并加入到同步队列中，而加入这个队列的过程必须保证是线程安全的，因此同步器提供了一个基于CAS设置尾节点的方法：compareAndSetTail(Node expect, Node update)。
 
-<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setHead.jpg" width="500px"/></center>
+<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/queue.jpg" width="500px"/></center>
 
 - 首节点的设置
 同步队列遵循FIFO，首节点是获取同步状态成功的节点，首节点的线程在释放同步状态时，会唤醒后继节点，而后继节点将会在获取同步状态成功的同时将自己设置为首节点，由于只有一个线程能获取到同步状态，因此头结点的设置不需要CAS来保证。
@@ -383,7 +385,7 @@ private boolean doAcquireNanos(int arg, long nanosTimeout)
 tryAcquireNanos方法方法与acquireInterruptibly方法基本一致，只是增加了超时失败的机制。
 
 ### 3.2.4 release方法
-当前线程获取同步状态并执行了响应逻辑之后，就需要释放同步状态，是的后续节点能够获取到同步状态。通过调用同步器的release方法可以释放同步状态，该方法在释放了同步状态之后，会唤醒后继节点，进而使后继节点重新尝试获取同步状态。
+当前线程获取同步状态并执行了响应逻辑之后，就需要释放同步状态，使得后续节点能够获取到同步状态。通过调用同步器的release方法可以释放同步状态，该方法在释放了同步状态之后，会唤醒后继节点，进而使后继节点重新尝试获取同步状态。
 ```
 public final boolean release(int arg) {
     if (tryRelease(arg)) {
