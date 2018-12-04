@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "SPI框架（一）"
+title: "SPI框架"
 description: "SPI框架"
 categories: [framework]
 tags: [SPI]
