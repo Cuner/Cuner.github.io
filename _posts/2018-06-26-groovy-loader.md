@@ -106,7 +106,7 @@ private void initLoadResources() {
         groovyResourcesDir = this.getClass().getClassLoader().getResource("").getPath() + "/spring/groovy";
     }
     File groovyFileDir = new File(groovyResourcesDir);
-    List<File> groovyFileList = getResourceListFromDir(groovyFileDir);//获取指定目录下所有groovy脚本文件
+    List<File> groovyFileList = getResourceListFromDir(groovyFileDir);//获取指定目录下所有spring配置文件
     for (File file : groovyFileList) {
         FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(new String[] {file.toURI().toString()}, true, parentContext);
         this.namespacedContext.put(file.getName().replace("xml", ""), context);
