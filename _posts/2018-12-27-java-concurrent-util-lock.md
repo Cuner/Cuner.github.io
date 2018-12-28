@@ -37,6 +37,7 @@ redirect_from:
 - 锁的最终释放：线程重复n次获取了锁，随后在第n次释放锁之后，其他线程才能获取到锁。锁的最终释放要求锁对于获取进行计数自增，计数表示当前锁被重复获取的次数，而锁被释放时，计数自减，当计数为0时表示锁已经释放
 
 ReentrantLock是通过委托给继承队列同步器的静态内部类，来实现（非）公平锁的获取与释放，以非公平性（默认）的实现为例，获取以及释放同步状态的代码如下：
+
 ```
 final boolean nonfairTryAcquire(int acquires) {
     final Thread current = Thread.currentThread();
@@ -70,6 +71,7 @@ protected final boolean tryRelease(int releases) {
     return free;
 }
 ```
+
 nonfairTryAcquire()方法：增加了线程再次获取同步状态的处理逻辑：通过判断当前线程是否是获取锁的线程来决定获取同步状态是否成功，如果是获取锁的线程再次请求获取锁，则将同步状态值增加并返回true，表示获取同步状态成功。其中同步状态值即为线程重复获取锁的次数。（这里自增的操作因为是单线程，所以不需要考虑同步的问题）。    
 tryRelease()方法：每次释放锁则将同步状态值自减，只有当同步状态完全释放了，才能返回true。可以看到该方法将同步状态值是否为0作为最终释放条件，当同步状态值为0，将占有线程置为null，并返回true，表示释放成功。（这里释放过程同样也不会产生线程竞争）
 
@@ -78,6 +80,7 @@ tryRelease()方法：每次释放锁则将同步状态值自减，只有当同�
 如果在绝对时间上，先对锁进行获取的请求一定先被满足，那么这个锁是公平的，反之，是不公平的。公平的获取锁，也就是等待时间最长的线程最先获取锁。事实上公平性锁机制往往没有非公平的效率高，但是公平性锁的优势在于能够减少“饥饿”发生的概率。
 
 在ReentrantLock中，根据公平锁以及非公平锁获取获取锁顺序的区别，分别实现了两个静态内部类（继承AbstractQueuedSynchronized），并把锁的获取委托给它们。
+
 
 ```
 /**
@@ -156,6 +159,7 @@ static final class FairSync extends Sync {
 
 ### 3.2.1 读写锁的实现结构
 - ReentrantReadWriteLock对外封装了获取读锁与写锁的方法，这里的读锁与写锁都实现了锁接口Lock
+
 ```
 public ReentrantReadWriteLock(boolean fair) {
     sync = fair ? new FairSync() : new NonfairSync();
@@ -166,12 +170,15 @@ public ReentrantReadWriteLock(boolean fair) {
 public ReentrantReadWriteLock.WriteLock writeLock() { return writerLock; }
 public ReentrantReadWriteLock.ReadLock  readLock()  { return readerLock; }
 ```
+
 - ReentrantReadWrite通过委托给继承队列同步器AQS的静态内部类（FairSync/NonfairSync），来实现（非）公平锁的获取与释放
+
 ```
 abstract static class Sync extends AbstractQueuedSynchronizer {...}
 static final class NonfairSync extends Sync {...}
 static final class FairSync extends Sync {...}
 ```
+
 - 写锁的获取与释放，委托给Sync类独占式的获取与释放同步状态
 - 读锁的获取与释放，委托给Sync类共享式的获取与释放同步状态
 
@@ -179,6 +186,7 @@ static final class FairSync extends Sync {...}
 
 读写锁同样依赖自定义同步器来实现同步功能，而读写状态就是同步器的同步状态。因此同步状态值需要区分读写锁的获取，同时也要考虑都线程重入的情况。   
 读写锁将同步状态值分成了两个部分，高16位表示读，低16位表示写。于是写状态等于S & ((1 << 16) - 1)，即将高16为全部抹去，读状态等于S >>> 16（无符号补0右移16位）
+
 ```
 static final int SHARED_SHIFT   = 16;
 static final int SHARED_UNIT    = (1 << SHARED_SHIFT);
@@ -191,8 +199,10 @@ static int sharedCount(int c)    { return c >>> SHARED_SHIFT; }
 static int exclusiveCount(int c) { return c & EXCLUSIVE_MASK; }
 ```
 
+
 ### 3.2.3 写锁的获取与释放
 写锁是一个支持重进入的排他锁。如果当前线程已经获取了死锁，则增加写状态。如果当前线程在获取写锁时，读锁已经被获取（代码中的 c != 0 && w == 0）或者该线程不是已经获取写锁的线程，则获取同步状态失败，当前线程进入到等待状态。
+
 ```
 protected final boolean tryAcquire(int acquires) {
     Thread current = Thread.currentThread();
@@ -225,6 +235,7 @@ protected final boolean tryAcquire(int acquires) {
 在tryReleaseShared()方法中，如果其他线程已经获取了写锁，则当前线程获取读锁失败，进入等待状态。如果当前线程获取了写锁或者写锁未被获取，则当前线程（线程安全，依靠CAS）增加读状态，成功获取锁。
 
 可以看到这里有个fullTryAcquireShared()方法，其中的for循环主要应对多个线程同时获取共享式同步状态导致CAS失败的重试。
+
 ```
 protected final int tryAcquireShared(int unused) {
     Thread current = Thread.currentThread();
@@ -273,6 +284,7 @@ protected final boolean tryReleaseShared(int unused) {
 
 
 ### 3.2.5 公平性与非公平性的选择
+
 ```
 static final class NonfairSync extends Sync {
     private static final long serialVersionUID = -8159625535654395037L;
