@@ -459,7 +459,7 @@ ConditionObject是同步器AbstractQueuedSynchronizer的内部类，每个Condit
 
 一个Condition包含一个等待队列，Condition拥有首节点（firstWaiter）和尾节点（lastWaiter）。在Object监视器上，一个对象拥有一个同步队列和等待队列，而并发包中的Lock拥有一个同步队列和多个等待队列。
 
-<center><img src="/assets/images/post/2018-12-27-java-concurrent-util-lock/waitQueue.jpg" width="500px"/></center>
+<center><img src="/assets/images/post/2018-12-27-java-concurrent-util-lock/waitQueue.jpg" width="800px"/></center>
 
 
 ## 4.3.2 等待
@@ -493,7 +493,7 @@ public final void await() throws InterruptedException {
 
 当等待队列中的节点被唤醒，则唤醒的线程开始尝试获取同步状态，如果等待线程被中断会抛出InterruptedException。
 
-<center><img src="/assets/images/post/2018-12-27-java-concurrent-util-lock/addToWaitQueue.jpg" width="500px"/></center>
+<center><img src="/assets/images/post/2018-12-27-java-concurrent-util-lock/addToWaitQueue.jpg" width="800px"/></center>
 
 ## 4.3.3 通知
 
@@ -541,5 +541,5 @@ final boolean transferForSignal(Node node) {
 
 Condition的signalAll()方法，相当于对等待队列中的每一个节点均进行一次signal()方法，效果就是将等待队列中的所有节点移动到同步队列中，并唤醒每个节点的线程
 
-<center><img src="/assets/images/post/2018-12-27-java-concurrent-util-lock/backToSynQueue.jpg" width="500px"/></center>
+<center><img src="/assets/images/post/2018-12-27-java-concurrent-util-lock/backToSynQueue.jpg" width="800px"/></center>
 
