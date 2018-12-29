@@ -28,7 +28,7 @@ redirect_from:
 - boolean tryRelease(int arg)：独占式释放同步状态，等待获取同步状态的线程将有机会获取同步状态。
 
 **共享式**
-- int tryAcquireShared(int arg)：共享式获取同步状态，返回大于等于0表示获取成功，反之获取失败。
+- int tryAcquireShared(int arg)：共享式获取同步状态，返回大于等于0表示获取成功（其中0代表此前没有线程共享式获取同步状态，大于0表示已有其他线程获取到了同步状态），反之获取失败。
 - boolean tryReleaseShared(int arg)：共享式释放同步状态。
 - boolean isHeldExclusively()：当前同步器是否被当前线程独占
 
@@ -125,7 +125,7 @@ static final class Node {
 }
 ```
 
-关于节点的状态state变化：当节点被创建，状态值默认为0；当有后继节点在等待，节点状态会被置为-1（SINGAL）；当节点共享式获取到同步状态，且无后继节点等待，节点状态会被设置为-3（PROPAGATE）；当节点获取同步状态超时或者被中断，节点状态将被置为1（CANCELLED）。
+关于节点的状态state变化：当节点被创建，状态值默认为0；当有后继节点在等待，节点状态会被置为-1（SINGAL）；当节点共享式获取到同步状态且后继节点为共享式节点，该节点状态会被设置为-3（PROPAGATE）；当节点获取同步状态超时或者被中断，节点状态将被置为1（CANCELLED）。
 
 主意：Node节点不仅用在同步队列中，AbstractQueuedSynchronizer中的Condition中的等待队列也是使用Node节点构建，所以其中有些字段在两种队列的共用，需要注意区分，Condition将在后面介绍ReenTrantLock的文章中阐述。
 
