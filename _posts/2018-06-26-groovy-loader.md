@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "基于spring的groovy动态加载"
-description: "基于spring的groovy动态加载"
-categories: [groovy]
+title: "基于spring的groovy动态加载框架"
+description: "基于spring的groovy动态加载框架"
+categories: [framework]
 tags: [groovy]
 redirect_from:
   - /2018/06/26/

@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "SPI框架"
-description: "SPI框架"
+title: "基于动态代理的SPI框架"
+description: "基于动态代理的SPI框架"
 categories: [framework]
 tags: [SPI]
 redirect_from:
