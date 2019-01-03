@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "J.U.C之AQS队列同步器"
-description: "J.U.C之AQS队列同步器"
+title: "J.U.C之AbstractQueuedSynchronizer"
+description: "J.U.C之AbstractQueuedSynchronizer"
 categories: [java并发]
 tags: [J.U.C]
 redirect_from:
