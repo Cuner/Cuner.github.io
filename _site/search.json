@@ -1,7 +1,14 @@
 [
   
     {
-      "title"      : "J.U.C之AQS队列同步器",
+      "title"      : "J.U.C之Lock",
+      "url"        : "/blog/2018/12/27/java-concurrent-util-lock/",
+      "date"       : "2018-12-27 00:00:00 +0800",
+      "shortdate"  : "December 27, 2018"
+    } ,
+  
+    {
+      "title"      : "J.U.C之AbstractQueuedSynchronizer",
       "url"        : "/blog/2018/11/09/java-concurrent-util-AQS/",
       "date"       : "2018-11-09 00:00:00 +0800",
       "shortdate"  : "November 09, 2018"
@@ -22,7 +29,7 @@
     } ,
   
     {
-      "title"      : "基于spring的groovy动态加载",
+      "title"      : "基于spring的groovy动态加载框架",
       "url"        : "/blog/2018/06/26/groovy-loader/",
       "date"       : "2018-06-26 00:00:00 +0800",
       "shortdate"  : "June 26, 2018"
@@ -36,7 +43,7 @@
     } ,
   
     {
-      "title"      : "SPI框架（一）",
+      "title"      : "基于动态代理的SPI框架",
       "url"        : "/blog/2018/05/24/spi-framework/",
       "date"       : "2018-05-24 00:00:00 +0800",
       "shortdate"  : "May 24, 2018"

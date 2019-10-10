@@ -16,19 +16,19 @@
 <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
 
 <!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>J.U.C之AQS队列同步器 | Cuner</title>
+<title>J.U.C之AbstractQueuedSynchronizer | Cuner</title>
 <meta name="generator" content="Jekyll v3.7.4" />
-<meta property="og:title" content="J.U.C之AQS队列同步器" />
+<meta property="og:title" content="J.U.C之AbstractQueuedSynchronizer" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="J.U.C之AQS队列同步器" />
-<meta property="og:description" content="J.U.C之AQS队列同步器" />
+<meta name="description" content="J.U.C之AbstractQueuedSynchronizer" />
+<meta property="og:description" content="J.U.C之AbstractQueuedSynchronizer" />
 <link rel="canonical" href="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/" />
 <meta property="og:url" content="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/" />
 <meta property="og:site_name" content="Cuner" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2018-11-09T00:00:00+08:00" />
 <script type="application/ld+json">
-{"headline":"J.U.C之AQS队列同步器","dateModified":"2018-11-09T00:00:00+08:00","datePublished":"2018-11-09T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/"},"description":"J.U.C之AQS队列同步器","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/","@context":"http://schema.org"}</script>
+{"description":"J.U.C之AbstractQueuedSynchronizer","@type":"BlogPosting","url":"http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/","headline":"J.U.C之AbstractQueuedSynchronizer","dateModified":"2018-11-09T00:00:00+08:00","datePublished":"2018-11-09T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <meta name="keywords" content="J.U.C" />
@@ -121,7 +121,7 @@
             <header>
                 <div class="unit-head">
                     <div class="unit-inner unit-head-inner">
-                        <h1 class="entry-title" itemprop="name">J.U.C之AQS队列同步器</h1>
+                        <h1 class="entry-title" itemprop="name">J.U.C之AbstractQueuedSynchronizer</h1>
                     </div>
                 </div>
             </header>
@@ -147,7 +147,7 @@
      
         <li>
             <a href="/blog/categories/#java并发" title="java并发">
-            java并发 <span>1</span></a>
+            java并发 <span>2</span></a>
         </li>
     
 
@@ -160,7 +160,7 @@
     
         
         <li>
-            <a href="/blog/tags/#J.U.C" title="J.U.C">J.U.C <span>1</span></a>
+            <a href="/blog/tags/#J.U.C" title="J.U.C">J.U.C <span>2</span></a>
         </li>
     
 
@@ -171,7 +171,7 @@
                     </div>
                     <div itemprop="articleBody">
                         <h1 id="heading-1-简介">1 简介</h1>
-<p>队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的的FIFO队列来完成资源的获取线程的排队工作。
+<p>队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个volatile int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的FIFO队列来完成资源的获取线程的排队工作。
 同步器的主要使用方式是继承，子类通过继承同步器并实现抽象方法来管理同步状态（基于模本方法模式）。子类被推荐定义为自定义同步组件的静态内部类（作为代理配合实现同步组件），同步器自身没有实现任何同步接口，它仅仅定义了同步状态的获取与释放来供自定义同步组件使用，同步器既可以独占式的获取同步状态也可以共享式的获取同步状态。</p>
 
 <h1 id="heading-2-队列同步器的接口">2 队列同步器的接口</h1>
@@ -194,7 +194,7 @@
 
 <p><strong>共享式</strong></p>
 <ul>
-  <li>int tryAcquireShared(int arg)：共享式获取同步状态，返回大于等于0表示获取成功，反之获取失败。</li>
+  <li>int tryAcquireShared(int arg)：共享式获取同步状态，返回大于等于0表示获取成功（其中0代表此前没有线程共享式获取同步状态，大于0表示已有其他线程获取到了同步状态），反之获取失败。</li>
   <li>boolean tryReleaseShared(int arg)：共享式释放同步状态。</li>
   <li>boolean isHeldExclusively()：当前同步器是否被当前线程独占</li>
 </ul>
@@ -232,7 +232,7 @@
 <h1 id="heading-3-队列同步器的实现分析">3 队列同步器的实现分析</h1>
 
 <h2 id="heading-31-同步队列">3.1 同步队列</h2>
-<p>同步器依赖内部的同步队列（一个FIFO双向队列）来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成一个节点（Node），并将其加入到同步队列中，同时会阻塞当前线程，当同步状态释放是，会把首节点中的线程唤醒，使其再次尝试获取同步状态。</p>
+<p>同步器依赖内部的同步队列（一个FIFO双向队列）来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成一个节点（Node），并将其加入到同步队列中，同时会阻塞当前线程，当同步状态释放时，会把前驱节点为首节点的节点中的线程唤醒，使其再次尝试获取同步状态。</p>
 
 <h3 id="heading-311-节点">3.1.1 节点</h3>
 <p>同步队列中的节点（Node）用来保存获取同步状态失败的线程引用、等待状态以及前驱和后继节点。</p>
@@ -297,33 +297,35 @@
 }
 </code></pre></div></div>
 
-<p>关于节点的状态state变化：当节点被创建，状态值默认为0；当有后继节点在等待，节点状态会被置为-1（SINGAL）；当节点共享式获取到同步状态，且无后继节点等待，节点状态会被设置为-3（PROPAGATE）；当节点获取同步状态超时或者被中断，节点状态将被置为1（CANCELLED）。</p>
+<p>关于节点的状态state变化：当节点被创建，状态值默认为0；当有后继节点在等待，节点状态会被置为-1（SINGAL）；当节点共享式获取到同步状态且后继节点为共享式节点，该节点状态会被设置为-3（PROPAGATE）；当节点获取同步状态超时或者被中断，节点状态将被置为1（CANCELLED）。</p>
 
-<p>主意：Node节点不仅用在同步队列中，AbstractQueuedSynchronizer中的Condition中的等待队列也是使用Node节点构建，所以其中有些字段在两种队列的共用，需要注意区分，Condition将在后文阐述。</p>
+<p>主意：Node节点不仅用在同步队列中，AbstractQueuedSynchronizer中的Condition中的等待队列也是使用Node节点构建，所以其中有些字段在两种队列的共用，需要注意区分，Condition将在后面介绍ReenTrantLock的文章中阐述。</p>
 
 <h3 id="heading-312-队列">3.1.2 队列</h3>
 <p>节点是构成同步队列的基础，同步器拥有首节点（head）和尾节点（tail），没有成功获取同步状态的线程将会成为节点加入该队列的尾部。</p>
 
 <ul>
-  <li>同步队列的基本结构
-同步器包含了两个节点类型的引用，一个指向首节点，一个指向尾节点。</li>
+  <li>同步队列的基本结构</li>
 </ul>
+
+<p>同步器包含了两个节点类型的引用，一个指向首节点，一个指向尾节点。</p>
 
 <center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/queue.jpg" width="500px" /></center>
 
 <ul>
-  <li>节点加入到同步队列中
-当一个线程成功的获取了同步状态，其他线程无法获取到同步状态，需要被构造成节点并加入到同步队列中，而加入这个队列的过程必须保证是线程安全的，因此同步器提供了一个基于CAS设置尾节点的方法：compareAndSetTail(Node expect, Node update)。</li>
+  <li>节点加入到同步队列中</li>
 </ul>
 
-<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setHead.jpg" width="500px" /></center>
+<p>当一个线程成功的获取了同步状态，其他线程无法获取到同步状态，需要被构造成节点并加入到同步队列中，而加入这个队列的过程必须保证是线程安全的，因此同步器提供了一个基于CAS设置尾节点的方法：compareAndSetTail(Node expect, Node update)。</p>
+
+<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setTail.jpg" width="500px" /></center>
 
 <ul>
   <li>首节点的设置
 同步队列遵循FIFO，首节点是获取同步状态成功的节点，首节点的线程在释放同步状态时，会唤醒后继节点，而后继节点将会在获取同步状态成功的同时将自己设置为首节点，由于只有一个线程能获取到同步状态，因此头结点的设置不需要CAS来保证。</li>
 </ul>
 
-<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setTail.jpg" width="500px" /></center>
+<center><img src="/assets/images/post/2018-11-09-java-concurrent-util-AQS/setHead.jpg" width="500px" /></center>
 
 <h2 id="heading-32-独占式同步状态的获取与释放">3.2 独占式同步状态的获取与释放</h2>
 
@@ -555,7 +557,7 @@ private boolean doAcquireNanos(int arg, long nanosTimeout)
 <p>tryAcquireNanos方法方法与acquireInterruptibly方法基本一致，只是增加了超时失败的机制。</p>
 
 <h3 id="heading-324-release方法">3.2.4 release方法</h3>
-<p>当前线程获取同步状态并执行了响应逻辑之后，就需要释放同步状态，是的后续节点能够获取到同步状态。通过调用同步器的release方法可以释放同步状态，该方法在释放了同步状态之后，会唤醒后继节点，进而使后继节点重新尝试获取同步状态。</p>
+<p>当前线程获取同步状态并执行了响应逻辑之后，就需要释放同步状态，使得后续节点能够获取到同步状态。通过调用同步器的release方法可以释放同步状态，该方法在释放了同步状态之后，会唤醒后继节点，进而使后继节点重新尝试获取同步状态。</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public final boolean release(int arg) {
     if (tryRelease(arg)) {
         Node h = head;
@@ -790,6 +792,8 @@ private boolean doAcquireSharedNanos(int arg, long nanosTimeout)
                         
                             <a class="internal" rel="prev" href="/blog/2018/10/21/raft-diff-paxos/" title=" 'paxos与raft一致性协议'"> ← paxos与raft一致性协议</a>
                         
+                        
+                            <a class="internal" rel="next" href="/blog/2018/12/27/java-concurrent-util-lock/" title="Next Post 'J.U.C之Lock'">J.U.C之Lock → </a>
                         
                     </nav>
                 </div>

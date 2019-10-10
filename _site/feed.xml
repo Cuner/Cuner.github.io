@@ -1,5 +1,578 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2018-11-21T17:39:55+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">J.U.C之AQS队列同步器</title><link href="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/" rel="alternate" type="text/html" title="J.U.C之AQS队列同步器" /><published>2018-11-09T00:00:00+08:00</published><updated>2018-11-09T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS</id><content type="html" xml:base="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/">&lt;h1 id=&quot;heading-1-简介&quot;&gt;1 简介&lt;/h1&gt;
-&lt;p&gt;队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的的FIFO队列来完成资源的获取线程的排队工作。
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2019-10-10T17:37:27+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">J.U.C之Lock</title><link href="http://localhost:4000/blog/2018/12/27/java-concurrent-util-lock/" rel="alternate" type="text/html" title="J.U.C之Lock" /><published>2018-12-27T00:00:00+08:00</published><updated>2018-12-27T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/12/27/java-concurrent-util-lock</id><content type="html" xml:base="http://localhost:4000/blog/2018/12/27/java-concurrent-util-lock/">&lt;p&gt;（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-1-lock接口&quot;&gt;1 Lock接口&lt;/h1&gt;
+&lt;p&gt;锁是用来控制多个线程访问共享资源的方式，一般来说，一个锁能够防止多个线程同时访问共享资源（但有些锁支持多个线程同时访问共享资源，如读写锁）。在Lock接口出现之前，java程序是靠synchronized关键字实现锁功能的。在java SE5之后，并发包中新增了Lock接口（以及相关实现类）用来实现锁功能，它提供了与synchronized关键字类似的同步功能，只是在使用的时候需要显式的获取跟释放锁。虽然它缺少了隐式获取和释放锁的便捷性，但是却拥有了锁获取与释放的可操作性、非阻塞获取锁、可中断获取锁以及超时获取锁等多种特性。&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-11-lock接口的api&quot;&gt;1.1 Lock接口的API&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;void lock()&lt;/strong&gt;&lt;br /&gt;
+获取锁，调用该方法当前线程将会获取锁，当获取锁后，从该方法返回&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;void lockInterruptibly() throws InterruptedException&lt;/strong&gt;&lt;br /&gt;
+可中断的获取锁，和lock()方法不同在于该方法可以响应中断，即在锁获取中可中断当前线程&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;boolean tryLock()&lt;/strong&gt;&lt;br /&gt;
+尝试非阻塞获取锁，调用该方法后立刻返回，如果能获取到锁则返回true，否则返回false&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;boolean tryLock(long time, TimeUnit unit) throws InterruptedException&lt;/strong&gt;&lt;br /&gt;
+超时获取锁，当前线程在以下三种情况下返回
+    &lt;ul&gt;
+      &lt;li&gt;当前线程获取到了锁，返回true&lt;/li&gt;
+      &lt;li&gt;当前线程在超时时间内被中断，抛出InterruptedException异常&lt;/li&gt;
+      &lt;li&gt;获取超时时间结束，返回false&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;void unlock()&lt;/strong&gt;&lt;br /&gt;
+释放锁&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Condition newCondition()&lt;/strong&gt;&lt;br /&gt;
+获取等待通知组件，该组件和当前的锁绑定，当前线程只有获取了锁，才能调用该组件的await方法，而调用后，当前线程将释放锁&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;heading-2-重入锁reentrantlock&quot;&gt;2 重入锁ReentrantLock&lt;/h1&gt;
+&lt;p&gt;顾名思义，就是支持重进入的锁，它表示该锁支持一个线程对资源重复加锁。除此之外，该锁还支持获取锁时的公平与非公平性选择。&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-21-使用示例&quot;&gt;2.1 使用示例&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Lock lock = new ReentrantLock();
+lock.lock();
+try {
+    //相关操作
+} finally {
+    lock.unlock();
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;heading-22-实现重进入&quot;&gt;2.2 实现重进入&lt;/h2&gt;
+&lt;p&gt;重进入是指任意线程在获取锁之后能够再次获取该锁而不被阻塞，该特性的实现需要解决以下两个问题&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;同一线程再次获取锁：锁需要识别获取锁的线程是够为当前占据锁的线程，如果是，则再次获取成功。&lt;/li&gt;
+  &lt;li&gt;锁的最终释放：线程重复n次获取了锁，随后在第n次释放锁之后，其他线程才能获取到锁。锁的最终释放要求锁对于获取进行计数自增，计数表示当前锁被重复获取的次数，而锁被释放时，计数自减，当计数为0时表示锁已经释放&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;ReentrantLock是通过委托给继承队列同步器的静态内部类，来实现（非）公平锁的获取与释放，以非公平性（默认）的实现为例，获取以及释放同步状态的代码如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;final boolean nonfairTryAcquire(int acquires) {
+    final Thread current = Thread.currentThread();
+    int c = getState();
+    if (c == 0) {
+        if (compareAndSetState(0, acquires)) {
+            setExclusiveOwnerThread(current);
+            return true;
+        }
+    }
+    else if (current == getExclusiveOwnerThread()) {
+        int nextc = c + acquires;
+        if (nextc &amp;lt; 0) // overflow
+            throw new Error(&quot;Maximum lock count exceeded&quot;);
+        setState(nextc);
+        return true;
+    }
+    return false;
+}
+
+protected final boolean tryRelease(int releases) {
+    int c = getState() - releases;
+    if (Thread.currentThread() != getExclusiveOwnerThread())
+        throw new IllegalMonitorStateException();
+    boolean free = false;
+    if (c == 0) {
+        free = true;
+        setExclusiveOwnerThread(null);
+    }
+    setState(c);
+    return free;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;nonfairTryAcquire()方法：增加了线程再次获取同步状态的处理逻辑：通过判断当前线程是否是获取锁的线程来决定获取同步状态是否成功，如果是获取锁的线程再次请求获取锁，则将同步状态值增加并返回true，表示获取同步状态成功。其中同步状态值即为线程重复获取锁的次数。（这里自增的操作因为是单线程，所以不需要考虑同步的问题）。  &lt;br /&gt;
+tryRelease()方法：每次释放锁则将同步状态值自减，只有当同步状态完全释放了，才能返回true。可以看到该方法将同步状态值是否为0作为最终释放条件，当同步状态值为0，将占有线程置为null，并返回true，表示释放成功。（这里释放过程同样也不会产生线程竞争）&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-23-公平性与非公平性锁&quot;&gt;2.3 公平性与非公平性锁&lt;/h2&gt;
+&lt;p&gt;如果在绝对时间上，先对锁进行获取的请求一定先被满足，那么这个锁是公平的，反之，是不公平的。公平的获取锁，也就是等待时间最长的线程最先获取锁。事实上公平性锁机制往往没有非公平的效率高，但是公平性锁的优势在于能够减少“饥饿”发生的概率。&lt;/p&gt;
+
+&lt;p&gt;在ReentrantLock中，根据公平锁以及非公平锁获取获取锁顺序的区别，分别实现了两个静态内部类（继承AbstractQueuedSynchronized），并把锁的获取委托给它们。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/**
+ * Sync object for non-fair locks
+ */
+static final class NonfairSync extends Sync {
+    private static final long serialVersionUID = 7316153563782823691L;
+
+    /**
+     * Performs lock.  Try immediate barge, backing up to normal
+     * acquire on failure.
+     */
+    final void lock() {
+        if (compareAndSetState(0, 1))
+            setExclusiveOwnerThread(Thread.currentThread());
+        else
+            acquire(1);
+    }
+
+    protected final boolean tryAcquire(int acquires) {
+        return nonfairTryAcquire(acquires);
+    }
+}
+
+/**
+ * Sync object for fair locks
+ */
+static final class FairSync extends Sync {
+    private static final long serialVersionUID = -3000897897090466540L;
+
+    final void lock() {
+        acquire(1);
+    }
+
+    /**
+     * Fair version of tryAcquire.  Don't grant access unless
+     * recursive call or no waiters or is first.
+     */
+    protected final boolean tryAcquire(int acquires) {
+        final Thread current = Thread.currentThread();
+        int c = getState();
+        if (c == 0) {
+            if (!hasQueuedPredecessors() &amp;amp;&amp;amp;
+                    compareAndSetState(0, acquires)) {
+                setExclusiveOwnerThread(current);
+                return true;
+            }
+        }
+        else if (current == getExclusiveOwnerThread()) {
+            int nextc = c + acquires;
+            if (nextc &amp;lt; 0)
+                throw new Error(&quot;Maximum lock count exceeded&quot;);
+            setState(nextc);
+            return true;
+        }
+        return false;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;对于非公平锁，线程请求锁的时候直接尝试获取同步状态，只要CAS设置同步状态成功，那么当前线程则获取到了锁；而公平锁不同，与nonfairTryAcquire()方法相比较，唯一不同的地方是判断条件多了hasQueuedPredecessors()方法，即加入了同步队列中当前节点是否有前驱节点的判断，如果该方法返回true，则表示有线程比当前线程更先请求锁，因此不能直接尝试获取锁，需要构造同步节点加入到同步队列中，等待前驱节点获取并释放锁后才能去尝试获取同步状态。&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-3-读写锁&quot;&gt;3 读写锁&lt;/h1&gt;
+
+&lt;p&gt;读写锁维护了一对锁，一个读锁和一个写锁，分别对应共享锁和排它锁。简单来说，当某个线程获取到了写锁，其他线程无法再去获取写锁或者读锁；当某个线程获取到了读锁，其他线程无法再去获取写锁，允许再去获取读锁。读写锁通过读写分离，除了保证写操作对读操作的可见性之外，在读多于写的情况下，还能提供更好的并发性和吞吐量。&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-31-读写锁的特性&quot;&gt;3.1 读写锁的特性&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;公平性选择&lt;/li&gt;
+  &lt;li&gt;重进入&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;锁降级&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;前两点特性与ReentrantLock一致，而锁降级特性是遵循获取写锁、获取读锁在释放写锁的次序，写锁能够降级成为读锁。&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-32-读写锁的示例&quot;&gt;3.2 读写锁的示例&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class Cache {
+    private static Map&amp;lt;String, Object&amp;gt; map = new HashMap&amp;lt;&amp;gt;();
+    private static ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private static Lock readLock = readWriteLock.readLock();
+    private static Lock writeLock = readWriteLock.writeLock();
+
+    //获取map中某个key对应的value
+    public static Object get(String key) {
+        readLock.lock();
+        try {
+            return map.get(key);
+        } finally {
+            readLock.unlock();
+        }
+    }
+
+    //设置某个key对应的value，并返回旧的value
+    public static void set(String key, Object value) {
+        writeLock.lock();
+        try {
+            map.put(key, value);
+        } finally {
+            writeLock.unlock();
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;上述示例中，Cache组合了一个非线程安全的HashMap作为缓存的实现，同时使用读写锁来保证Cache是线程安全的。在读操作中，需要获取读锁，这使得并发读取时不会相互阻塞；写操作中需要获取写锁，获取到写锁后，其他线程对于读锁或者写锁的获取均被阻塞。Cache使用读写锁保证了读操作的并发性，也保证了每次写操作对所有的读写操作的可见性。&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-33-读写锁实现分析&quot;&gt;3.3 读写锁实现分析&lt;/h2&gt;
+
+&lt;h3 id=&quot;heading-331-读写锁的实现结构&quot;&gt;3.3.1 读写锁的实现结构&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;ReentrantReadWriteLock对外封装了获取读锁与写锁的方法，这里的读锁与写锁都实现了锁接口Lock&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public ReentrantReadWriteLock(boolean fair) {
+    sync = fair ? new FairSync() : new NonfairSync();
+    readerLock = new ReadLock(this);
+    writerLock = new WriteLock(this);
+}
+    
+public ReentrantReadWriteLock.WriteLock writeLock() { return writerLock; }
+public ReentrantReadWriteLock.ReadLock  readLock()  { return readerLock; }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ReentrantReadWrite通过委托给继承队列同步器AQS的静态内部类（FairSync/NonfairSync），来实现（非）公平锁的获取与释放&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;abstract static class Sync extends AbstractQueuedSynchronizer {...}
+static final class NonfairSync extends Sync {...}
+static final class FairSync extends Sync {...}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;写锁的获取与释放，委托给Sync类独占式的获取与释放同步状态&lt;/li&gt;
+  &lt;li&gt;读锁的获取与释放，委托给Sync类共享式的获取与释放同步状态&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;heading-332-读写状态的设计&quot;&gt;3.3.2 读写状态的设计&lt;/h3&gt;
+
+&lt;p&gt;读写锁同样依赖自定义同步器来实现同步功能，而读写状态就是同步器的同步状态。因此同步状态值需要区分读写锁的获取，同时也要考虑都线程重入的情况。 &lt;br /&gt;
+读写锁将同步状态值分成了两个部分，高16位表示读，低16位表示写。于是写状态等于S &amp;amp; ((1 &amp;lt;&amp;lt;&amp;lt; 16) - 1)，即将高16为全部抹去，读状态等于S &amp;gt;&amp;gt;&amp;gt; 16（无符号补0右移16位）&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;static final int SHARED_SHIFT   = 16;
+static final int SHARED_UNIT    = (1 &amp;lt;&amp;lt; SHARED_SHIFT);
+static final int MAX_COUNT      = (1 &amp;lt;&amp;lt; SHARED_SHIFT) - 1;
+static final int EXCLUSIVE_MASK = (1 &amp;lt;&amp;lt; SHARED_SHIFT) - 1;
+
+/** Returns the number of shared holds represented in count  */
+static int sharedCount(int c)    { return c &amp;gt;&amp;gt;&amp;gt; SHARED_SHIFT; }
+/** Returns the number of exclusive holds represented in count  */
+static int exclusiveCount(int c) { return c &amp;amp; EXCLUSIVE_MASK; }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;heading-333-写锁的获取与释放&quot;&gt;3.3.3 写锁的获取与释放&lt;/h3&gt;
+&lt;p&gt;写锁是一个支持重进入的排他锁。如果当前线程已经获取了死锁，则增加写状态。如果当前线程在获取写锁时，读锁已经被获取（代码中的 c != 0 &amp;amp;&amp;amp; w == 0）或者该线程不是已经获取写锁的线程，则获取同步状态失败，当前线程进入到等待状态。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;protected final boolean tryAcquire(int acquires) {
+    Thread current = Thread.currentThread();
+    int c = getState();
+    int w = exclusiveCount(c);
+    if (c != 0) {
+        // (Note: if c != 0 and w == 0 then shared count != 0)
+        if (w == 0 || current != getExclusiveOwnerThread())
+            return false;
+        if (w + exclusiveCount(acquires) &amp;gt; MAX_COUNT)
+            throw new Error(&quot;Maximum lock count exceeded&quot;);
+        // Reentrant acquire
+        setState(c + acquires);
+        return true;
+    }
+    if (writerShouldBlock() ||
+        !compareAndSetState(c, c + acquires))
+        return false;
+    setExclusiveOwnerThread(current);
+    return true;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;写锁的释放与ReentrantLock释放锁的过程基本一致，每次释放减少同步状态，当写状态为0时则表示写锁被释放。&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-334-读锁的获取与释放&quot;&gt;3.3.4 读锁的获取与释放&lt;/h3&gt;
+
+&lt;p&gt;读锁是一个支持重进入的共享锁，它能够被多个线程同时获取，在没有其他写线程访问时，读锁总能被成功获取，此时需要线程安全的增加读状态。如果当前线程在获取读锁时，写锁已经被其他线程获取，则该线程进入等待状态。这里读锁的获取释放代码做了部分删减（删减掉了每个线程维护各自获取读锁次数的相关代码）。&lt;/p&gt;
+
+&lt;p&gt;在tryReleaseShared()方法中，如果其他线程已经获取了写锁，则当前线程获取读锁失败，进入等待状态。如果当前线程获取了写锁或者写锁未被获取，则当前线程（线程安全，依靠CAS）增加读状态，成功获取锁。&lt;/p&gt;
+
+&lt;p&gt;可以看到这里有个fullTryAcquireShared()方法，其中的for循环主要应对多个线程同时获取共享式同步状态导致CAS失败的重试。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;protected final int tryAcquireShared(int unused) {
+    Thread current = Thread.currentThread();
+    int c = getState();
+    if (exclusiveCount(c) != 0 &amp;amp;&amp;amp;
+        getExclusiveOwnerThread() != current)
+        return -1;
+    int r = sharedCount(c);
+    if (!readerShouldBlock() &amp;amp;&amp;amp;
+        r &amp;lt; MAX_COUNT &amp;amp;&amp;amp;
+        compareAndSetState(c, c + SHARED_UNIT)) {
+        return 1;
+    }
+    return fullTryAcquireShared(current);
+}
+
+final int fullTryAcquireShared(Thread current) {
+    HoldCounter rh = null;
+    for (;;) {
+        int c = getState();
+        if (exclusiveCount(c) != 0) {
+            if (getExclusiveOwnerThread() != current)
+                return -1;
+        } else if (readerShouldBlock()) {
+            return -1;
+        }
+        if (sharedCount(c) == MAX_COUNT)
+            throw new Error(&quot;Maximum lock count exceeded&quot;);
+        if (compareAndSetState(c, c + SHARED_UNIT)) {
+            return 1;
+        }
+    }
+}
+
+protected final boolean tryReleaseShared(int unused) {
+    Thread current = Thread.currentThread();
+    for (;;) {
+        int c = getState();
+        int nextc = c - SHARED_UNIT;
+        if (compareAndSetState(c, nextc))
+            return nextc == 0;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;heading-335-公平性与非公平性的选择&quot;&gt;3.3.5 公平性与非公平性的选择&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;static final class NonfairSync extends Sync {
+    private static final long serialVersionUID = -8159625535654395037L;
+    final boolean writerShouldBlock() {
+        return false; // writers can always barge
+    }
+    final boolean readerShouldBlock() {
+        return apparentlyFirstQueuedIsExclusive();//队列中第一个等待的节点是否为独占式
+    }
+}
+
+static final class FairSync extends Sync {
+    private static final long serialVersionUID = -2274990926593161451L;
+    final boolean writerShouldBlock() {
+        return hasQueuedPredecessors();//是否有前驱节点
+    }
+    final boolean readerShouldBlock() {
+        return hasQueuedPredecessors();
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;heading-336-锁降级&quot;&gt;3.3.6 锁降级&lt;/h3&gt;
+
+&lt;p&gt;锁降级是指写锁降级成读锁。如果当前线程拥有写锁，然后将其释放，最后在获取读锁，这种分段过程不能称之为锁降级。锁降级是指把持住当前拥有的写锁，再获取到读锁，随后释放先前拥有的写锁的过程。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;private void process() {
+    readLock.lock();
+    if (update) {
+        //需要写入，此时释放掉读锁
+        readLock.unlock();
+        //锁降级过程从写锁获取开始
+        writeLock.lock();
+        try {
+            if (update) {
+                //准备数据写入
+                update = false;
+            }
+            readLock.lock();
+        } finally {
+            writeLock.unlock();
+        }
+        //锁降级完成，写锁降级为读锁
+    }
+    try {
+        //读取数据
+    } finally {
+        readLock.unlock();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;当数据发生变更后，update（布尔类型且被volatile修饰）变量被置为true，此时所有访问process()方法的线程都将感知到变更，但只有一个线程能够获取到写锁，其他线程会被阻塞在读锁或者写锁的lock()方法上。当前线程获取写锁完成数据准备之后，在获取读锁，随后释放写锁，完成锁降级。&lt;/p&gt;
+
+&lt;p&gt;锁降级过程中再次获取读锁是为了保证数据的可见性，避免在次过程中，其他线程的写入操作使得当前线程无法感知&lt;/p&gt;
+
+&lt;p&gt;在前面获取锁的代码中可以看到，在获取到读锁的时候，如果当前线程已经获取到写锁，这个时候读锁是会被成功获取的；而获取写锁的时候，当前线程获取到了读锁，这个时候线程将被阻塞，处于等待状态。可以得知ReenTrantReadWriteLock支持锁降级，而不支持锁升级（把持读锁，获取写锁，释放读锁的过程）。目的也是为了保障可见性，如果读锁已经被多个线程获取，其中任意线程获取了写锁并更新了数据，则器更新的数据对其他获取读锁的线程是不可见的。&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-4-condition接口&quot;&gt;4 Condition接口&lt;/h1&gt;
+
+&lt;p&gt;我我们知道，任何一个Java都拥有一组监视器方法（定义在java.lang.Object上），主要包括wait()、wait(long timeout)、notify()、notifyAll()方法，这些方法与synchronized同步关键字配合使用，可以实现等待通知模式。Condition接口也提供了类型Object监视器方法，与Lock配合可以实现等待通知模式。但是两者在使用方式以及功能特性上还是有一些区别的。&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;对比项&lt;/th&gt;
+      &lt;th&gt;Object Monitor Methods&lt;/th&gt;
+      &lt;th&gt;Condition&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;前置条件&lt;/td&gt;
+      &lt;td&gt;获取对象锁&lt;/td&gt;
+      &lt;td&gt;调用Lock.lock()获取锁，调用lock.newCondition()获取Condition对象&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;等待队列个数&lt;/td&gt;
+      &lt;td&gt;一个&lt;/td&gt;
+      &lt;td&gt;多个&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;当前线程释放锁进入等待状态&lt;/td&gt;
+      &lt;td&gt;支持&lt;/td&gt;
+      &lt;td&gt;支持&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;当前线程释放锁进入等待状态，在等待状态中不响应中断&lt;/td&gt;
+      &lt;td&gt;不支持&lt;/td&gt;
+      &lt;td&gt;支持&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;当前线程释放锁进入超时等待状态&lt;/td&gt;
+      &lt;td&gt;支持&lt;/td&gt;
+      &lt;td&gt;支持&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;当前线程释放锁进入等待状态到将来的某个时间点&lt;/td&gt;
+      &lt;td&gt;不支持&lt;/td&gt;
+      &lt;td&gt;支持&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;唤醒等待队列中的一个线程&lt;/td&gt;
+      &lt;td&gt;支持&lt;/td&gt;
+      &lt;td&gt;支持&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;唤醒等待队列中的全部线程&lt;/td&gt;
+      &lt;td&gt;支持&lt;/td&gt;
+      &lt;td&gt;支持&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;实现Condition接口的ConditionObject类是在AbstractQueuedSynchronized中定义的，但是ConditionObject的使用都是与Lock绑定使用的，因此放到这里来讲。&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-41-condition接口&quot;&gt;4.1 Condition接口&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;void await() throws InterruptedException&lt;/strong&gt;&lt;br /&gt;
+当前线程进入等待状态，直到被通知或者中断。如果当前线程从await()方法返回，那么表明该线程已经获取了Condition对象所对应的锁。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;void awaitUninterruptibly()&lt;/strong&gt;&lt;br /&gt;
+当前线程进入等待状态直到被通知，该方法对中断不敏感&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;long awaitNanos(long nanosTimeout) throws InterruptedException&lt;/strong&gt;   &lt;br /&gt;
+当前线程进入等待状态，直到被通知、中断或者超时。返回值表示剩余的时间，如果返回值小于等于0，表示等待超时&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;boolean awaitUntil(Date deadline) throws InterruptedException&lt;/strong&gt; &lt;br /&gt;
+当前线程进入等待状态，直到被通知、中断或者到某个时间点。如果没有到指定时间就被通知，方法返回true，否则表示已经到了指定时间还未被通知，此时返回false。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;void signal()&lt;/strong&gt;  &lt;br /&gt;
+唤醒一个等待在Condition上的线程，该线程从等待时间返回前必须获得与Condition相关联的锁&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;void signalAll()&lt;/strong&gt; &lt;br /&gt;
+唤醒所有等待在Condition上的线程，能够从等待方法返回的线程必须获取与Condition相关联的锁&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;heading-42-condition实例&quot;&gt;4.2 Condition实例&lt;/h2&gt;
+
+&lt;p&gt;Condition定义了等待通知两种类型的方法，当线程调用终这些方法时，需要提前获取到Condition对象关联的锁。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Lock lock = new ReentrantLock();
+Condition condition = lock.newCondition();
+public void conditionWait() throws InterruptedException {
+    lock.lock();
+    try {
+        condition.await();
+    } finally {
+        lock.unlock();
+    }
+}
+
+public void conditionSignl() {
+    lock.lock();
+    try {
+        condition.signal();
+    } finally {
+        lock.unlock();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;当调用await()方法后，当前线程会释放锁并在此等待，而其他线程调用Condition对象的signal()方法后，通知当前线程后，当前线程从await()方法返回，并且在返回前已经获取到了锁。&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-43-condition实现分析&quot;&gt;4.3 Condition实现分析&lt;/h2&gt;
+
+&lt;h3 id=&quot;heading-431-等待队列&quot;&gt;4.3.1 等待队列&lt;/h3&gt;
+&lt;p&gt;ConditionObject是同步器AbstractQueuedSynchronizer的内部类，每个Condition对象都包含一个等待队列，该队列是Conditon实现等待通知功能的关键。&lt;/p&gt;
+
+&lt;p&gt;等待队列是一个FIFO的队列，在队列中的每个节点都包含了一个线程引用，该线程就是在Condition对象上等待的线程，如果一个线程调用了Condition.await()方法，那么该线程将会释放锁、构造等待节点加入等待队列并进入等待状态。这里的节点复用了同步器中的节点，也就是说，同步队列以及等待队列中的节点类型都是同步器的静态内部类AbstractQueuedSynchronizer.Node。&lt;/p&gt;
+
+&lt;p&gt;一个Condition包含一个等待队列，Condition拥有首节点（firstWaiter）和尾节点（lastWaiter）。在Object监视器上，一个对象拥有一个同步队列和等待队列，而并发包中的Lock拥有一个同步队列和多个等待队列。&lt;/p&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-12-27-java-concurrent-util-lock/waitQueue.jpg&quot; width=&quot;800px&quot; /&gt;&lt;/center&gt;
+
+&lt;h2 id=&quot;heading-432-等待&quot;&gt;4.3.2 等待&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public final void await() throws InterruptedException {
+    if (Thread.interrupted())
+        throw new InterruptedException();
+    // 当前线程加入等待队列
+    Node node = addConditionWaiter();
+    // 释放锁
+    int savedState = fullyRelease(node);
+    int interruptMode = 0;
+    // 阻塞线程
+    while (!isOnSyncQueue(node)) {
+        // 解除阻塞
+        LockSupport.park(this);
+        if ((interruptMode = checkInterruptWhileWaiting(node)) != 0)
+            break;
+    }
+    // 自旋尝试获取同步状态
+    if (acquireQueued(node, savedState) &amp;amp;&amp;amp; interruptMode != THROW_IE)
+        interruptMode = REINTERRUPT;
+    if (node.nextWaiter != null) // clean up if cancelled
+        unlinkCancelledWaiters();
+    if (interruptMode != 0)
+        reportInterruptAfterWait(interruptMode);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;该方法的线程成功获取到了锁，也就是同步队列中的首节点。该方法将会以当前线程构造新的等待节点（addConditionWaiter()方法），并将节点从尾部加入等待队列，同时释放锁，唤醒同步队列中的后继节点，最后当前线程会进入等待状态。Condition拥有首尾节点的引用，而新增节点只需要将原有的尾节点lastWaiter指向它，并且更新尾节点即可。上述节点引用更新的过程并没有使用CAS保证，原因在于调用await()方法的线程必定是获取了锁的线程，也就是说该过程是线程安全的。&lt;/p&gt;
+
+&lt;p&gt;当等待队列中的节点被唤醒，则唤醒的线程开始尝试获取同步状态，如果等待线程被中断会抛出InterruptedException。&lt;/p&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-12-27-java-concurrent-util-lock/addToWaitQueue.jpg&quot; width=&quot;800px&quot; /&gt;&lt;/center&gt;
+
+&lt;h2 id=&quot;heading-433-通知&quot;&gt;4.3.3 通知&lt;/h2&gt;
+
+&lt;p&gt;调用Condition中的signal()方法，将会唤醒等待队列中的等待时间最长的节点（也就是首节点），在唤醒节点之前，会将节点移动到同步队列中。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public final void signal() {
+    if (!isHeldExclusively())
+        throw new IllegalMonitorStateException();
+    Node first = firstWaiter;
+    if (first != null)
+        doSignal(first);
+}
+
+private void doSignal(Node first) {
+    do {
+        if ( (firstWaiter = first.nextWaiter) == null)
+            lastWaiter = null;
+        first.nextWaiter = null;
+    } while (!transferForSignal(first) &amp;amp;&amp;amp;
+            (first = firstWaiter) != null);
+}
+
+final boolean transferForSignal(Node node) {
+    // 修改节点状态，恢复到默认状态
+    if (!compareAndSetWaitStatus(node, Node.CONDITION, 0))
+        return false;
+    // 加入到同步队列
+    Node p = enq(node);
+    int ws = p.waitStatus;
+    if (ws &amp;gt; 0 || !compareAndSetWaitStatus(p, ws, Node.SIGNAL))
+        // 唤醒等待状态
+        LockSupport.unpark(node.thread);
+    return true;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;调用该方法的前置条件是当前线程必须获取到了锁，可以看到signal()方法进行了isHeldExclusively()检查，也就是当前线程必须是获取了锁的线程。接着获取等待队列中的首节点，将其移动到同步队列并用LockSupport唤醒节点中的线程。&lt;/p&gt;
+
+&lt;p&gt;通过调用同步器的enq()方法，等待队列中的首节点线程安全的加入到同步队列。当节点移动到同步队列之后，当前线程再唤醒等待线程。&lt;/p&gt;
+
+&lt;p&gt;被唤醒后的线程，将从await()方法中的while循环中退出（节点已经在同步队列中，isOnSyncQueue()方法返回true），进而调用同步器的acquireQueued()方法加入到获取同步状态的竞争中。&lt;/p&gt;
+
+&lt;p&gt;成功获取同步状态之后，被唤醒的线程将先从先前调用的await()方法中返回，此时该线程已经成功地获取了锁。&lt;/p&gt;
+
+&lt;p&gt;Condition的signalAll()方法，相当于对等待队列中的每一个节点均进行一次signal()方法，效果就是将等待队列中的所有节点移动到同步队列中，并唤醒每个节点的线程&lt;/p&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-12-27-java-concurrent-util-lock/backToSynQueue.jpg&quot; width=&quot;800px&quot; /&gt;&lt;/center&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）</summary></entry><entry><title type="html">J.U.C之AbstractQueuedSynchronizer</title><link href="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/" rel="alternate" type="text/html" title="J.U.C之AbstractQueuedSynchronizer" /><published>2018-11-09T00:00:00+08:00</published><updated>2018-11-09T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS</id><content type="html" xml:base="http://localhost:4000/blog/2018/11/09/java-concurrent-util-AQS/">&lt;h1 id=&quot;heading-1-简介&quot;&gt;1 简介&lt;/h1&gt;
+&lt;p&gt;队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个volatile int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的FIFO队列来完成资源的获取线程的排队工作。
 同步器的主要使用方式是继承，子类通过继承同步器并实现抽象方法来管理同步状态（基于模本方法模式）。子类被推荐定义为自定义同步组件的静态内部类（作为代理配合实现同步组件），同步器自身没有实现任何同步接口，它仅仅定义了同步状态的获取与释放来供自定义同步组件使用，同步器既可以独占式的获取同步状态也可以共享式的获取同步状态。&lt;/p&gt;
 
 &lt;h1 id=&quot;heading-2-队列同步器的接口&quot;&gt;2 队列同步器的接口&lt;/h1&gt;
@@ -22,7 +595,7 @@
 
 &lt;p&gt;&lt;strong&gt;共享式&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
-  &lt;li&gt;int tryAcquireShared(int arg)：共享式获取同步状态，返回大于等于0表示获取成功，反之获取失败。&lt;/li&gt;
+  &lt;li&gt;int tryAcquireShared(int arg)：共享式获取同步状态，返回大于等于0表示获取成功（其中0代表此前没有线程共享式获取同步状态，大于0表示已有其他线程获取到了同步状态），反之获取失败。&lt;/li&gt;
   &lt;li&gt;boolean tryReleaseShared(int arg)：共享式释放同步状态。&lt;/li&gt;
   &lt;li&gt;boolean isHeldExclusively()：当前同步器是否被当前线程独占&lt;/li&gt;
 &lt;/ul&gt;
@@ -60,7 +633,7 @@
 &lt;h1 id=&quot;heading-3-队列同步器的实现分析&quot;&gt;3 队列同步器的实现分析&lt;/h1&gt;
 
 &lt;h2 id=&quot;heading-31-同步队列&quot;&gt;3.1 同步队列&lt;/h2&gt;
-&lt;p&gt;同步器依赖内部的同步队列（一个FIFO双向队列）来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成一个节点（Node），并将其加入到同步队列中，同时会阻塞当前线程，当同步状态释放是，会把首节点中的线程唤醒，使其再次尝试获取同步状态。&lt;/p&gt;
+&lt;p&gt;同步器依赖内部的同步队列（一个FIFO双向队列）来完成同步状态的管理，当前线程获取同步状态失败时，同步器会将当前线程以及等待状态等信息构造成一个节点（Node），并将其加入到同步队列中，同时会阻塞当前线程，当同步状态释放时，会把前驱节点为首节点的节点中的线程唤醒，使其再次尝试获取同步状态。&lt;/p&gt;
 
 &lt;h3 id=&quot;heading-311-节点&quot;&gt;3.1.1 节点&lt;/h3&gt;
 &lt;p&gt;同步队列中的节点（Node）用来保存获取同步状态失败的线程引用、等待状态以及前驱和后继节点。&lt;/p&gt;
@@ -125,33 +698,35 @@
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;关于节点的状态state变化：当节点被创建，状态值默认为0；当有后继节点在等待，节点状态会被置为-1（SINGAL）；当节点共享式获取到同步状态，且无后继节点等待，节点状态会被设置为-3（PROPAGATE）；当节点获取同步状态超时或者被中断，节点状态将被置为1（CANCELLED）。&lt;/p&gt;
+&lt;p&gt;关于节点的状态state变化：当节点被创建，状态值默认为0；当有后继节点在等待，节点状态会被置为-1（SINGAL）；当节点共享式获取到同步状态且后继节点为共享式节点，该节点状态会被设置为-3（PROPAGATE）；当节点获取同步状态超时或者被中断，节点状态将被置为1（CANCELLED）。&lt;/p&gt;
 
-&lt;p&gt;主意：Node节点不仅用在同步队列中，AbstractQueuedSynchronizer中的Condition中的等待队列也是使用Node节点构建，所以其中有些字段在两种队列的共用，需要注意区分，Condition将在后文阐述。&lt;/p&gt;
+&lt;p&gt;主意：Node节点不仅用在同步队列中，AbstractQueuedSynchronizer中的Condition中的等待队列也是使用Node节点构建，所以其中有些字段在两种队列的共用，需要注意区分，Condition将在后面介绍ReenTrantLock的文章中阐述。&lt;/p&gt;
 
 &lt;h3 id=&quot;heading-312-队列&quot;&gt;3.1.2 队列&lt;/h3&gt;
 &lt;p&gt;节点是构成同步队列的基础，同步器拥有首节点（head）和尾节点（tail），没有成功获取同步状态的线程将会成为节点加入该队列的尾部。&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;同步队列的基本结构
-同步器包含了两个节点类型的引用，一个指向首节点，一个指向尾节点。&lt;/li&gt;
+  &lt;li&gt;同步队列的基本结构&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;p&gt;同步器包含了两个节点类型的引用，一个指向首节点，一个指向尾节点。&lt;/p&gt;
 
 &lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-11-09-java-concurrent-util-AQS/queue.jpg&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;节点加入到同步队列中
-当一个线程成功的获取了同步状态，其他线程无法获取到同步状态，需要被构造成节点并加入到同步队列中，而加入这个队列的过程必须保证是线程安全的，因此同步器提供了一个基于CAS设置尾节点的方法：compareAndSetTail(Node expect, Node update)。&lt;/li&gt;
+  &lt;li&gt;节点加入到同步队列中&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-11-09-java-concurrent-util-AQS/setHead.jpg&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
+&lt;p&gt;当一个线程成功的获取了同步状态，其他线程无法获取到同步状态，需要被构造成节点并加入到同步队列中，而加入这个队列的过程必须保证是线程安全的，因此同步器提供了一个基于CAS设置尾节点的方法：compareAndSetTail(Node expect, Node update)。&lt;/p&gt;
+
+&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-11-09-java-concurrent-util-AQS/setTail.jpg&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
 &lt;ul&gt;
   &lt;li&gt;首节点的设置
 同步队列遵循FIFO，首节点是获取同步状态成功的节点，首节点的线程在释放同步状态时，会唤醒后继节点，而后继节点将会在获取同步状态成功的同时将自己设置为首节点，由于只有一个线程能获取到同步状态，因此头结点的设置不需要CAS来保证。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-11-09-java-concurrent-util-AQS/setTail.jpg&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
+&lt;center&gt;&lt;img src=&quot;/assets/images/post/2018-11-09-java-concurrent-util-AQS/setHead.jpg&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
 
 &lt;h2 id=&quot;heading-32-独占式同步状态的获取与释放&quot;&gt;3.2 独占式同步状态的获取与释放&lt;/h2&gt;
 
@@ -383,7 +958,7 @@ private boolean doAcquireNanos(int arg, long nanosTimeout)
 &lt;p&gt;tryAcquireNanos方法方法与acquireInterruptibly方法基本一致，只是增加了超时失败的机制。&lt;/p&gt;
 
 &lt;h3 id=&quot;heading-324-release方法&quot;&gt;3.2.4 release方法&lt;/h3&gt;
-&lt;p&gt;当前线程获取同步状态并执行了响应逻辑之后，就需要释放同步状态，是的后续节点能够获取到同步状态。通过调用同步器的release方法可以释放同步状态，该方法在释放了同步状态之后，会唤醒后继节点，进而使后继节点重新尝试获取同步状态。&lt;/p&gt;
+&lt;p&gt;当前线程获取同步状态并执行了响应逻辑之后，就需要释放同步状态，使得后续节点能够获取到同步状态。通过调用同步器的release方法可以释放同步状态，该方法在释放了同步状态之后，会唤醒后继节点，进而使后继节点重新尝试获取同步状态。&lt;/p&gt;
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public final boolean release(int arg) {
     if (tryRelease(arg)) {
         Node h = head;
@@ -602,13 +1177,13 @@ private boolean doAcquireSharedNanos(int arg, long nanosTimeout)
     }
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;其中compareAndSetTail方法以及compareAndSetTail方法都是AbstractQueuedSynchronizer自带方法&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">1 简介 队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的的FIFO队列来完成资源的获取线程的排队工作。 同步器的主要使用方式是继承，子类通过继承同步器并实现抽象方法来管理同步状态（基于模本方法模式）。子类被推荐定义为自定义同步组件的静态内部类（作为代理配合实现同步组件），同步器自身没有实现任何同步接口，它仅仅定义了同步状态的获取与释放来供自定义同步组件使用，同步器既可以独占式的获取同步状态也可以共享式的获取同步状态。</summary></entry><entry><title type="html">paxos与raft一致性协议</title><link href="http://localhost:4000/blog/2018/10/21/raft-diff-paxos/" rel="alternate" type="text/html" title="paxos与raft一致性协议" /><published>2018-10-21T00:00:00+08:00</published><updated>2018-10-21T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/10/21/raft-diff-paxos</id><content type="html" xml:base="http://localhost:4000/blog/2018/10/21/raft-diff-paxos/">&lt;h1 id=&quot;heading-1-一致性协议&quot;&gt;1 一致性协议&lt;/h1&gt;
+&lt;p&gt;其中compareAndSetTail方法以及compareAndSetTail方法都是AbstractQueuedSynchronizer自带方法&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">1 简介 队列同步器AbstractQueuedSynchronizer（简称同步器），是用来构建同步组件（包括同步容器以及同步工具）的基本框架，也是java.concurrent.util包的实现核心。它使用了一个volatile int类型的成员变量来表示同步状态（J.U.C同样提供了AbstractQueuedLongSynchronizer，它使用long类型的成员变量来表示同步状态），通过内置的FIFO队列来完成资源的获取线程的排队工作。 同步器的主要使用方式是继承，子类通过继承同步器并实现抽象方法来管理同步状态（基于模本方法模式）。子类被推荐定义为自定义同步组件的静态内部类（作为代理配合实现同步组件），同步器自身没有实现任何同步接口，它仅仅定义了同步状态的获取与释放来供自定义同步组件使用，同步器既可以独占式的获取同步状态也可以共享式的获取同步状态。</summary></entry><entry><title type="html">paxos与raft一致性协议</title><link href="http://localhost:4000/blog/2018/10/21/raft-diff-paxos/" rel="alternate" type="text/html" title="paxos与raft一致性协议" /><published>2018-10-21T00:00:00+08:00</published><updated>2018-10-21T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/10/21/raft-diff-paxos</id><content type="html" xml:base="http://localhost:4000/blog/2018/10/21/raft-diff-paxos/">&lt;h1 id=&quot;heading-1-一致性协议&quot;&gt;1 一致性协议&lt;/h1&gt;
 &lt;p&gt;一致性协议简单来说，是一种保障集群中所有机器上的数据达到一致的协议。最直观的最好理解的一致性协议，例如2PC、3PC，便是在做数据操作时，对集群中的所有机器同时做数据操作，仅当集群中的全部机器操作成功后，所有机器保证一致后，该数据操作才成功，否则只要有一台机器因为网络等其他原因导致数据操作失败，该数据操作就会失败，其他操作成功的机器也会全部进行数据回滚。
 上述一致性协议虽然简单，但相对保守，且无法应对机器宕机、网络分区等故障问题。针对这种情况，paxos以及raft等一致性协议应运而生。
 新一代的一致性协议有如下特点：&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;采取过半原则：即当集群中大于一半的机器认同该数据操作，且数据操作成功后，该数据操作被集群认可（因为任何两个多数派集合中至少有一个成员是公共的）&lt;/li&gt;
-  &lt;li&gt;允许集群中出现部分机器不一致性，且时刻异步进行着机器之前数据的同步&lt;/li&gt;
+  &lt;li&gt;允许集群中出现部分机器不一致性，且时刻异步进行着机器之间数据的同步&lt;/li&gt;
   &lt;li&gt;选举出leader协助集群中机器间数据的同步&lt;/li&gt;
   &lt;li&gt;在出现机器宕机或者网络分区后，集群仍能正常工作，且保证集群一致性，同时当机器重启或者网络恢复后，也能保证集群一致性（利用持久化数据存储）&lt;/li&gt;
 &lt;/ul&gt;
@@ -665,7 +1240,7 @@ private boolean doAcquireSharedNanos(int arg, long nanosTimeout)
 都是用心跳机制来保证追随者实时感应到当前领导人，心跳丢失则表明领导人宕机&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;paxos协议未给领导选取提出独立的选举方案，针对领导人选举的独立的机制可以是任意强一致算法，当然也可以是paxos&lt;/li&gt;
-  &lt;li&gt;raft通过选举超时(随机超时避免重复瓜分选票)来随机选取领导人，一台服务器最多能给一个候选人投票，同时为了保证安全性，宕机后的重新选举需要选举有效的含有所有被提价日志条目的机器：只有追随者机器上的日志和候选人机器上的日志一样新，追随者才能给候选人投票。&lt;/li&gt;
+  &lt;li&gt;raft通过选举超时(随机超时避免重复瓜分选票)来随机选取领导人，一台服务器最多能给一个候选人投票，同时为了保证安全性，宕机后的重新选举需要选举有效的含有所有被提交日志条目的机器：只有追随者机器上的日志和候选人机器上的日志一样新，追随者才能给候选人投票。&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;5.大多数一致性协议中仅使用leader主节点来集中处理事务请求&lt;/p&gt;
@@ -689,7 +1264,7 @@ private boolean doAcquireSharedNanos(int arg, long nanosTimeout)
 
 &lt;h1 id=&quot;heading-4-混淆概念&quot;&gt;4 混淆概念&lt;/h1&gt;
 
-&lt;p&gt;raft以及paxos协议中针对每个提案，都有一个全局唯一的递增id，用来表示某个提案的唯一性，这里的提案可以对应为客户端的一次请求或者一条指令。而paxos协议中，每个提案对应一个编号以及提案值，这里的编号与上述的提案id不同，该编号的概念存在于某个提案A从提出到被决策的生命周期中(在该生命中期中自增且唯一)，也可以理解为某个提案A被提出者提出的字数编号，例如序列为100的提案被第一次提出、被第二次提出。&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="consensus" /><summary type="html">1 一致性协议 一致性协议简单来说，是一种保障集群中所有机器上的数据达到一致的协议。最直观的最好理解的一致性协议，例如2PC、3PC，便是在做数据操作时，对集群中的所有机器同时做数据操作，仅当集群中的全部机器操作成功后，所有机器保证一致后，该数据操作才成功，否则只要有一台机器因为网络等其他原因导致数据操作失败，该数据操作就会失败，其他操作成功的机器也会全部进行数据回滚。 上述一致性协议虽然简单，但相对保守，且无法应对机器宕机、网络分区等故障问题。针对这种情况，paxos以及raft等一致性协议应运而生。 新一代的一致性协议有如下特点： 采取过半原则：即当集群中大于一半的机器认同该数据操作，且数据操作成功后，该数据操作被集群认可（因为任何两个多数派集合中至少有一个成员是公共的） 允许集群中出现部分机器不一致性，且时刻异步进行着机器之前数据的同步 选举出leader协助集群中机器间数据的同步 在出现机器宕机或者网络分区后，集群仍能正常工作，且保证集群一致性，同时当机器重启或者网络恢复后，也能保证集群一致性（利用持久化数据存储）</summary></entry><entry><title type="html">基于配置的流程管理框架</title><link href="http://localhost:4000/blog/2018/08/04/flow-framework/" rel="alternate" type="text/html" title="基于配置的流程管理框架" /><published>2018-08-04T00:00:00+08:00</published><updated>2018-08-04T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/08/04/flow-framework</id><content type="html" xml:base="http://localhost:4000/blog/2018/08/04/flow-framework/">&lt;h1 id=&quot;heading-1-介绍&quot;&gt;1 介绍&lt;/h1&gt;
+&lt;p&gt;raft以及paxos协议中针对每个提案，都有一个全局唯一的递增id，用来表示某个提案的唯一性，这里的提案可以对应为客户端的一次请求或者一条指令。而paxos协议中，每个提案对应一个编号以及提案值，这里的编号与上述的提案id不同，该编号的概念存在于某个提案A从提出到被决策的生命周期中(在该生命中期中自增且唯一)，也可以理解为某个提案A被提出者提出的字数编号，例如序列为100的提案被第一次提出、被第二次提出。&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="consensus" /><summary type="html">1 一致性协议 一致性协议简单来说，是一种保障集群中所有机器上的数据达到一致的协议。最直观的最好理解的一致性协议，例如2PC、3PC，便是在做数据操作时，对集群中的所有机器同时做数据操作，仅当集群中的全部机器操作成功后，所有机器保证一致后，该数据操作才成功，否则只要有一台机器因为网络等其他原因导致数据操作失败，该数据操作就会失败，其他操作成功的机器也会全部进行数据回滚。 上述一致性协议虽然简单，但相对保守，且无法应对机器宕机、网络分区等故障问题。针对这种情况，paxos以及raft等一致性协议应运而生。 新一代的一致性协议有如下特点： 采取过半原则：即当集群中大于一半的机器认同该数据操作，且数据操作成功后，该数据操作被集群认可（因为任何两个多数派集合中至少有一个成员是公共的） 允许集群中出现部分机器不一致性，且时刻异步进行着机器之间数据的同步 选举出leader协助集群中机器间数据的同步 在出现机器宕机或者网络分区后，集群仍能正常工作，且保证集群一致性，同时当机器重启或者网络恢复后，也能保证集群一致性（利用持久化数据存储）</summary></entry><entry><title type="html">基于配置的流程管理框架</title><link href="http://localhost:4000/blog/2018/08/04/flow-framework/" rel="alternate" type="text/html" title="基于配置的流程管理框架" /><published>2018-08-04T00:00:00+08:00</published><updated>2018-08-04T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/08/04/flow-framework</id><content type="html" xml:base="http://localhost:4000/blog/2018/08/04/flow-framework/">&lt;h1 id=&quot;heading-1-介绍&quot;&gt;1 介绍&lt;/h1&gt;
 &lt;p&gt;通用的流程编排框架，将整个流程以xml配置文件的形式管理起来：定义流程、管理上下文、控制流程的流转（按条件或者顺序），各个流程节点的执行（同步或者异步）。同时对每个流程节点进行监控以及统计，完成对流程的整体把控。&lt;/p&gt;
 
 &lt;h1 id=&quot;heading-2-基本概念&quot;&gt;2 基本概念&lt;/h1&gt;
@@ -859,7 +1434,7 @@ private boolean doAcquireSharedNanos(int arg, long nanosTimeout)
 
 &lt;h1 id=&quot;heading-4-源码&quot;&gt;4 源码&lt;/h1&gt;
 
-&lt;p&gt;最后，附上代码:https://github.com/Cuner/flow-framework&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="flow" /><summary type="html">1 介绍 通用的流程编排框架，将整个流程以xml配置文件的形式管理起来：定义流程、管理上下文、控制流程的流转（按条件或者顺序），各个流程节点的执行（同步或者异步）。同时对每个流程节点进行监控以及统计，完成对流程的整体把控。</summary></entry><entry><title type="html">基于spring的groovy动态加载</title><link href="http://localhost:4000/blog/2018/06/26/groovy-loader/" rel="alternate" type="text/html" title="基于spring的groovy动态加载" /><published>2018-06-26T00:00:00+08:00</published><updated>2018-06-26T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/06/26/groovy-loader</id><content type="html" xml:base="http://localhost:4000/blog/2018/06/26/groovy-loader/">&lt;h1 id=&quot;heading-1-groovy-loader背景&quot;&gt;1 groovy loader背景&lt;/h1&gt;
+&lt;p&gt;最后，附上代码:https://github.com/Cuner/flow-framework&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="flow" /><summary type="html">1 介绍 通用的流程编排框架，将整个流程以xml配置文件的形式管理起来：定义流程、管理上下文、控制流程的流转（按条件或者顺序），各个流程节点的执行（同步或者异步）。同时对每个流程节点进行监控以及统计，完成对流程的整体把控。</summary></entry><entry><title type="html">基于spring的groovy动态加载框架</title><link href="http://localhost:4000/blog/2018/06/26/groovy-loader/" rel="alternate" type="text/html" title="基于spring的groovy动态加载框架" /><published>2018-06-26T00:00:00+08:00</published><updated>2018-06-26T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/06/26/groovy-loader</id><content type="html" xml:base="http://localhost:4000/blog/2018/06/26/groovy-loader/">&lt;h1 id=&quot;heading-1-groovy-loader背景&quot;&gt;1 groovy loader背景&lt;/h1&gt;
 &lt;p&gt;由于groovy动态语言的特性，使用方式与java一致，同时又特别适合与Spring的动态语言支持一起使用，所以基于java的groovy脚本的动态加载的使用场景还是比较多的&lt;/p&gt;
 
 &lt;h1 id=&quot;heading-2-简介&quot;&gt;2 简介&lt;/h1&gt;
@@ -963,7 +1538,7 @@ private boolean doAcquireSharedNanos(int arg, long nanosTimeout)
         groovyResourcesDir = this.getClass().getClassLoader().getResource(&quot;&quot;).getPath() + &quot;/spring/groovy&quot;;
     }
     File groovyFileDir = new File(groovyResourcesDir);
-    List&amp;lt;File&amp;gt; groovyFileList = getResourceListFromDir(groovyFileDir);//获取指定目录下所有groovy脚本文件
+    List&amp;lt;File&amp;gt; groovyFileList = getResourceListFromDir(groovyFileDir);//获取指定目录下所有spring配置文件
     for (File file : groovyFileList) {
         FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(new String[] {file.toURI().toString()}, true, parentContext);
         this.namespacedContext.put(file.getName().replace(&quot;xml&quot;, &quot;&quot;), context);
@@ -1346,7 +1921,7 @@ private void scanGroovyFiles(File file, String namespace) throws Exception {
 &lt;p&gt;当有延时任务或者延时消息产生时，暂时将延时任务/消息存放至某个容器里面(可以是数据记录的方式存储在db，也可以存储在redis zset中等等)，然后采用定时器不断去轮训容器里面的各个延时任务/消息，当扫描获取到达到过期时间的延时任务/消息后，将其推送到消息队列中以供消费，推送成功后再将其从容器里移除。
 值得注意的是，同一个达到到期时间的延时任务/消息，可能会被连续的两次扫描命中（延时任务/消息从容器移除有延时），最后导致消息重复消费。&lt;/p&gt;
 
-&lt;p&gt;参考：&lt;a href=&quot;https://tech.youzan.com/queuing_delay/&quot;&gt;有赞延迟队列设计&lt;/a&gt;&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="queue" /><summary type="html">延时队列的使用场景非常多，目前集中式场景可以使用JDK自带的delayQueue，本文使用redis队列来实现两种分布式的延时队列，并进行了对比分析</summary></entry><entry><title type="html">SPI框架（一）</title><link href="http://localhost:4000/blog/2018/05/24/spi-framework/" rel="alternate" type="text/html" title="SPI框架（一）" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/spi-framework</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/spi-framework/">&lt;p&gt;SPI的全名为Service Provider Interface。根据Java的SPI规范，我们可以定义一个服务接口，具体的实现由对应的实现者去提供，即Service Provider（服务提供者）。然后在使用的时候只要根据SPI的规范去获取对应的服务提供者的服务实现即可。简单来说，SPI就是一种为接口寻找服务的机制，基于这种机制，本文提出一种基于动态代理的spi框架的实现方式。&lt;/p&gt;
+&lt;p&gt;参考：&lt;a href=&quot;https://tech.youzan.com/queuing_delay/&quot;&gt;有赞延迟队列设计&lt;/a&gt;&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="queue" /><summary type="html">延时队列的使用场景非常多，目前集中式场景可以使用JDK自带的delayQueue，本文使用redis队列来实现两种分布式的延时队列，并进行了对比分析</summary></entry><entry><title type="html">基于动态代理的SPI框架</title><link href="http://localhost:4000/blog/2018/05/24/spi-framework/" rel="alternate" type="text/html" title="基于动态代理的SPI框架" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/spi-framework</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/spi-framework/">&lt;p&gt;SPI的全名为Service Provider Interface。根据Java的SPI规范，我们可以定义一个服务接口，具体的实现由对应的实现者去提供，即Service Provider（服务提供者）。然后在使用的时候只要根据SPI的规范去获取对应的服务提供者的服务实现即可。简单来说，SPI就是一种为接口寻找服务的机制，基于这种机制，本文提出一种基于动态代理的spi框架的实现方式。&lt;/p&gt;
 
 &lt;h1 id=&quot;heading-1-基于统一的接口&quot;&gt;1 基于统一的接口&lt;/h1&gt;
 &lt;p&gt;该SPI框架的核心思想是通过JDK动态代理（代理对象必须为某个接口的实现），为接口寻找满足条件的服务实现。基于上述要求，需要提供一个统一的接口。&lt;/p&gt;
@@ -1811,35 +2386,4 @@ META：记录了用户表的Region信息，可以有多个region
 ROOT：记录了META表的Region信息，ROOT中只有一个region
 Zookeeper中记录了ROOT表的location
 客户端访问数据的流程： 
-Client -&amp;gt; Zookeeper -&amp;gt; -ROOT- -&amp;gt; .META. -&amp;gt; 用户数据表&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="hbase" /><summary type="html">HBASE是一个构建在HDFS上的分布式列存储系统，比较起传统的关系型数据库的优点在于，可以实现高性能的并发读写操作。同时HBase不同于传统关系型数据库的面向行存储，HBase是面向列存储，列可以动态增加，列为空就不存储数据，能更好的节省存储空间。Hbase还会对数据进行透明切分，使得存储本身具有了水平伸缩性</summary></entry><entry><title type="html">HDFS分布式文件系统</title><link href="http://localhost:4000/blog/2017/12/05/hdfs-theory/" rel="alternate" type="text/html" title="HDFS分布式文件系统" /><published>2017-12-05T00:00:00+08:00</published><updated>2017-12-05T00:00:00+08:00</updated><id>http://localhost:4000/blog/2017/12/05/hdfs-theory</id><content type="html" xml:base="http://localhost:4000/blog/2017/12/05/hdfs-theory/">&lt;h1 id=&quot;heading-hdfs设计理念&quot;&gt;HDFS设计理念&lt;/h1&gt;
-
-&lt;p&gt;Hadoop分布式文件系统(HDFS)被设计成适合运行在通用硬件上的分布式文件系统，HDFS是一个高度容错性的系统，适合部署在廉价的机器上。HDFS能提供高吞吐量的数据访问，非常适合大规模数据集上的应用。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;b&gt;存储超大文件:&lt;/b&gt;运行在HDFS上的应用具有很大的数据集。HDFS上的一个典型文件大小一般都在G字节至T字节。因此，HDFS被调节以支持大文件存储。它能提供整体上高的数据传输带宽，能在一个集群里扩展到数百个节点。一个单一的HDFS实例应该能支撑数以千万计的文件。&lt;/li&gt;
-  &lt;li&gt;&lt;b&gt;一次写入、多次读取:&lt;/b&gt;HDFS存储的数据集作为hadoop的分析对象。在数据集生成后，长时间在此数据集上进行各种分析。每次分析都将设计该数据集的大部分数据甚至全部数据，比之数据访问的低延迟问题，更关键的在于数据访问的高吞吐量，因此读取整个数据集的时间延迟比读取第一条记录的时间延迟更重要。&lt;/li&gt;
-  &lt;li&gt;&lt;b&gt;运行在普通廉价的服务器上:&lt;/b&gt;HDFS设计理念之一就是让它能运行在普通的硬件之上，即便硬件出现故障，也可以通过容错策略(错误检测和快速、自动的恢复)来保证数据的高可用。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;heading-hdfs基本概念&quot;&gt;HDFS基本概念&lt;/h1&gt;
-&lt;p&gt;HDFS暴露了文件系统的名字空间，用户能够以文件的形式在上面存储数据。从内部看，一个文件其实被分成一个或多个数据块，这些块存储在一组Datanode上。Namenode执行文件系统的名字空间操作，比如打开、关闭、重命名文件或目录。它也负责确定数据块到具体Datanode节点的映射。Datanode负责处理文件系统客户端的读写请求。在Namenode的统一调度下进行数据块的创建、删除和复制&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;b&gt;数据块(block):&lt;/b&gt;大文件会被分割成多个block进行存储，block大小默认为64MB。每一个block会在多个datanode上存储多份副本，默认是3份。&lt;/li&gt;
-  &lt;li&gt;&lt;b&gt;namenode:&lt;/b&gt;namenode是一个中心服务器，负责管理文件目录、文件和block的对应关系以及block和datanode的对应关系。&lt;/li&gt;
-  &lt;li&gt;&lt;b&gt;datanode:&lt;/b&gt;datanode就负责存储了，当然大部分容错机制都是在datanode上实现的。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;heading-hdfs基本架构图&quot;&gt;HDFS基本架构图&lt;/h1&gt;
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-05-hdfs-theory/hdfs-construction.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
-&lt;p&gt;Rack 是指机架的意思，一个block的三个副本通常会保存到两个或者两个以上的机柜中（当然是机柜中的服务器），这样做的目的是做防灾容错。&lt;/p&gt;
-
-&lt;p&gt;每个Datanode节点周期性地向Namenode发送心跳信号。网络割裂可能导致一部分Datanode跟Namenode失去联系。Namenode通过心跳信号的缺失来检测这一情况，并将这些近期不再发送心跳信号Datanode标记为宕机，不会再将新的IO请求发给它们。任何存储在宕机Datanode上的数据将不再有效。Datanode的宕机可能会引起一些数据块的副本系数低于指定值，Namenode不断地检测这些需要复制的数据块，一旦发现就启动复制操作。在下列情况下，可能需要重新复制：某个Datanode节点失效，某个副本遭到损坏，Datanode上的硬盘错误，或者文件的副本系数增大。&lt;/p&gt;
-
-&lt;h1 id=&quot;heading-hdfs写文件流程&quot;&gt;HDFS写文件流程&lt;/h1&gt;
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-05-hdfs-theory/hdfs-write.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;
-
-&lt;p&gt;当客户端向HDFS文件写入数据的时候，一开始是写到本地临时文件中。假设该文件的副本系数设置为3，当本地临时文件累积到一个数据块的大小时，客户端会从Namenode获取一个Datanode列表用于存放副本。然后客户端开始向第一个Datanode传输数据，第一个Datanode一小部分一小部分(4 KB)地接收数据，将每一部分写入本地仓库，并同时传输该部分到列表中第二个Datanode节点。第二个Datanode也是这样，一小部分一小部分地接收数据，写入本地仓库，并同时传给第三个Datanode。最后，第三个Datanode接收数据并存储在本地。因此，Datanode能流水线式地从前一个节点接收数据，并在同时转发给下一个节点，数据以流水线的方式从前一个Datanode复制到下一个。
-【ps】另一种数据写入的方式是采用多路写，也就是同时别写入到三个Datanode里面。管道写需要时间去完成，所以它有很高的延迟，但是它能更好地利用网络带宽；多路写有着比较低的延迟，因为客户端只需要等待最慢的DataNode确认（假设其余都已成功确认）。但是写入需要共享发送服务器的网络带宽，这对于有着很高负载的系统来说是一个瓶颈。&lt;/p&gt;
-
-&lt;h1 id=&quot;heading-hdfs读文件流程&quot;&gt;HDFS读文件流程&lt;/h1&gt;
-&lt;center&gt;&lt;img src=&quot;/assets/images/post/2017-12-05-hdfs-theory/hdfs-read.png&quot; width=&quot;500px&quot; /&gt;&lt;/center&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="hdfs" /><summary type="html">HDFS设计理念</summary></entry></feed>
+Client -&amp;gt; Zookeeper -&amp;gt; -ROOT- -&amp;gt; .META. -&amp;gt; 用户数据表&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="hbase" /><summary type="html">HBASE是一个构建在HDFS上的分布式列存储系统，比较起传统的关系型数据库的优点在于，可以实现高性能的并发读写操作。同时HBase不同于传统关系型数据库的面向行存储，HBase是面向列存储，列可以动态增加，列为空就不存储数据，能更好的节省存储空间。Hbase还会对数据进行透明切分，使得存储本身具有了水平伸缩性</summary></entry></feed>
