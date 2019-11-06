@@ -1,6 +1,20 @@
 [
   
     {
+      "title"      : "J.U.C之CountDownLatch",
+      "url"        : "/blog/2019/11/06/java-concurrent-util-count-down-latch/",
+      "date"       : "2019-11-06 00:00:00 +0800",
+      "shortdate"  : "November 06, 2019"
+    } ,
+  
+    {
+      "title"      : "J.U.C之ConcurrentHashMap",
+      "url"        : "/blog/2019/10/10/java-concurrent-util-concurrent-hash-map/",
+      "date"       : "2019-10-10 00:00:00 +0800",
+      "shortdate"  : "October 10, 2019"
+    } ,
+  
+    {
       "title"      : "J.U.C之Lock",
       "url"        : "/blog/2018/12/27/java-concurrent-util-lock/",
       "date"       : "2018-12-27 00:00:00 +0800",

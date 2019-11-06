@@ -5,7 +5,7 @@ description: "J.U.C之CountDownLatch"
 categories: [java并发]
 tags: [J.U.C]
 redirect_from:
-  - /2019/11/6/
+  - /2019/11/06/
 ---
 （读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）
 
