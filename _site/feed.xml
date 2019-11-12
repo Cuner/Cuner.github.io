@@ -1,4 +1,288 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2019-11-08T17:16:07+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">J.U.C之CyclicBarrier</title><link href="http://localhost:4000/blog/2019/11/08/java-concurrent-util-cyclic-barrier/" rel="alternate" type="text/html" title="J.U.C之CyclicBarrier" /><published>2019-11-08T00:00:00+08:00</published><updated>2019-11-08T00:00:00+08:00</updated><id>http://localhost:4000/blog/2019/11/08/java-concurrent-util-cyclic-barrier</id><content type="html" xml:base="http://localhost:4000/blog/2019/11/08/java-concurrent-util-cyclic-barrier/">&lt;p&gt;（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2019-11-12T21:24:55+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">J.U.C之Semaphore</title><link href="http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore/" rel="alternate" type="text/html" title="J.U.C之Semaphore" /><published>2019-11-12T00:00:00+08:00</published><updated>2019-11-12T00:00:00+08:00</updated><id>http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore</id><content type="html" xml:base="http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore/">&lt;p&gt;（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-1-semaphore介绍&quot;&gt;1 Semaphore介绍&lt;/h1&gt;
+
+&lt;p&gt;Semaphore（我们也称之为信号量），是用来控制同时访问特定资源的线程数量，他通过协调各个线程，以保证合理的使用公共资源。Semaphore维护了一个许可集，也就是一定数量的“许可证”。线程在访问公共资源前需要先获取到许可证，许可证数量有限，只有获取到许可证的线程才会被允许继续执行，当剩余可用许可证不足后，尝试获取许可证的线程会被阻塞，等待其他线程释放许可证后再尝试获取许可证。&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-2-semaphore的使用场景&quot;&gt;2 Semaphore的使用场景&lt;/h1&gt;
+
+&lt;p&gt;Semaphore可以用来做流量控制，一般适用于公共资源有限的场景（比如数据库连接、单机服务限流）&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-3-semaphore的使用方式&quot;&gt;3 Semaphore的使用方式&lt;/h1&gt;
+
+&lt;h2 id=&quot;heading-31-初始化&quot;&gt;3.1 初始化&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Semaphore semaphore = new Semaphore(10);
+
+Semaphore semaphore = new Semaphore(10, true);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Semaphore提供一个接受一个int类型的参数作为计数器的构造函数，如果想限制可用许可证的上限为N，这里就传入N。&lt;/p&gt;
+
+&lt;p&gt;Semaphore还提供另外一个构造函数，Semaphore(int permits, boolean fair)，除了传入一个计数值以外，还接受一个boolean传参fair，这个参数决定线程是公平式还是非公平式地获取许可证，默认是非公平。（这里的公平与非公平的获取资源与ReentrantLock公平与非公平的获取锁类似，不再赘述）&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-32-线程获取许可证&quot;&gt;3.2 线程获取许可证&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;semaphore.acquire();
+
+semaphore.acquireUninterruptibly();
+
+semaphore.acquire(2);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;当线程尝试获取许可证时，执行acquire()方法。当线程获取到许可证后，方法立即返回，线程继续执行；而当线程未能获取到许可证，线程会被阻塞，等待许可证被释放后重试获取。&lt;/li&gt;
+  &lt;li&gt;acquire()方法是对线程中断敏感的，一旦线程在等待获取许可证的过程中被中断，acquire()会抛出中断异常，而如果想要不可中断的获取许可证，即在线程阻塞过程中不会被中断，可使用acquireUninterruptibly()方法来获取许可证&lt;/li&gt;
+  &lt;li&gt;如果想要同时获取多个许可证，可在acquire()方法中传入一个int类型的参数，标识你想要获取的许可证数量&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;heading-33-实战说明&quot;&gt;3.3 实战说明&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class Test {
+    private static Semaphore semaphore = new Semaphore(10);
+    private static Executor executor = Executors.newFixedThreadPool(30);
+    public static void main(String[] args) {
+        for (int i = 0 ; i &amp;lt; 10 ; i++) {
+            executor.execute(() -&amp;gt; {
+                try {
+                    semaphore.acquire();
+                    System.out.println(&quot;acquire&quot;);
+                    semaphore.release();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            });
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;heading-4-实现原理&quot;&gt;4 实现原理&lt;/h1&gt;
+
+&lt;p&gt;与寻常并发工具类类似，Semaphore也是通过继承至AbstractQueuedSynchronized的内部类来实现其功能，基本结构几乎和ReentrantLock完全一样，通过内部类分别实现了公平/非公平策略。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;private final Sync sync;
+
+abstract static class Sync extends AbstractQueuedSynchronizer {
+    private static final long serialVersionUID = 1192457210091910933L;
+
+    Sync(int permits) {
+        setState(permits);
+    }
+
+    final int getPermits() {
+        return getState();
+    }
+
+    final int nonfairTryAcquireShared(int acquires) {
+        for (;;) {
+            int available = getState();
+            int remaining = available - acquires;
+            if (remaining &amp;lt; 0 ||
+                compareAndSetState(available, remaining))
+                return remaining;
+        }
+    }
+
+    protected final boolean tryReleaseShared(int releases) {
+        for (;;) {
+            int current = getState();
+            int next = current + releases;
+            if (next &amp;lt; current) // overflow
+                throw new Error(&quot;Maximum permit count exceeded&quot;);
+            if (compareAndSetState(current, next))
+                return true;
+        }
+    }
+
+    final void reducePermits(int reductions) {
+        for (;;) {
+            int current = getState();
+            int next = current - reductions;
+            if (next &amp;gt; current) // underflow
+                throw new Error(&quot;Permit count underflow&quot;);
+            if (compareAndSetState(current, next))
+                return;
+        }
+    }
+
+    final int drainPermits() {
+        for (;;) {
+            int current = getState();
+            if (current == 0 || compareAndSetState(current, 0))
+                return current;
+        }
+    }
+}
+
+/**
+ * NonFair version
+ */
+static final class NonfairSync extends Sync {
+    private static final long serialVersionUID = -2694183684443567898L;
+
+    NonfairSync(int permits) {
+        super(permits);
+    }
+
+    protected int tryAcquireShared(int acquires) {
+        return nonfairTryAcquireShared(acquires);
+    }
+}
+
+/**
+ * Fair version
+ */
+static final class FairSync extends Sync {
+    private static final long serialVersionUID = 2014338818796000944L;
+
+    FairSync(int permits) {
+        super(permits);
+    }
+
+    protected int tryAcquireShared(int acquires) {
+        for (;;) {
+            if (hasQueuedPredecessors())
+                return -1;
+            int available = getState();
+            int remaining = available - acquires;
+            if (remaining &amp;lt; 0 ||
+                compareAndSetState(available, remaining))
+                return remaining;
+        }
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;我们可以看到，Semaphore通过两个集成AbstractQueuedSynchronizer的内部类来分别实现公平/非公平地获取许可证，并且通过实现tryAcquireShared()以及tryReleaseShared()来是实现&lt;strong&gt;&lt;em&gt;共享式&lt;/em&gt;&lt;/strong&gt;地获取同步状态（因为存在多个线程同时获取到同步状态）。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;通过构造器传入的许可证最大可用数来初始化同步状态state，这里的state就代表着可用的许可证数量&lt;/li&gt;
+  &lt;li&gt;tryAcquireShared()：通过将同步状态state线程安全的扣减获取许可证的数量来实现共享式获取同步状态，而当可用的许可证不足的时候，获取同步状态失败，返回小于0的状态值，此时线程会被挂起。公平与非公平获取同步状态的区别在于，公平策略在有前驱节点等待获取同步状态的情况下，会默认获取同步状态失败，构造节点放置于等待队列尾部，这样会保证获取同步状态的线程按照顺利依次获取同步状态；而非公平策略则是当有新的线程获取同步状态时，会直接尝试获取同步状态，一定概率下会成功获取同步状态，非公平策略的性能一般优于公平策略。&lt;/li&gt;
+  &lt;li&gt;tryReleaseShared()：通过将同步状态state线程安全的增加释放许可证的数量来实现共享式释放同步状态（因为可能存在多个获取到许可证的线程释放许可证，这里使用compareAndSetState来保障线程安全的数值扣减）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public Semaphore(int permits) {
+    sync = new NonfairSync(permits);
+}
+
+
+public Semaphore(int permits, boolean fair) {
+    sync = fair ? new FairSync(permits) : new NonfairSync(permits);
+}
+
+
+public void acquire() throws InterruptedException {
+    sync.acquireSharedInterruptibly(1);
+}
+
+
+public void acquireUninterruptibly() {
+    sync.acquireShared(1);
+}
+
+
+public boolean tryAcquire() {
+    return sync.nonfairTryAcquireShared(1) &amp;gt;= 0;
+}
+
+
+public boolean tryAcquire(long timeout, TimeUnit unit)
+    throws InterruptedException {
+    return sync.tryAcquireSharedNanos(1, unit.toNanos(timeout));
+}
+
+
+public void release() {
+    sync.releaseShared(1);
+}
+
+
+public void acquire(int permits) throws InterruptedException {
+    if (permits &amp;lt; 0) throw new IllegalArgumentException();
+    sync.acquireSharedInterruptibly(permits);
+}
+
+
+public void acquireUninterruptibly(int permits) {
+    if (permits &amp;lt; 0) throw new IllegalArgumentException();
+    sync.acquireShared(permits);
+}
+
+
+public boolean tryAcquire(int permits) {
+    if (permits &amp;lt; 0) throw new IllegalArgumentException();
+    return sync.nonfairTryAcquireShared(permits) &amp;gt;= 0;
+}
+
+
+public boolean tryAcquire(int permits, long timeout, TimeUnit unit)
+    throws InterruptedException {
+    if (permits &amp;lt; 0) throw new IllegalArgumentException();
+    return sync.tryAcquireSharedNanos(permits, unit.toNanos(timeout));
+}
+
+
+public void release(int permits) {
+    if (permits &amp;lt; 0) throw new IllegalArgumentException();
+    sync.releaseShared(permits);
+}
+
+
+public int availablePermits() {
+    return sync.getPermits();
+}
+
+
+public int drainPermits() {
+    return sync.drainPermits();
+}
+
+
+protected void reducePermits(int reduction) {
+    if (reduction &amp;lt; 0) throw new IllegalArgumentException();
+    sync.reducePermits(reduction);
+}
+
+
+public boolean isFair() {
+    return sync instanceof FairSync;
+}
+
+
+public final boolean hasQueuedThreads() {
+    return sync.hasQueuedThreads();
+}
+
+
+public final int getQueueLength() {
+    return sync.getQueueLength();
+}
+
+protected Collection&amp;lt;Thread&amp;gt; getQueuedThreads() {
+    return sync.getQueuedThreads();
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Semaphore通过委托模式，将内部功能实现委托了内部类Sync，通过构造函数，传入许可证的数量来初始化同步状态state、传入boolean变量来决定使用公平/非公平策略，并主要提供一下几个方法&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;acquire()：获取一个许可证，当有剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放或者线程被中断&lt;/li&gt;
+  &lt;li&gt;acquireUninterruptibly()：获取一个许可证，当有剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放&lt;/li&gt;
+  &lt;li&gt;tryAcquire()：尝试获取一个许可证，成功获取返回true，否则返回false&lt;/li&gt;
+  &lt;li&gt;tryAcquire(long timeout, TimeUnit unit)：获取一个许可证，当有剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放或者等待获取超时&lt;/li&gt;
+  &lt;li&gt;release()：释放一个许可证&lt;/li&gt;
+  &lt;li&gt;acquire(int permits)：获取指定数量的许可证，当有足够剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放或者线程被中断&lt;/li&gt;
+  &lt;li&gt;acquireUninterruptibly(int permits)：获取指定数量的许可证，当有足够剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放&lt;/li&gt;
+  &lt;li&gt;tryAcquire(int permits)：尝试获取指定数量的许可证，成功获取返回true，否则返回false&lt;/li&gt;
+  &lt;li&gt;tryAcquire(int permits, long timeout, TimeUnit unit)：获取指定数量的许可证，当有足够剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放或者等待获取超时&lt;/li&gt;
+  &lt;li&gt;release(int permits)：释放指定数量的许可证&lt;/li&gt;
+  &lt;li&gt;availablePermits()：查询当前可用的许可证数&lt;/li&gt;
+  &lt;li&gt;drainPermits()：将当前可用许可证数量设置为0&lt;/li&gt;
+  &lt;li&gt;reducePermits(int reduction)：将当前可用许可证减少指定数量&lt;/li&gt;
+  &lt;li&gt;hasQueuedThreads()：是否有线程正在等待许可证&lt;/li&gt;
+  &lt;li&gt;getQueueLength()：返回正在等待获取许可证的线程数&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）</summary></entry><entry><title type="html">J.U.C之CyclicBarrier</title><link href="http://localhost:4000/blog/2019/11/08/java-concurrent-util-cyclic-barrier/" rel="alternate" type="text/html" title="J.U.C之CyclicBarrier" /><published>2019-11-08T00:00:00+08:00</published><updated>2019-11-08T00:00:00+08:00</updated><id>http://localhost:4000/blog/2019/11/08/java-concurrent-util-cyclic-barrier</id><content type="html" xml:base="http://localhost:4000/blog/2019/11/08/java-concurrent-util-cyclic-barrier/">&lt;p&gt;（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）&lt;/p&gt;
 
 &lt;h1 id=&quot;heading-1-cyclicbarrier介绍&quot;&gt;1 CyclicBarrier介绍&lt;/h1&gt;
 
@@ -2393,184 +2677,4 @@ private void scanGroovyFiles(File file, String namespace) throws Exception {
 &lt;p&gt;当有延时任务或者延时消息产生时，暂时将延时任务/消息存放至某个容器里面(可以是数据记录的方式存储在db，也可以存储在redis zset中等等)，然后采用定时器不断去轮训容器里面的各个延时任务/消息，当扫描获取到达到过期时间的延时任务/消息后，将其推送到消息队列中以供消费，推送成功后再将其从容器里移除。
 值得注意的是，同一个达到到期时间的延时任务/消息，可能会被连续的两次扫描命中（延时任务/消息从容器移除有延时），最后导致消息重复消费。&lt;/p&gt;
 
-&lt;p&gt;参考：&lt;a href=&quot;https://tech.youzan.com/queuing_delay/&quot;&gt;有赞延迟队列设计&lt;/a&gt;&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="queue" /><summary type="html">延时队列的使用场景非常多，目前集中式场景可以使用JDK自带的delayQueue，本文使用redis队列来实现两种分布式的延时队列，并进行了对比分析</summary></entry><entry><title type="html">基于动态代理的SPI框架</title><link href="http://localhost:4000/blog/2018/05/24/spi-framework/" rel="alternate" type="text/html" title="基于动态代理的SPI框架" /><published>2018-05-24T00:00:00+08:00</published><updated>2018-05-24T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/24/spi-framework</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/24/spi-framework/">&lt;p&gt;SPI的全名为Service Provider Interface。根据Java的SPI规范，我们可以定义一个服务接口，具体的实现由对应的实现者去提供，即Service Provider（服务提供者）。然后在使用的时候只要根据SPI的规范去获取对应的服务提供者的服务实现即可。简单来说，SPI就是一种为接口寻找服务的机制，基于这种机制，本文提出一种基于动态代理的spi框架的实现方式。&lt;/p&gt;
-
-&lt;h1 id=&quot;heading-1-基于统一的接口&quot;&gt;1 基于统一的接口&lt;/h1&gt;
-&lt;p&gt;该SPI框架的核心思想是通过JDK动态代理（代理对象必须为某个接口的实现），为接口寻找满足条件的服务实现。基于上述要求，需要提供一个统一的接口。&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public interface SpiBase&amp;lt;T, R&amp;gt; {
-
-    /**
-     * 是否执行当前实现的条件
-     * @param query
-     * @return
-     */
-    boolean condition(T query);
-
-    /**
-     * 具体操作
-     * @param query
-     * @return
-     */
-    List&amp;lt;R&amp;gt; invoke(T query);
-
-    /**
-     * spi执行时候的配置
-     * @param query
-     * @return
-     */
-    SpiConfig config(T query);
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;作为框架，需要尽可能的符合各类场景&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;提供condition方法以及模板类T参数，让用户自定义符合接口实现的要求&lt;/li&gt;
-  &lt;li&gt;提供统一的invoke方法来统一服务的某一类行为&lt;/li&gt;
-  &lt;li&gt;提供spi执行的config，用来扩展寻求实现的策略&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class SpiConfig {
-
-    /**
-     * 是否互斥
-     * false:满足执行条件的其他实现也一并调用
-     * true:当前实现满足执行要求并执行成功后直接返回，忽略满足执行条件的其他实现
-     */
-    private boolean mutex;
-
-    /**
-     * 优先值
-     * 该值越高，执行优先级越高
-     */
-    private int priority;
-
-    /**
-     * 名称 作为标识
-     */
-    private String name;
-    
-    ....
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;参数mutex，决定了某个接口，当有多个满足条件的服务实现时的执行策略，是只选择优先级最高的服务实现去执行，还是说按照优先级顺序多个服务实现顺序执行后将结果合并返回（这也是为什么invoke方法返回list的原因）。&lt;/li&gt;
-  &lt;li&gt;参数priority，决定某个服务实现的执行优先级，优先级越高，越先执行&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;heading-2-获取所有用户自定义的服务实现并实例化&quot;&gt;2 获取所有用户自定义的服务实现并实例化&lt;/h1&gt;
-
-&lt;h2 id=&quot;heading-21-提供注解bizspi&quot;&gt;2.1 提供注解@BizSpi&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@Target({ElementType.TYPE})//目标作用于类
-@Retention(RetentionPolicy.RUNTIME)// 注解在class字节码文件中存在，在运行时可以通过反射获取到
-@Documented
-@Service
-public @interface BizSpi {
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;为了方便的找到用户提供的服务实现类，框架约束用户在其提供的服务实现类上加上注解@BizSpi，当然所有的服务实现类都需要实现统一的接口SpiBase，也可以实现某个继承SpiBase接口的自定义接口。&lt;/p&gt;
-
-&lt;h2 id=&quot;heading-22-实例化服务实现并保存至内存&quot;&gt;2.2 实例化服务实现并保存至内存&lt;/h2&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class SpiManager implements ApplicationListener&amp;lt;ContextRefreshedEvent&amp;gt; {
-
-    private static Map&amp;lt;Class, List&amp;lt;SpiBase&amp;gt;&amp;gt; spiProviderMap = new ConcurrentHashMap&amp;lt;Class, List&amp;lt;SpiBase&amp;gt;&amp;gt;();
-
-    private static volatile boolean isLoaded = false;
-
-    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        if (!isLoaded) {
-            Map&amp;lt;String, Object&amp;gt; spiInstanceMap = contextRefreshedEvent.getApplicationContext().getBeansWithAnnotation(BizSpi.class);
-
-            for (Object spiInstance : spiInstanceMap.values()) {
-                Class spiInterface = spiInstance.getClass().getInterfaces()[0];
-                if (spiProviderMap.containsKey(spiInterface) &amp;amp;&amp;amp; spiProviderMap.get(spiInterface).size() &amp;gt; 0) {
-                    spiProviderMap.get(spiInterface).add((SpiBase) spiInstance);
-                } else {
-                    List&amp;lt;SpiBase&amp;gt; spiProviderList = new ArrayList&amp;lt;SpiBase&amp;gt;();
-                    spiProviderList.add((SpiBase) spiInstance);
-                    spiProviderMap.put(spiInterface, spiProviderList);
-                }
-            }
-
-            for (List&amp;lt;SpiBase&amp;gt; spiProviderList : spiProviderMap.values()) {
-                Collections.sort(spiProviderList, new Comparator&amp;lt;SpiBase&amp;gt;() {
-                    public int compare(SpiBase spiBase1, SpiBase spiBase2) {
-                        return spiBase2.config(null).getPriority() - spiBase1.config(null).getPriority();
-                    }
-                });
-            }
-        }
-        isLoaded = true;
-    }
-
-    public static List&amp;lt;SpiBase&amp;gt; getSpiProviderMap(Class spiInterface) {
-        return spiProviderMap.get(spiInterface);
-    }
-
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;这里通过约束的注解@BizSpi来拿到所有服务实现实例化后的对象，通过spiProviderMap来保存管理，其中spiProviderMap的key的集合是所有服务实现所实现的第一级接口（可以是SpiBase，也可以是继承自SpiBase的自定义接口），value则是key代表的接口所对应的所有服务实现实例化后的对象列表（可以看到列表通过SpiConfig中的priority值进行了重排序）。&lt;/p&gt;
-
-&lt;h1 id=&quot;heading-3-动态代理&quot;&gt;3 动态代理&lt;/h1&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class SpiProviderFactory&amp;lt;T&amp;gt; implements FactoryBean&amp;lt;T&amp;gt; {
-
-    private Logger logger = LoggerFactory.getLogger(SpiProviderFactory.class);
-
-    private Class&amp;lt;T&amp;gt; targetClass;
-
-    public T getObject() throws Exception {
-        InvocationHandler invocationHandler = new InvocationHandler() {
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                List&amp;lt;SpiBase&amp;gt; spiList = SpiManager.getSpiProviderMap(targetClass);
-
-                // 支持组合,所以必须返回list; 每一个功能点实现也必须返回list
-                List combinationResult = new ArrayList();
-                for (SpiBase spi : spiList) {
-                    if (SpiBase.class.isInstance(spi)) {
-                        if (args != null &amp;amp;&amp;amp; spi.condition(args[0])) {
-                            SpiConfig spiConfig = spi.config(args[0]);
-                            List result = (List) method.invoke(spi, args);
-                            if (result != null) {
-                                combinationResult.addAll(result);
-                                if (spiConfig.isMutex()) {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                return combinationResult;
-            }
-        };
-        return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-                new Class[]{targetClass},
-                invocationHandler);
-    }
-   ...
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;这里用到了工厂，这里需要传入参数targetClass，因为我们需要代理的接口可能是继承了SpiBase的自定义接口。通过服务实现类提供的condition方法可以从spiProviderMap中找到满足条件的服务，在通过SpiConfig的中参数决定服务执行的策略，最终将结果返回。&lt;/p&gt;
-
-&lt;h1 id=&quot;heading-4-使用步骤&quot;&gt;4 使用步骤&lt;/h1&gt;
-&lt;p&gt;1.继承SpiBase得到自定义的SPI接口(可以添加自定义方法)
-2.为SPI接口提供多个服务实现类(注意类需要加上注解@BizSpi)，condition方法决定了服务是否满足执行条件，config方法返回的SpiConfig对象决定了服务执行的策略
-3.spring配置&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &amp;lt;!--扫描spi框架--&amp;gt;
-    &amp;lt;context:component-scan base-package=&quot;org.cuner.spi.framework&quot;/&amp;gt;
-
-    &amp;lt;!--还需要扫描到你自己的服务实现类--&amp;gt;
-    
-    &amp;lt;bean id=&quot;demoSpi&quot; class=&quot;org.cuner.spi.framework.core.SpiProviderFactory&quot;&amp;gt;
-        &amp;lt;property name=&quot;targetClass&quot; value=&quot;org.cuner.spi.framework.demo.api.demoSpi&quot;/&amp;gt;
-    &amp;lt;/bean&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;4.spring注入后使用&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    @Resource(name = &quot;demoSpi&quot;)
-    private DemoSpi demoSpi;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;5.demo
-代码托管在Github上，并附有使用demo，欢迎下载运行: https://github.com/Cuner/spi-framework&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="SPI" /><summary type="html">SPI的全名为Service Provider Interface。根据Java的SPI规范，我们可以定义一个服务接口，具体的实现由对应的实现者去提供，即Service Provider（服务提供者）。然后在使用的时候只要根据SPI的规范去获取对应的服务提供者的服务实现即可。简单来说，SPI就是一种为接口寻找服务的机制，基于这种机制，本文提出一种基于动态代理的spi框架的实现方式。</summary></entry></feed>
+&lt;p&gt;参考：&lt;a href=&quot;https://tech.youzan.com/queuing_delay/&quot;&gt;有赞延迟队列设计&lt;/a&gt;&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="queue" /><summary type="html">延时队列的使用场景非常多，目前集中式场景可以使用JDK自带的delayQueue，本文使用redis队列来实现两种分布式的延时队列，并进行了对比分析</summary></entry></feed>

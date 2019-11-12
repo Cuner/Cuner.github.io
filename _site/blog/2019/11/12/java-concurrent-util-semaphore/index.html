@@ -16,19 +16,19 @@
 <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
 
 <!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>J.U.C之CountDownLatch | Cuner</title>
+<title>J.U.C之Semaphore | Cuner</title>
 <meta name="generator" content="Jekyll v3.7.4" />
-<meta property="og:title" content="J.U.C之CountDownLatch" />
+<meta property="og:title" content="J.U.C之Semaphore" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="J.U.C之CountDownLatch" />
-<meta property="og:description" content="J.U.C之CountDownLatch" />
-<link rel="canonical" href="http://localhost:4000/blog/2019/11/06/java-concurrent-util-count-down-latch/" />
-<meta property="og:url" content="http://localhost:4000/blog/2019/11/06/java-concurrent-util-count-down-latch/" />
+<meta name="description" content="J.U.C之Semaphore" />
+<meta property="og:description" content="J.U.C之Semaphore" />
+<link rel="canonical" href="http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore/" />
+<meta property="og:url" content="http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore/" />
 <meta property="og:site_name" content="Cuner" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2019-11-06T00:00:00+08:00" />
+<meta property="article:published_time" content="2019-11-12T00:00:00+08:00" />
 <script type="application/ld+json">
-{"description":"J.U.C之CountDownLatch","@type":"BlogPosting","url":"http://localhost:4000/blog/2019/11/06/java-concurrent-util-count-down-latch/","headline":"J.U.C之CountDownLatch","dateModified":"2019-11-06T00:00:00+08:00","datePublished":"2019-11-06T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2019/11/06/java-concurrent-util-count-down-latch/"},"@context":"http://schema.org"}</script>
+{"description":"J.U.C之Semaphore","@type":"BlogPosting","url":"http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore/","headline":"J.U.C之Semaphore","dateModified":"2019-11-12T00:00:00+08:00","datePublished":"2019-11-12T00:00:00+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore/"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <meta name="keywords" content="J.U.C" />
@@ -121,7 +121,7 @@
             <header>
                 <div class="unit-head">
                     <div class="unit-inner unit-head-inner">
-                        <h1 class="entry-title" itemprop="name">J.U.C之CountDownLatch</h1>
+                        <h1 class="entry-title" itemprop="name">J.U.C之Semaphore</h1>
                     </div>
                 </div>
             </header>
@@ -131,7 +131,7 @@
                         <p class="date-publish">
                             Published:
                             <time itemprop="datePublished" class="date-pub updated"
-                                title="2019-11-06T00:00:00+08:00" datetime="2019-11-06T00:00:00+08:00">November 06, 2019 </time>
+                                title="2019-11-12T00:00:00+08:00" datetime="2019-11-12T00:00:00+08:00">November 12, 2019 </time>
                             by
                             <a class="author" href="/" rel="author" title="Show Author">
                                 <span itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -172,107 +172,289 @@
                     <div itemprop="articleBody">
                         <p>（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）</p>
 
-<h1 id="heading-1-countdownlatch介绍">1 CountDownLatch介绍</h1>
+<h1 id="heading-1-semaphore介绍">1 Semaphore介绍</h1>
 
-<p>CountDownLatch（我们也称之为闭锁），是一种同步的工具类。类似于一扇门：在闭锁到达结束状态之前，这扇门一直是关闭着的，不允许任何线程通过，当到达结束状态时，这扇门会打开并允许所有的线程通过。且当门打开了，就永远保持打开状态</p>
+<p>Semaphore（我们也称之为信号量），是用来控制同时访问特定资源的线程数量，他通过协调各个线程，以保证合理的使用公共资源。Semaphore维护了一个许可集，也就是一定数量的“许可证”。线程在访问公共资源前需要先获取到许可证，许可证数量有限，只有获取到许可证的线程才会被允许继续执行，当剩余可用许可证不足后，尝试获取许可证的线程会被阻塞，等待其他线程释放许可证后再尝试获取许可证。</p>
 
-<h1 id="heading-2-countdownlatch的使用场景">2 CountDownLatch的使用场景</h1>
+<h1 id="heading-2-semaphore的使用场景">2 Semaphore的使用场景</h1>
 
-<p>一般在需要等待其他多个指定任务执行完成的场景下使用，这里的多个任务可以分散在不同的线程中执行。最常见的场景：主线程需要等待其他子线程执行完成后才能继续执行，而一般上述的场景我们能在主线程中使用thread.join()来实现，相比来说CountDownLatch也能解决该问题，同时它更具有灵活性，它允许一个或多个线程等待其他线程完成某个特殊的操作</p>
+<p>Semaphore可以用来做流量控制，一般适用于公共资源有限的场景（比如数据库连接、单机服务限流）</p>
 
-<h1 id="heading-3-countdownlatch的使用方式">3 CountDownLatch的使用方式</h1>
+<h1 id="heading-3-semaphore的使用方式">3 Semaphore的使用方式</h1>
 
 <h2 id="heading-31-初始化">3.1 初始化</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CountDownLatch latch = new CountDownLatch(3);
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Semaphore semaphore = new Semaphore(10);
+
+Semaphore semaphore = new Semaphore(10, true);
 </code></pre></div></div>
 
-<p>CountDownLatch的构造函数接受一个int类型的参数作为计数器，如果想等待N个操作执行完成打开闭锁，这里就传入N（这里的N必须大于等于0，等于0的时候闭锁状态打开）。</p>
+<p>Semaphore提供一个接受一个int类型的参数作为计数器的构造函数，如果想限制可用许可证的上限为N，这里就传入N。</p>
 
-<h2 id="heading-32-标记某个被等待的操作执行完成">3.2 标记某个被等待的操作执行完成</h2>
+<p>Semaphore还提供另外一个构造函数，Semaphore(int permits, boolean fair)，除了传入一个计数值以外，还接受一个boolean传参fair，这个参数决定线程是公平式还是非公平式地获取许可证，默认是非公平。（这里的公平与非公平的获取资源与ReentrantLock公平与非公平的获取锁类似，不再赘述）</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>latch.countDown();
+<h2 id="heading-32-线程获取许可证">3.2 线程获取许可证</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>semaphore.acquire();
+
+semaphore.acquireUninterruptibly();
+
+semaphore.acquire(2);
 </code></pre></div></div>
 
-<p>在某个需要被等待的操作执行完成之后，执行这行代码，标识操作完成，当我们调用countDown()方法时，构造时候传入的N就会减1，由于countDown()方法可以使用在任何地方，所以这里被等待的N个操作，可以分散在N个不同的线程中，也可以是一个线程中的N个步骤。用在多线程中，只需要把这个CountDownLatch的引用传递到线程中去即可</p>
+<ul>
+  <li>当线程尝试获取许可证时，执行acquire()方法。当线程获取到许可证后，方法立即返回，线程继续执行；而当线程未能获取到许可证，线程会被阻塞，等待许可证被释放后重试获取。</li>
+  <li>acquire()方法是对线程中断敏感的，一旦线程在等待获取许可证的过程中被中断，acquire()会抛出中断异常，而如果想要不可中断的获取许可证，即在线程阻塞过程中不会被中断，可使用acquireUninterruptibly()方法来获取许可证</li>
+  <li>如果想要同时获取多个许可证，可在acquire()方法中传入一个int类型的参数，标识你想要获取的许可证数量</li>
+</ul>
 
-<h2 id="heading-33-等待n个操作执行完成">3.3 等待N个操作执行完成</h2>
+<h2 id="heading-33-实战说明">3.3 实战说明</h2>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>latch.await();
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public class Test {
+    private static Semaphore semaphore = new Semaphore(10);
+    private static Executor executor = Executors.newFixedThreadPool(30);
+    public static void main(String[] args) {
+        for (int i = 0 ; i &lt; 10 ; i++) {
+            executor.execute(() -&gt; {
+                try {
+                    semaphore.acquire();
+                    System.out.println("acquire");
+                    semaphore.release();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            });
+        }
+    }
+}
 </code></pre></div></div>
-
-<p>CountDownLatch的await()方法会阻塞当前线程，直到构造时候传入的N减少至0。另外await()方法支持传入指定时间，这个方法等待指定时间后，就不会阻塞当前线程</p>
-
-<h2 id="heading-34-注意">3.4 注意</h2>
-
-<p>CountDownLatch不可能重新初始化或者修改内部计数N的值。</p>
 
 <h1 id="heading-4-实现原理">4 实现原理</h1>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private static final class Sync extends AbstractQueuedSynchronizer {
-    private static final long serialVersionUID = 4982264981922014374L;
+<p>与寻常并发工具类类似，Semaphore也是通过继承至AbstractQueuedSynchronized的内部类来实现其功能，基本结构几乎和ReentrantLock完全一样，通过内部类分别实现了公平/非公平策略。</p>
 
-    Sync(int count) {
-        setState(count);
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>private final Sync sync;
+
+abstract static class Sync extends AbstractQueuedSynchronizer {
+    private static final long serialVersionUID = 1192457210091910933L;
+
+    Sync(int permits) {
+        setState(permits);
     }
 
-    int getCount() {
+    final int getPermits() {
         return getState();
     }
 
-    protected int tryAcquireShared(int acquires) {
-        return (getState() == 0) ? 1 : -1;
+    final int nonfairTryAcquireShared(int acquires) {
+        for (;;) {
+            int available = getState();
+            int remaining = available - acquires;
+            if (remaining &lt; 0 ||
+                compareAndSetState(available, remaining))
+                return remaining;
+        }
     }
 
-    protected boolean tryReleaseShared(int releases) {
-        // Decrement count; signal when transition to zero
+    protected final boolean tryReleaseShared(int releases) {
         for (;;) {
-            int c = getState();
-            if (c == 0)
-                return false;
-            int nextc = c-1;
-            if (compareAndSetState(c, nextc))
-                return nextc == 0;
+            int current = getState();
+            int next = current + releases;
+            if (next &lt; current) // overflow
+                throw new Error("Maximum permit count exceeded");
+            if (compareAndSetState(current, next))
+                return true;
+        }
+    }
+
+    final void reducePermits(int reductions) {
+        for (;;) {
+            int current = getState();
+            int next = current - reductions;
+            if (next &gt; current) // underflow
+                throw new Error("Permit count underflow");
+            if (compareAndSetState(current, next))
+                return;
+        }
+    }
+
+    final int drainPermits() {
+        for (;;) {
+            int current = getState();
+            if (current == 0 || compareAndSetState(current, 0))
+                return current;
         }
     }
 }
 
-private final Sync sync;
+/**
+ * NonFair version
+ */
+static final class NonfairSync extends Sync {
+    private static final long serialVersionUID = -2694183684443567898L;
 
-public CountDownLatch(int count) {
-    if (count &lt; 0) throw new IllegalArgumentException("count &lt; 0");
-    this.sync = new Sync(count);
+    NonfairSync(int permits) {
+        super(permits);
+    }
+
+    protected int tryAcquireShared(int acquires) {
+        return nonfairTryAcquireShared(acquires);
+    }
+}
+
+/**
+ * Fair version
+ */
+static final class FairSync extends Sync {
+    private static final long serialVersionUID = 2014338818796000944L;
+
+    FairSync(int permits) {
+        super(permits);
+    }
+
+    protected int tryAcquireShared(int acquires) {
+        for (;;) {
+            if (hasQueuedPredecessors())
+                return -1;
+            int available = getState();
+            int remaining = available - acquires;
+            if (remaining &lt; 0 ||
+                compareAndSetState(available, remaining))
+                return remaining;
+        }
+    }
 }
 
 </code></pre></div></div>
 
-<p>闭锁CountDownLatch是J.U.C中的同步工具类，采用委托模式委托给了实现AbstractQueuedSynchronizer的同步器子类Sync，且采用了共享式同步状态的获取与释放（因为这里会存在多个线程同时调用await方法，在等待闭锁打开后获取同步状态）。首先使用CountDownLatch初始化传入的N来设置同步器Sync的同步状态state为N，仅当同步状态减少到0的时候才允许共享式获取同步状态，而当释放同步状态时，将state的值线程安全的递减1（因为存在多个等待的操作同时完成，这里用到了compareAndSetState方法保证线程安全）</p>
+<p>我们可以看到，Semaphore通过两个集成AbstractQueuedSynchronizer的内部类来分别实现公平/非公平地获取许可证，并且通过实现tryAcquireShared()以及tryReleaseShared()来是实现<strong><em>共享式</em></strong>地获取同步状态（因为存在多个线程同时获取到同步状态）。</p>
+<ul>
+  <li>通过构造器传入的许可证最大可用数来初始化同步状态state，这里的state就代表着可用的许可证数量</li>
+  <li>tryAcquireShared()：通过将同步状态state线程安全的扣减获取许可证的数量来实现共享式获取同步状态，而当可用的许可证不足的时候，获取同步状态失败，返回小于0的状态值，此时线程会被挂起。公平与非公平获取同步状态的区别在于，公平策略在有前驱节点等待获取同步状态的情况下，会默认获取同步状态失败，构造节点放置于等待队列尾部，这样会保证获取同步状态的线程按照顺利依次获取同步状态；而非公平策略则是当有新的线程获取同步状态时，会直接尝试获取同步状态，一定概率下会成功获取同步状态，非公平策略的性能一般优于公平策略。</li>
+  <li>tryReleaseShared()：通过将同步状态state线程安全的增加释放许可证的数量来实现共享式释放同步状态（因为可能存在多个获取到许可证的线程释放许可证，这里使用compareAndSetState来保障线程安全的数值扣减）</li>
+</ul>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-public void await() throws InterruptedException {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>public Semaphore(int permits) {
+    sync = new NonfairSync(permits);
+}
+
+
+public Semaphore(int permits, boolean fair) {
+    sync = fair ? new FairSync(permits) : new NonfairSync(permits);
+}
+
+
+public void acquire() throws InterruptedException {
     sync.acquireSharedInterruptibly(1);
 }
 
-public boolean await(long timeout, TimeUnit unit)
+
+public void acquireUninterruptibly() {
+    sync.acquireShared(1);
+}
+
+
+public boolean tryAcquire() {
+    return sync.nonfairTryAcquireShared(1) &gt;= 0;
+}
+
+
+public boolean tryAcquire(long timeout, TimeUnit unit)
     throws InterruptedException {
     return sync.tryAcquireSharedNanos(1, unit.toNanos(timeout));
 }
 
-public void countDown() {
+
+public void release() {
     sync.releaseShared(1);
 }
 
-public long getCount() {
-    return sync.getCount();
+
+public void acquire(int permits) throws InterruptedException {
+    if (permits &lt; 0) throw new IllegalArgumentException();
+    sync.acquireSharedInterruptibly(permits);
+}
+
+
+public void acquireUninterruptibly(int permits) {
+    if (permits &lt; 0) throw new IllegalArgumentException();
+    sync.acquireShared(permits);
+}
+
+
+public boolean tryAcquire(int permits) {
+    if (permits &lt; 0) throw new IllegalArgumentException();
+    return sync.nonfairTryAcquireShared(permits) &gt;= 0;
+}
+
+
+public boolean tryAcquire(int permits, long timeout, TimeUnit unit)
+    throws InterruptedException {
+    if (permits &lt; 0) throw new IllegalArgumentException();
+    return sync.tryAcquireSharedNanos(permits, unit.toNanos(timeout));
+}
+
+
+public void release(int permits) {
+    if (permits &lt; 0) throw new IllegalArgumentException();
+    sync.releaseShared(permits);
+}
+
+
+public int availablePermits() {
+    return sync.getPermits();
+}
+
+
+public int drainPermits() {
+    return sync.drainPermits();
+}
+
+
+protected void reducePermits(int reduction) {
+    if (reduction &lt; 0) throw new IllegalArgumentException();
+    sync.reducePermits(reduction);
+}
+
+
+public boolean isFair() {
+    return sync instanceof FairSync;
+}
+
+
+public final boolean hasQueuedThreads() {
+    return sync.hasQueuedThreads();
+}
+
+
+public final int getQueueLength() {
+    return sync.getQueueLength();
+}
+
+protected Collection&lt;Thread&gt; getQueuedThreads() {
+    return sync.getQueuedThreads();
 }
 </code></pre></div></div>
-<ul>
-  <li>CountDownLatch把countDown()方法委托给了同步器Sync的releaseShared()方法–共享式的释放同步状态方法</li>
-  <li>CountDownLatch把await()方法委托给了同步器Sync的acquireSharedInterruptibly()方法–共享式可中断的获取同步状态方法</li>
-  <li>CountDownLatch把await(long timeout, TimeUnit unit)方法委托给了同步器Sync的tryAcquireSharedNanos()方法–共享式超时中断的获取同步状态</li>
-</ul>
 
-<p>使用CountDownLatch，在await()的过程中，线程会被挂起，相比线程自主轮训判断更节省CPU资源</p>
+<p>Semaphore通过委托模式，将内部功能实现委托了内部类Sync，通过构造函数，传入许可证的数量来初始化同步状态state、传入boolean变量来决定使用公平/非公平策略，并主要提供一下几个方法</p>
+<ul>
+  <li>acquire()：获取一个许可证，当有剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放或者线程被中断</li>
+  <li>acquireUninterruptibly()：获取一个许可证，当有剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放</li>
+  <li>tryAcquire()：尝试获取一个许可证，成功获取返回true，否则返回false</li>
+  <li>tryAcquire(long timeout, TimeUnit unit)：获取一个许可证，当有剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放或者等待获取超时</li>
+  <li>release()：释放一个许可证</li>
+  <li>acquire(int permits)：获取指定数量的许可证，当有足够剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放或者线程被中断</li>
+  <li>acquireUninterruptibly(int permits)：获取指定数量的许可证，当有足够剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放</li>
+  <li>tryAcquire(int permits)：尝试获取指定数量的许可证，成功获取返回true，否则返回false</li>
+  <li>tryAcquire(int permits, long timeout, TimeUnit unit)：获取指定数量的许可证，当有足够剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放或者等待获取超时</li>
+  <li>release(int permits)：释放指定数量的许可证</li>
+  <li>availablePermits()：查询当前可用的许可证数</li>
+  <li>drainPermits()：将当前可用许可证数量设置为0</li>
+  <li>reducePermits(int reduction)：将当前可用许可证减少指定数量</li>
+  <li>hasQueuedThreads()：是否有线程正在等待许可证</li>
+  <li>getQueueLength()：返回正在等待获取许可证的线程数</li>
+</ul>
 
                     </div>
                 </div>
@@ -285,10 +467,8 @@ public long getCount() {
                     </div>
                     <nav class="pagination">
                         
-                            <a class="internal" rel="prev" href="/blog/2019/10/10/java-concurrent-util-concurrent-hash-map/" title=" 'J.U.C之ConcurrentHashMap'"> ← J.U.C之ConcurrentHashMap</a>
+                            <a class="internal" rel="prev" href="/blog/2019/11/08/java-concurrent-util-cyclic-barrier/" title=" 'J.U.C之CyclicBarrier'"> ← J.U.C之CyclicBarrier</a>
                         
-                        
-                            <a class="internal" rel="next" href="/blog/2019/11/08/java-concurrent-util-cyclic-barrier/" title="Next Post 'J.U.C之CyclicBarrier'">J.U.C之CyclicBarrier → </a>
                         
                     </nav>
                 </div>
