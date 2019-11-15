@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "J.U.C之CyclicBarrier"
-description: "J.U.C之CyclicBarrier"
+title: "J.U.C之并发工具：CyclicBarrier"
+description: "J.U.C之并发工具：CyclicBarrier"
 categories: [java并发]
 tags: [J.U.C]
 redirect_from:

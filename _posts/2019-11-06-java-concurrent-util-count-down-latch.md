@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "J.U.C之CountDownLatch"
-description: "J.U.C之CountDownLatch"
+title: "J.U.C之并发工具：CountDownLatch"
+description: "J.U.C之并发工具：CountDownLatch"
 categories: [java并发]
 tags: [J.U.C]
 redirect_from:
