@@ -5,7 +5,7 @@ description: "J.U.C之ConcurrentHashMap"
 categories: [java并发]
 tags: [J.U.C]
 redirect_from:
-  - /2019/10/10/
+  - /2019/11/30/
 ---
 
 # 1 ConcurrentHashMap VS HashMap & HashTable

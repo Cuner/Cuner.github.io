@@ -5,7 +5,7 @@ description: "J.U.C之并发工具：Exchanger"
 categories: [java并发]
 tags: [J.U.C]
 redirect_from:
-  - /2019/11/14/
+  - /2019/11/29/
 ---
 
 # 1 Exchanger介绍
