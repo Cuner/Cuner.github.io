@@ -73,10 +73,6 @@
 <lastmod>2018-12-27T00:00:00+08:00</lastmod>
 </url>
 <url>
-<loc>http://localhost:4000/blog/2019/10/10/java-concurrent-util-concurrent-hash-map/</loc>
-<lastmod>2019-10-10T00:00:00+08:00</lastmod>
-</url>
-<url>
 <loc>http://localhost:4000/blog/2019/11/06/java-concurrent-util-count-down-latch/</loc>
 <lastmod>2019-11-06T00:00:00+08:00</lastmod>
 </url>
@@ -87,6 +83,14 @@
 <url>
 <loc>http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore/</loc>
 <lastmod>2019-11-12T00:00:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/blog/2019/11/29/java-concurrent-util-exchanger/</loc>
+<lastmod>2019-11-29T00:00:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/blog/2019/11/30/java-concurrent-util-concurrent-hash-map/</loc>
+<lastmod>2019-11-30T00:00:00+08:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/blog/tags/</loc>

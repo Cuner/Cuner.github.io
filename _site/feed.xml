@@ -1,4 +1,345 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2019-11-12T21:30:17+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">J.U.C之Semaphore</title><link href="http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore/" rel="alternate" type="text/html" title="J.U.C之Semaphore" /><published>2019-11-12T00:00:00+08:00</published><updated>2019-11-12T00:00:00+08:00</updated><id>http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore</id><content type="html" xml:base="http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore/">&lt;p&gt;（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.7.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2021-09-13T20:29:24+08:00</updated><id>http://localhost:4000/</id><title type="html">Cuner</title><subtitle>No zero day.</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><entry><title type="html">J.U.C之ConcurrentHashMap</title><link href="http://localhost:4000/blog/2019/11/30/java-concurrent-util-concurrent-hash-map/" rel="alternate" type="text/html" title="J.U.C之ConcurrentHashMap" /><published>2019-11-30T00:00:00+08:00</published><updated>2019-11-30T00:00:00+08:00</updated><id>http://localhost:4000/blog/2019/11/30/java-concurrent-util-concurrent-hash-map</id><content type="html" xml:base="http://localhost:4000/blog/2019/11/30/java-concurrent-util-concurrent-hash-map/">&lt;h1 id=&quot;heading-1-concurrenthashmap-vs-hashmap--hashtable&quot;&gt;1 ConcurrentHashMap VS HashMap &amp;amp; HashTable&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;多线程环境下，HashMap是非线程安全的，使用HashMap进行put操作会导致链表形成环形数据接口，最终导致死循环，导致CPU利用率达100%。（形成环形数据结构的过程见文章结尾附录）&lt;/li&gt;
+  &lt;li&gt;HashTab使用synchronized同步锁来保证线程安全，所以在线程竞争激烈的情况下，HashTable的效率非常低下&lt;/li&gt;
+  &lt;li&gt;􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹ConcurrentHashMap使用分段锁技术，有效提升了并发访问效率。（容器里面维护了很多锁，每一把锁用于锁容器中的一部分数据，当多线程访问容器中不同数据段的数据时，就不会产生锁竞争，从而有效提高并发访问效率）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;heading-2-concurrenthashmap的结构&quot;&gt;2 ConcurrentHashMap的结构&lt;/h1&gt;
+&lt;p&gt;链表 NODE&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;static class Node&amp;lt;K,V&amp;gt; implements Map.Entry&amp;lt;K,V&amp;gt; {
+	final int hash;
+	final K key;
+	volatile V val;
+	volatile Node&amp;lt;K,V&amp;gt; next;
+
+	Node(int hash, K key, V val, Node&amp;lt;K,V&amp;gt; next) {
+		this.hash = hash;
+		this.key = key;
+		this.val = val;
+		this.next = next;
+	}
+
+	public final K getKey()       { return key; }
+	public final V getValue()     { return val; }
+	public final int hashCode()   { return key.hashCode() ^ val.hashCode(); }
+	public final String toString(){ return key + &quot;=&quot; + val; }
+	public final V setValue(V value) {
+		throw new UnsupportedOperationException();
+	}
+
+	public final boolean equals(Object o) {
+		Object k, v, u; Map.Entry&amp;lt;?,?&amp;gt; e;
+		return ((o instanceof Map.Entry) &amp;amp;&amp;amp;
+				(k = (e = (Map.Entry&amp;lt;?,?&amp;gt;)o).getKey()) != null &amp;amp;&amp;amp;
+				(v = e.getValue()) != null &amp;amp;&amp;amp;
+				(k == key || k.equals(key)) &amp;amp;&amp;amp;
+				(v == (u = val) || v.equals(u)));
+	}
+
+	/**
+	 * Virtualized support for map.get(); overridden in subclasses.
+	 */
+	Node&amp;lt;K,V&amp;gt; find(int h, Object k) {
+		Node&amp;lt;K,V&amp;gt; e = this;
+		if (k != null) {
+			do {
+				K ek;
+				if (e.hash == h &amp;amp;&amp;amp;
+						((ek = e.key) == k || (ek != null &amp;amp;&amp;amp; k.equals(ek))))
+					return e;
+			} while ((e = e.next) != null);
+		}
+		return null;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;其中find()方法，按序遍历链表获取元素&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-附录多线程场景下hashmap的死循环&quot;&gt;附录：多线程场景下hashMap的死循环&lt;/h1&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">1 ConcurrentHashMap VS HashMap &amp;amp; HashTable 多线程环境下，HashMap是非线程安全的，使用HashMap进行put操作会导致链表形成环形数据接口，最终导致死循环，导致CPU利用率达100%。（形成环形数据结构的过程见文章结尾附录） HashTab使用synchronized同步锁来保证线程安全，所以在线程竞争激烈的情况下，HashTable的效率非常低下 􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹ConcurrentHashMap使用分段锁技术，有效提升了并发访问效率。（容器里面维护了很多锁，每一把锁用于锁容器中的一部分数据，当多线程访问容器中不同数据段的数据时，就不会产生锁竞争，从而有效提高并发访问效率）</summary></entry><entry><title type="html">J.U.C之并发工具：Exchanger</title><link href="http://localhost:4000/blog/2019/11/29/java-concurrent-util-exchanger/" rel="alternate" type="text/html" title="J.U.C之并发工具：Exchanger" /><published>2019-11-29T00:00:00+08:00</published><updated>2019-11-29T00:00:00+08:00</updated><id>http://localhost:4000/blog/2019/11/29/java-concurrent-util-exchanger</id><content type="html" xml:base="http://localhost:4000/blog/2019/11/29/java-concurrent-util-exchanger/">&lt;h1 id=&quot;heading-1-exchanger介绍&quot;&gt;1 Exchanger介绍&lt;/h1&gt;
+
+&lt;p&gt;Exchanger（我们也称之为信号量），是用来控制同时访问特定资源的线程数量，他通过协调各个线程，以保证合理的使用公共资源。Exchanger维护了一个许可集，也就是一定数量的“许可证”。线程在访问公共资源前需要先获取到许可证，许可证数量有限，只有获取到许可证的线程才会被允许继续执行，当剩余可用许可证不足后，尝试获取许可证的线程会被阻塞，等待其他线程释放许可证后再尝试获取许可证。&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-2-exchanger的使用场景&quot;&gt;2 Exchanger的使用场景&lt;/h1&gt;
+
+&lt;p&gt;Exchanger可以用来做流量控制，一般适用于公共资源有限的场景（比如数据库连接、单机服务限流）&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-3-exchanger的使用方式&quot;&gt;3 Exchanger的使用方式&lt;/h1&gt;
+
+&lt;h2 id=&quot;heading-31-初始化&quot;&gt;3.1 初始化&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Exchanger Exchanger = new Exchanger(10);
+
+Exchanger Exchanger = new Exchanger(10, true);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Exchanger提供一个接受一个int类型的参数作为计数器的构造函数，如果想限制可用许可证的上限为N，这里就传入N。&lt;/p&gt;
+
+&lt;p&gt;Exchanger还提供另外一个构造函数，Exchanger(int permits, boolean fair)，除了传入一个计数值以外，还接受一个boolean传参fair，这个参数决定线程是公平式还是非公平式地获取许可证，默认是非公平。（这里的公平与非公平的获取资源与ReentrantLock公平与非公平的获取锁类似，不再赘述）&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-32-线程获取许可证&quot;&gt;3.2 线程获取许可证&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Exchanger.acquire();
+
+Exchanger.acquireUninterruptibly();
+
+Exchanger.acquire(2);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;当线程尝试获取许可证时，执行acquire()方法。当线程获取到许可证后，方法立即返回，线程继续执行；而当线程未能获取到许可证，线程会被阻塞，等待许可证被释放后重试获取。&lt;/li&gt;
+  &lt;li&gt;acquire()方法是对线程中断敏感的，一旦线程在等待获取许可证的过程中被中断，acquire()会抛出中断异常，而如果想要不可中断的获取许可证，即在线程阻塞过程中不会被中断，可使用acquireUninterruptibly()方法来获取许可证&lt;/li&gt;
+  &lt;li&gt;如果想要同时获取多个许可证，可在acquire()方法中传入一个int类型的参数，标识你想要获取的许可证数量&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;heading-33-实战说明&quot;&gt;3.3 实战说明&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class Test {
+    private static Exchanger Exchanger = new Exchanger(10);
+    private static Executor executor = Executors.newFixedThreadPool(30);
+    public static void main(String[] args) {
+        for (int i = 0 ; i &amp;lt; 10 ; i++) {
+            executor.execute(() -&amp;gt; {
+                try {
+                    Exchanger.acquire();
+                    System.out.println(&quot;acquire&quot;);
+                    Exchanger.release();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            });
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;heading-4-实现原理&quot;&gt;4 实现原理&lt;/h1&gt;
+
+&lt;p&gt;与寻常并发工具类类似，Exchanger也是通过继承至AbstractQueuedSynchronized的内部类来实现其功能，基本结构几乎和ReentrantLock完全一样，通过内部类分别实现了公平/非公平策略。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;private final Sync sync;
+
+abstract static class Sync extends AbstractQueuedSynchronizer {
+    private static final long serialVersionUID = 1192457210091910933L;
+
+    Sync(int permits) {
+        setState(permits);
+    }
+
+    final int getPermits() {
+        return getState();
+    }
+
+    final int nonfairTryAcquireShared(int acquires) {
+        for (;;) {
+            int available = getState();
+            int remaining = available - acquires;
+            if (remaining &amp;lt; 0 ||
+                compareAndSetState(available, remaining))
+                return remaining;
+        }
+    }
+
+    protected final boolean tryReleaseShared(int releases) {
+        for (;;) {
+            int current = getState();
+            int next = current + releases;
+            if (next &amp;lt; current) // overflow
+                throw new Error(&quot;Maximum permit count exceeded&quot;);
+            if (compareAndSetState(current, next))
+                return true;
+        }
+    }
+
+    final void reducePermits(int reductions) {
+        for (;;) {
+            int current = getState();
+            int next = current - reductions;
+            if (next &amp;gt; current) // underflow
+                throw new Error(&quot;Permit count underflow&quot;);
+            if (compareAndSetState(current, next))
+                return;
+        }
+    }
+
+    final int drainPermits() {
+        for (;;) {
+            int current = getState();
+            if (current == 0 || compareAndSetState(current, 0))
+                return current;
+        }
+    }
+}
+
+/**
+ * NonFair version
+ */
+static final class NonfairSync extends Sync {
+    private static final long serialVersionUID = -2694183684443567898L;
+
+    NonfairSync(int permits) {
+        super(permits);
+    }
+
+    protected int tryAcquireShared(int acquires) {
+        return nonfairTryAcquireShared(acquires);
+    }
+}
+
+/**
+ * Fair version
+ */
+static final class FairSync extends Sync {
+    private static final long serialVersionUID = 2014338818796000944L;
+
+    FairSync(int permits) {
+        super(permits);
+    }
+
+    protected int tryAcquireShared(int acquires) {
+        for (;;) {
+            if (hasQueuedPredecessors())
+                return -1;
+            int available = getState();
+            int remaining = available - acquires;
+            if (remaining &amp;lt; 0 ||
+                compareAndSetState(available, remaining))
+                return remaining;
+        }
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;我们可以看到，Exchanger通过两个继承AbstractQueuedSynchronizer的内部类来分别实现公平/非公平地获取同步状态，并且通过实现tryAcquireShared()以及tryReleaseShared()来是实现&lt;strong&gt;&lt;em&gt;共享式&lt;/em&gt;&lt;/strong&gt;地获取同步状态（采用共享式的原因是因为存在多个线程同时获取到同步状态的情况）。&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;通过构造器传入的许可证最大可用数来初始化同步状态state，这里的state就代表着可用的许可证数量&lt;/li&gt;
+  &lt;li&gt;tryAcquireShared()：通过将同步状态state线程安全的扣减获取许可证的数量来实现共享式获取同步状态，而当可用的许可证不足的时候，获取同步状态失败，返回小于0的状态值，此时线程会被挂起。公平与非公平获取同步状态的区别在于，公平策略在有前驱节点等待获取同步状态的情况下，会默认获取同步状态失败，构造节点放置于等待队列尾部，这样会保证获取同步状态的线程按照顺利依次获取同步状态；而非公平策略则是当有新的线程获取同步状态时，会直接尝试获取同步状态，一定概率下会成功获取同步状态，非公平策略的性能一般优于公平策略，但是无法保证顺序。&lt;/li&gt;
+  &lt;li&gt;tryReleaseShared()：通过将同步状态state线程安全的增加释放许可证的数量来实现共享式释放同步状态（因为可能存在多个获取到许可证的线程释放许可证，这里使用compareAndSetState来保障线程安全的数值扣减）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public Exchanger(int permits) {
+    sync = new NonfairSync(permits);
+}
+
+
+public Exchanger(int permits, boolean fair) {
+    sync = fair ? new FairSync(permits) : new NonfairSync(permits);
+}
+
+
+public void acquire() throws InterruptedException {
+    sync.acquireSharedInterruptibly(1);
+}
+
+
+public void acquireUninterruptibly() {
+    sync.acquireShared(1);
+}
+
+
+public boolean tryAcquire() {
+    return sync.nonfairTryAcquireShared(1) &amp;gt;= 0;
+}
+
+
+public boolean tryAcquire(long timeout, TimeUnit unit)
+    throws InterruptedException {
+    return sync.tryAcquireSharedNanos(1, unit.toNanos(timeout));
+}
+
+
+public void release() {
+    sync.releaseShared(1);
+}
+
+
+public void acquire(int permits) throws InterruptedException {
+    if (permits &amp;lt; 0) throw new IllegalArgumentException();
+    sync.acquireSharedInterruptibly(permits);
+}
+
+
+public void acquireUninterruptibly(int permits) {
+    if (permits &amp;lt; 0) throw new IllegalArgumentException();
+    sync.acquireShared(permits);
+}
+
+
+public boolean tryAcquire(int permits) {
+    if (permits &amp;lt; 0) throw new IllegalArgumentException();
+    return sync.nonfairTryAcquireShared(permits) &amp;gt;= 0;
+}
+
+
+public boolean tryAcquire(int permits, long timeout, TimeUnit unit)
+    throws InterruptedException {
+    if (permits &amp;lt; 0) throw new IllegalArgumentException();
+    return sync.tryAcquireSharedNanos(permits, unit.toNanos(timeout));
+}
+
+
+public void release(int permits) {
+    if (permits &amp;lt; 0) throw new IllegalArgumentException();
+    sync.releaseShared(permits);
+}
+
+
+public int availablePermits() {
+    return sync.getPermits();
+}
+
+
+public int drainPermits() {
+    return sync.drainPermits();
+}
+
+
+protected void reducePermits(int reduction) {
+    if (reduction &amp;lt; 0) throw new IllegalArgumentException();
+    sync.reducePermits(reduction);
+}
+
+
+public boolean isFair() {
+    return sync instanceof FairSync;
+}
+
+
+public final boolean hasQueuedThreads() {
+    return sync.hasQueuedThreads();
+}
+
+
+public final int getQueueLength() {
+    return sync.getQueueLength();
+}
+
+protected Collection&amp;lt;Thread&amp;gt; getQueuedThreads() {
+    return sync.getQueuedThreads();
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Exchanger通过委托模式，将内部功能实现委托了内部类Sync，通过构造函数，传入许可证的数量来初始化同步状态state、传入boolean变量来决定使用公平/非公平策略，并主要提供一下几个方法&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;acquire()：获取一个许可证，当有剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放或者线程被中断&lt;/li&gt;
+  &lt;li&gt;acquireUninterruptibly()：获取一个许可证，当有剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放&lt;/li&gt;
+  &lt;li&gt;tryAcquire()：尝试获取一个许可证，成功获取返回true，否则返回false&lt;/li&gt;
+  &lt;li&gt;tryAcquire(long timeout, TimeUnit unit)：获取一个许可证，当有剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放或者等待获取超时&lt;/li&gt;
+  &lt;li&gt;release()：释放一个许可证&lt;/li&gt;
+  &lt;li&gt;acquire(int permits)：获取指定数量的许可证，当有足够剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放或者线程被中断&lt;/li&gt;
+  &lt;li&gt;acquireUninterruptibly(int permits)：获取指定数量的许可证，当有足够剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放&lt;/li&gt;
+  &lt;li&gt;tryAcquire(int permits)：尝试获取指定数量的许可证，成功获取返回true，否则返回false&lt;/li&gt;
+  &lt;li&gt;tryAcquire(int permits, long timeout, TimeUnit unit)：获取指定数量的许可证，当有足够剩余许可证时返回，当剩余许可证不足时线程被阻塞，直到许可证被释放或者等待获取超时&lt;/li&gt;
+  &lt;li&gt;release(int permits)：释放指定数量的许可证&lt;/li&gt;
+  &lt;li&gt;availablePermits()：查询当前可用的许可证数&lt;/li&gt;
+  &lt;li&gt;drainPermits()：将当前可用许可证数量设置为0&lt;/li&gt;
+  &lt;li&gt;reducePermits(int reduction)：将当前可用许可证减少指定数量&lt;/li&gt;
+  &lt;li&gt;hasQueuedThreads()：是否有线程正在等待许可证&lt;/li&gt;
+  &lt;li&gt;getQueueLength()：返回正在等待获取许可证的线程数&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">1 Exchanger介绍</summary></entry><entry><title type="html">J.U.C之并发工具：Semaphore</title><link href="http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore/" rel="alternate" type="text/html" title="J.U.C之并发工具：Semaphore" /><published>2019-11-12T00:00:00+08:00</published><updated>2019-11-12T00:00:00+08:00</updated><id>http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore</id><content type="html" xml:base="http://localhost:4000/blog/2019/11/12/java-concurrent-util-semaphore/">&lt;p&gt;（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）&lt;/p&gt;
 
 &lt;h1 id=&quot;heading-1-semaphore介绍&quot;&gt;1 Semaphore介绍&lt;/h1&gt;
 
@@ -282,7 +623,7 @@ protected Collection&amp;lt;Thread&amp;gt; getQueuedThreads() {
   &lt;li&gt;reducePermits(int reduction)：将当前可用许可证减少指定数量&lt;/li&gt;
   &lt;li&gt;hasQueuedThreads()：是否有线程正在等待许可证&lt;/li&gt;
   &lt;li&gt;getQueueLength()：返回正在等待获取许可证的线程数&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）</summary></entry><entry><title type="html">J.U.C之CyclicBarrier</title><link href="http://localhost:4000/blog/2019/11/08/java-concurrent-util-cyclic-barrier/" rel="alternate" type="text/html" title="J.U.C之CyclicBarrier" /><published>2019-11-08T00:00:00+08:00</published><updated>2019-11-08T00:00:00+08:00</updated><id>http://localhost:4000/blog/2019/11/08/java-concurrent-util-cyclic-barrier</id><content type="html" xml:base="http://localhost:4000/blog/2019/11/08/java-concurrent-util-cyclic-barrier/">&lt;p&gt;（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）&lt;/p&gt;
+&lt;/ul&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）</summary></entry><entry><title type="html">J.U.C之并发工具：CyclicBarrier</title><link href="http://localhost:4000/blog/2019/11/08/java-concurrent-util-cyclic-barrier/" rel="alternate" type="text/html" title="J.U.C之并发工具：CyclicBarrier" /><published>2019-11-08T00:00:00+08:00</published><updated>2019-11-08T00:00:00+08:00</updated><id>http://localhost:4000/blog/2019/11/08/java-concurrent-util-cyclic-barrier</id><content type="html" xml:base="http://localhost:4000/blog/2019/11/08/java-concurrent-util-cyclic-barrier/">&lt;p&gt;（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）&lt;/p&gt;
 
 &lt;h1 id=&quot;heading-1-cyclicbarrier介绍&quot;&gt;1 CyclicBarrier介绍&lt;/h1&gt;
 
@@ -593,7 +934,7 @@ CyclicBarrier barrier = new CyclicBarrier(3, new Runnable() {
   &lt;li&gt;当某个阻塞的线程中断或者超时后，唤醒所有线程，且所有线程都抛出相对应的异常&lt;/li&gt;
   &lt;li&gt;当最后一个线程到达屏障之后，会去执行构造是传入的可执行任务，然后计数器复位开始下一次循环迭代。&lt;/li&gt;
   &lt;li&gt;reset()方法执行后，唤醒所有等待的子线程，然后计数器复位开始下一次循环迭代。&lt;/li&gt;
-&lt;/ul&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）</summary></entry><entry><title type="html">J.U.C之CountDownLatch</title><link href="http://localhost:4000/blog/2019/11/06/java-concurrent-util-count-down-latch/" rel="alternate" type="text/html" title="J.U.C之CountDownLatch" /><published>2019-11-06T00:00:00+08:00</published><updated>2019-11-06T00:00:00+08:00</updated><id>http://localhost:4000/blog/2019/11/06/java-concurrent-util-count-down-latch</id><content type="html" xml:base="http://localhost:4000/blog/2019/11/06/java-concurrent-util-count-down-latch/">&lt;p&gt;（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）&lt;/p&gt;
+&lt;/ul&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）</summary></entry><entry><title type="html">J.U.C之并发工具：CountDownLatch</title><link href="http://localhost:4000/blog/2019/11/06/java-concurrent-util-count-down-latch/" rel="alternate" type="text/html" title="J.U.C之并发工具：CountDownLatch" /><published>2019-11-06T00:00:00+08:00</published><updated>2019-11-06T00:00:00+08:00</updated><id>http://localhost:4000/blog/2019/11/06/java-concurrent-util-count-down-latch</id><content type="html" xml:base="http://localhost:4000/blog/2019/11/06/java-concurrent-util-count-down-latch/">&lt;p&gt;（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）&lt;/p&gt;
 
 &lt;h1 id=&quot;heading-1-countdownlatch介绍&quot;&gt;1 CountDownLatch介绍&lt;/h1&gt;
 
@@ -695,66 +1036,7 @@ public long getCount() {
   &lt;li&gt;CountDownLatch把await(long timeout, TimeUnit unit)方法委托给了同步器Sync的tryAcquireSharedNanos()方法–共享式超时中断的获取同步状态&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;使用CountDownLatch，在await()的过程中，线程会被挂起，相比线程自主轮训判断更节省CPU资源&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）</summary></entry><entry><title type="html">J.U.C之ConcurrentHashMap</title><link href="http://localhost:4000/blog/2019/10/10/java-concurrent-util-concurrent-hash-map/" rel="alternate" type="text/html" title="J.U.C之ConcurrentHashMap" /><published>2019-10-10T00:00:00+08:00</published><updated>2019-10-10T00:00:00+08:00</updated><id>http://localhost:4000/blog/2019/10/10/java-concurrent-util-concurrent-hash-map</id><content type="html" xml:base="http://localhost:4000/blog/2019/10/10/java-concurrent-util-concurrent-hash-map/">&lt;h1 id=&quot;heading-1-concurrenthashmap-vs-hashmap--hashtable&quot;&gt;1 ConcurrentHashMap VS HashMap &amp;amp; HashTable&lt;/h1&gt;
-&lt;ul&gt;
-  &lt;li&gt;多线程环境下，HashMap是非线程安全的，使用HashMap进行put操作会导致链表形成环形数据接口，最终导致死循环，导致CPU利用率达100%。（形成环形数据结构的过程见文章结尾附录）&lt;/li&gt;
-  &lt;li&gt;HashTab使用synchronized同步锁来保证线程安全，所以在线程竞争激烈的情况下，HashTable的效率非常低下&lt;/li&gt;
-  &lt;li&gt;􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹ConcurrentHashMap使用分段锁技术，有效提升了并发访问效率。（容器里面维护了很多锁，每一把锁用于锁容器中的一部分数据，当多线程访问容器中不同数据段的数据时，就不会产生锁竞争，从而有效提高并发访问效率）&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;heading-2-concurrenthashmap的结构&quot;&gt;2 ConcurrentHashMap的结构&lt;/h1&gt;
-&lt;p&gt;链表 NODE&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;static class Node&amp;lt;K,V&amp;gt; implements Map.Entry&amp;lt;K,V&amp;gt; {
-	final int hash;
-	final K key;
-	volatile V val;
-	volatile Node&amp;lt;K,V&amp;gt; next;
-
-	Node(int hash, K key, V val, Node&amp;lt;K,V&amp;gt; next) {
-		this.hash = hash;
-		this.key = key;
-		this.val = val;
-		this.next = next;
-	}
-
-	public final K getKey()       { return key; }
-	public final V getValue()     { return val; }
-	public final int hashCode()   { return key.hashCode() ^ val.hashCode(); }
-	public final String toString(){ return key + &quot;=&quot; + val; }
-	public final V setValue(V value) {
-		throw new UnsupportedOperationException();
-	}
-
-	public final boolean equals(Object o) {
-		Object k, v, u; Map.Entry&amp;lt;?,?&amp;gt; e;
-		return ((o instanceof Map.Entry) &amp;amp;&amp;amp;
-				(k = (e = (Map.Entry&amp;lt;?,?&amp;gt;)o).getKey()) != null &amp;amp;&amp;amp;
-				(v = e.getValue()) != null &amp;amp;&amp;amp;
-				(k == key || k.equals(key)) &amp;amp;&amp;amp;
-				(v == (u = val) || v.equals(u)));
-	}
-
-	/**
-	 * Virtualized support for map.get(); overridden in subclasses.
-	 */
-	Node&amp;lt;K,V&amp;gt; find(int h, Object k) {
-		Node&amp;lt;K,V&amp;gt; e = this;
-		if (k != null) {
-			do {
-				K ek;
-				if (e.hash == h &amp;amp;&amp;amp;
-						((ek = e.key) == k || (ek != null &amp;amp;&amp;amp; k.equals(ek))))
-					return e;
-			} while ((e = e.next) != null);
-		}
-		return null;
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;其中find()方法，按序遍历链表获取元素&lt;/p&gt;
-
-&lt;h1 id=&quot;heading-附录多线程场景下hashmap的死循环&quot;&gt;附录：多线程场景下hashMap的死循环&lt;/h1&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">1 ConcurrentHashMap VS HashMap &amp;amp; HashTable 多线程环境下，HashMap是非线程安全的，使用HashMap进行put操作会导致链表形成环形数据接口，最终导致死循环，导致CPU利用率达100%。（形成环形数据结构的过程见文章结尾附录） HashTab使用synchronized同步锁来保证线程安全，所以在线程竞争激烈的情况下，HashTable的效率非常低下 􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹􏲅􏳫􏵆􏳨􏳩􏳬􏳬􏳧􏵆􏳪􏷡􏰩􏷝􏴚􏲉􏰩􏴛􏰜􏳅􏳍􏺛􏰔􏲫􏱜􏱃􏺭􏳛􏺢􏰎􏰏􏴪􏰚􏺹ConcurrentHashMap使用分段锁技术，有效提升了并发访问效率。（容器里面维护了很多锁，每一把锁用于锁容器中的一部分数据，当多线程访问容器中不同数据段的数据时，就不会产生锁竞争，从而有效提高并发访问效率）</summary></entry><entry><title type="html">J.U.C之Lock</title><link href="http://localhost:4000/blog/2018/12/27/java-concurrent-util-lock/" rel="alternate" type="text/html" title="J.U.C之Lock" /><published>2018-12-27T00:00:00+08:00</published><updated>2018-12-27T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/12/27/java-concurrent-util-lock</id><content type="html" xml:base="http://localhost:4000/blog/2018/12/27/java-concurrent-util-lock/">&lt;p&gt;（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）&lt;/p&gt;
+&lt;p&gt;使用CountDownLatch，在await()的过程中，线程会被挂起，相比线程自主轮训判断更节省CPU资源&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="J.U.C" /><summary type="html">（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）</summary></entry><entry><title type="html">J.U.C之Lock</title><link href="http://localhost:4000/blog/2018/12/27/java-concurrent-util-lock/" rel="alternate" type="text/html" title="J.U.C之Lock" /><published>2018-12-27T00:00:00+08:00</published><updated>2018-12-27T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/12/27/java-concurrent-util-lock</id><content type="html" xml:base="http://localhost:4000/blog/2018/12/27/java-concurrent-util-lock/">&lt;p&gt;（读此篇前建议完成《J.U.C之AbstractQueuedSynchronizer》的阅读）&lt;/p&gt;
 
 &lt;h1 id=&quot;heading-1-lock接口&quot;&gt;1 Lock接口&lt;/h1&gt;
 &lt;p&gt;锁是用来控制多个线程访问共享资源的方式，一般来说，一个锁能够防止多个线程同时访问共享资源（但有些锁支持多个线程同时访问共享资源，如读写锁）。在Lock接口出现之前，java程序是靠synchronized关键字实现锁功能的。在java SE5之后，并发包中新增了Lock接口（以及相关实现类）用来实现锁功能，它提供了与synchronized关键字类似的同步功能，只是在使用的时候需要显式的获取跟释放锁。虽然它缺少了隐式获取和释放锁的便捷性，但是却拥有了锁获取与释放的可操作性、非阻塞获取锁、可中断获取锁以及超时获取锁等多种特性。&lt;/p&gt;
@@ -2439,242 +2721,4 @@ private void scanGroovyFiles(File file, String namespace) throws Exception {
 &lt;p&gt;groovy文件夹下第一级文件夹名称拼接namespacePrefix作为namespace，每个namespace分配一个ApplicationContext容器，每个namespace对应的bean都由各自的beanfactory加载注入，避免同名类加载导致的错误。同时groovy脚本更新后产生新的groovy bean之后，还需要移除之前的groovy bean，值得额外注意的是需要移除注入缓存，否则会报错：Caused by: java.lang.IllegalArgumentException: object is not an instance of declaring class
 注意：由于我们不需要groovy的metaclass信息，这里对metaClass进行清除来进行优化&lt;/p&gt;
 
-&lt;p&gt;最后，附上代码:https://github.com/Cuner/groovy-loader-v2&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="groovy" /><summary type="html">1 groovy loader背景 由于groovy动态语言的特性，使用方式与java一致，同时又特别适合与Spring的动态语言支持一起使用，所以基于java的groovy脚本的动态加载的使用场景还是比较多的</summary></entry><entry><title type="html">基于redis的分布式延时队列</title><link href="http://localhost:4000/blog/2018/05/30/delay-queue/" rel="alternate" type="text/html" title="基于redis的分布式延时队列" /><published>2018-05-30T00:00:00+08:00</published><updated>2018-05-30T00:00:00+08:00</updated><id>http://localhost:4000/blog/2018/05/30/delay-queue</id><content type="html" xml:base="http://localhost:4000/blog/2018/05/30/delay-queue/">&lt;p&gt;延时队列的使用场景非常多，目前集中式场景可以使用JDK自带的delayQueue，本文使用redis队列来实现两种分布式的延时队列，并进行了对比分析&lt;/p&gt;
-
-&lt;h1 id=&quot;heading-1-封装统一的队列消息结构&quot;&gt;1 封装统一的队列消息结构&lt;/h1&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public class DelayMessage {
-
-    /**
-     * 正执行消息的token
-     */
-    private String tmpKey;
-
-    /**
-     * 消息内容
-     */
-    private String message;
-
-    /**
-     * 延迟时间 纳秒
-     */
-    private long delay;
-
-    /**
-     * 到期时间 纳秒
-     */
-    private long expire;
-
-    /**
-     * 创建时间 纳秒
-     */
-    private long registerTime;
-    
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;heading-2-同步延时队列&quot;&gt;2 同步延时队列&lt;/h1&gt;
-&lt;p&gt;原理：通过LRANG获取队列头部元素，从而获得到期时间，当数据达到到期时间后，通过LPOP取出数据。并发情况下会加分布式锁，同一时刻只能有一个线程访问队列并阻塞等待数据准备完成(达到延时时间)。当线程获取到可以返回的数据后，才能释放锁。&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public DelayMessage pop() {
-    while (true) {
-        Long waitTime = null;
-        Jedis jedis = jedisPool.getResource();
-        try {
-            if (this.syn) {
-                lock.lock(this.queueName);
-            }
-            //获取头部的数据
-            List&amp;lt;String&amp;gt; dataList = jedis.lrange(this.queueName, 0L, 0L);
-            if (CollectionUtils.isNotEmpty(dataList)) {
-                String data = dataList.get(0);
-                DelayMessage message = gson.fromJson(data, DelayMessage.class);
-                if (message != null) {
-                    long now = System.nanoTime();
-                    if (message.getExpire() &amp;gt; now) {
-                        //没有到期
-                        waitTime = message.getExpire() - now;
-                    } else {
-                        jedis.lpop(this.queueName);
-                        return message;
-                    }
-                }
-            }
-
-            if (waitTime != null) {
-                try {
-                    Thread.sleep(waitTime / 1000);
-                } catch (InterruptedException e) {
-                    //do nothing
-                }
-            }
-
-        } finally {
-            if (this.syn) {
-                lock.unlock(this.queueName);
-            }
-            jedis.close();
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;ul&gt;
-  &lt;li&gt;基于redis，&lt;strong&gt;并发情况下会加分布式锁&lt;/strong&gt;，单线程场景（syn=false）性能较好， 并发场景性能较差&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;若在并发场景下，设置syn=false，会导致消息重复消费、消息丢失的情况&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;支持delay时间的动态调整&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;heading-3-并发延时队列&quot;&gt;3 并发延时队列&lt;/h1&gt;
-&lt;p&gt;原理：直接通过LPOP取出数据，当数据达到到期时间后立即返回，若未达到到期时间，线程sleep至到期时间后将数据返回。这样就允许队列在无分布式锁的情况下并行消费。
-存在的问题：从数据LPOP移除队列到数据返回之间有一段时间间隔，如果系统在这段时间出现异常，比如宕机、重启等等，就会出现数据丢失的情况。为了避免此种情况，引入了ack的方式，在通过LPOP去除数据后，随机将数据存储到另外一个临时redis set中，在用户接受到消息并处理完成后手动执行ack方法后才将数据从临时set中移除。而在机器重启时，再将改临时set里面的数据重新put到延时队列中。&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;public DelayMessage pop() {
-    while (true) {
-        Long waitTime;
-        Jedis jedis = jedisPool.getResource();
-        try {
-            // 取队列头部的消息
-            String result = jedis.lpop(queueName);
-            // 队列非空
-            if (result != null) {
-                //暂存此条消息，放入执行集合
-                String tmpKey = null;
-                if (!autoAck) {
-                    tmpKey = this.setExeMsg(result);//解决宕机数据丢失
-                }
-                DelayMessage delayMessage = gson.fromJson(result, DelayMessage.class);
-                if (delayMessage != null) {
-                    if (delayMessage.getExpire() &amp;gt; System.nanoTime()) {
-                        // 消息未到可执行状态,休眠等待
-                        waitTime = delayMessage.getExpire() - System.nanoTime();
-                        try {
-                            Thread.sleep(waitTime);
-                        } catch (InterruptedException e) {
-                            // do nothing
-                        }
-                    }
-                    delayMessage.setTmpKey(tmpKey);
-                    return delayMessage;
-                }
-            }
-        } finally {
-            jedis.close();
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;基于redis，支持在&lt;strong&gt;无分布式锁&lt;/strong&gt;的情况下进行并发消费&lt;/li&gt;
-  &lt;li&gt;autoAck为true时，吞吐量性能极好，autoAck为false，吞吐量会稍有下降&lt;/li&gt;
-  &lt;li&gt;支持delay时间的动态调整&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;autoAck为false时，必须在处理完消息后手动调用ack方法，否则会导致应用重启后重新开始消费&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h1 id=&quot;heading-4-性能对比&quot;&gt;4 性能对比&lt;/h1&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;RedisConcurrentDelayQueue和RedisSynDelayQueue的简单对比，数据是线下单机环境测试数据&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;队列种类&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;消费线程数&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;syn&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;autoAck&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;耗时&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;消息丢失&lt;/th&gt;
-      &lt;th style=&quot;text-align: center&quot;&gt;重复消费&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;RedisConcurrentDelayQueue&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;-&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;false&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;53936ms&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;无&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;无&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;RedisConcurrentDelayQueue&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;-&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;true&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;13130ms&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;消费进程关闭，正在处理的消息会丢失&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;无&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;RedisSynDelayQueue&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;true&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;-&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;55420ms&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;无&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;无&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;RedisSynDelayQueue&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;1&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;false&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;-&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;20012ms&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;无&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;无&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;RedisConcurrentDelayQueue&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;10&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;-&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;false&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;7279ms&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;无&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;无&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;RedisConcurrentDelayQueue&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;10&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;-&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;true&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;1181ms&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;消费进程关闭，正在处理的消息会丢失&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;无&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;RedisSynDelayQueue&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;10&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;true&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;-&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;61532ms&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;无&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;无&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;RedisSynDelayQueue&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;10&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;false&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;-&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;-&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;大量消息丢失&lt;/td&gt;
-      &lt;td style=&quot;text-align: center&quot;&gt;大量重复消费&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;若能接受系统重启、关闭时的少量消息丢失，推荐RedisConcurrentDelayQueue，并设置autoAck为true：性能最好，且消费线程越多，消费速度（吞吐量）也会相对越好&lt;/li&gt;
-  &lt;li&gt;若不能接受消息丢失，在单机、单线程消费的场景下，可以选择RedisConcurrentDelayQueue（autoAck设置为false）RedisSynDelayQueue（syn设置为false）；&lt;/li&gt;
-  &lt;li&gt;若不能接受消息丢失，且需要在多线程、分布式场景下消费，推荐推荐RedisConcurrentDelayQueue（autoAck设置为false），消费线程越多，消费速度（吞吐量）也会相对越好；&lt;/li&gt;
-  &lt;li&gt;RedisSynDelayQueue在并发消费的场景下性能较差，不推荐使用。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h1 id=&quot;heading-5-项目代码&quot;&gt;5 项目代码&lt;/h1&gt;
-&lt;p&gt;代码托管在Github上，并附有使用demo，欢迎下载运行: https://github.com/Cuner/delay-queue&lt;/p&gt;
-
-&lt;h1 id=&quot;heading-6-切换思路&quot;&gt;6 切换思路&lt;/h1&gt;
-&lt;p&gt;当有延时任务或者延时消息产生时，暂时将延时任务/消息存放至某个容器里面(可以是数据记录的方式存储在db，也可以存储在redis zset中等等)，然后采用定时器不断去轮训容器里面的各个延时任务/消息，当扫描获取到达到过期时间的延时任务/消息后，将其推送到消息队列中以供消费，推送成功后再将其从容器里移除。
-值得注意的是，同一个达到到期时间的延时任务/消息，可能会被连续的两次扫描命中（延时任务/消息从容器移除有延时），最后导致消息重复消费。&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;a href=&quot;https://tech.youzan.com/queuing_delay/&quot;&gt;有赞延迟队列设计&lt;/a&gt;&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="queue" /><summary type="html">延时队列的使用场景非常多，目前集中式场景可以使用JDK自带的delayQueue，本文使用redis队列来实现两种分布式的延时队列，并进行了对比分析</summary></entry></feed>
+&lt;p&gt;最后，附上代码:https://github.com/Cuner/groovy-loader-v2&lt;/p&gt;</content><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;nil, &quot;location&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/Cuner&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name></author><category term="groovy" /><summary type="html">1 groovy loader背景 由于groovy动态语言的特性，使用方式与java一致，同时又特别适合与Spring的动态语言支持一起使用，所以基于java的groovy脚本的动态加载的使用场景还是比较多的</summary></entry></feed>
