@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "配置管理系统-client"
-description: "配置管理系统-client"
-categories: [Metabase]
-tags: [Metabase]
+title: "Metabase-client"
+description: "Metabase-client"
+categories: [配置管理系统]
+tags: [配置管理系统]
 redirect_from:
   - /2017/05/26/
 ---
