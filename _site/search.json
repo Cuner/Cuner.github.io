@@ -134,7 +134,7 @@
     } ,
   
     {
-      "title"      : "配置管理系统-client",
+      "title"      : "Metabase-client",
       "url"        : "/blog/2017/05/26/metabase-client/",
       "date"       : "2017-05-26 00:00:00 +0800",
       "shortdate"  : "May 26, 2017"
