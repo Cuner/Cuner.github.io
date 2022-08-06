@@ -170,8 +170,138 @@
                         </ul>
                     </div>
                     <div itemprop="articleBody">
-                        <blockquote>
-  <h3 id="heading-理论基础篇"><center>理论基础篇</center></h3>
+                        <ul class="toc" id="markdown-toc">
+  <li><a href="#heading-理论基础篇" id="markdown-toc-heading-理论基础篇"><center>理论基础篇</center></a></li>
+  <li><a href="#heading-1网络基础" id="markdown-toc-heading-1网络基础">1.网络基础</a>    <ul>
+      <li><a href="#heading-11-osi与tcpip-模型" id="markdown-toc-heading-11-osi与tcpip-模型">1.1 OSI与TCP/IP 模型</a></li>
+      <li><a href="#heading-12-常见网络服务分层" id="markdown-toc-heading-12-常见网络服务分层">1.2 常见网络服务分层</a></li>
+      <li><a href="#heading-13-tcp" id="markdown-toc-heading-13-tcp">1.3 TCP</a>        <ul>
+          <li><a href="#heading-131-三次握手" id="markdown-toc-heading-131-三次握手">1.3.1 三次握手</a></li>
+          <li><a href="#heading-132-四次挥手" id="markdown-toc-heading-132-四次挥手">1.3.2 四次挥手</a></li>
+          <li><a href="#heading-133-tcp滑动窗口拥塞控制" id="markdown-toc-heading-133-tcp滑动窗口拥塞控制">1.3.3 TCP滑动窗口，拥塞控制</a></li>
+          <li><a href="#heading-134-tcp粘包原因和解决方法" id="markdown-toc-heading-134-tcp粘包原因和解决方法">1.3.4 TCP粘包原因和解决方法</a></li>
+        </ul>
+      </li>
+      <li><a href="#heading-14-tcp与udp区别及场景" id="markdown-toc-heading-14-tcp与udp区别及场景">1.4 TCP与UDP区别及场景</a></li>
+      <li><a href="#heading-15-http协议" id="markdown-toc-heading-15-http协议">1.5 HTTP协议</a>        <ul>
+          <li><a href="#heading-151-http协议10_11_20" id="markdown-toc-heading-151-http协议10_11_20">1.5.1 HTTP协议1.0_1.1_2.0</a></li>
+          <li><a href="#heading-152-http与https之间的区别" id="markdown-toc-heading-152-http与https之间的区别">1.5.2 HTTP与HTTPS之间的区别</a></li>
+          <li><a href="#heading-153-get和post请求区别" id="markdown-toc-heading-153-get和post请求区别">1.5.3 Get和Post请求区别</a></li>
+          <li><a href="#heading-154-http常见响应状态码" id="markdown-toc-heading-154-http常见响应状态码">1.5.4 HTTP常见响应状态码</a></li>
+          <li><a href="#heading-155-重定向和转发区别" id="markdown-toc-heading-155-重定向和转发区别">1.5.5 重定向和转发区别</a></li>
+          <li><a href="#heading-156-cookie和session区别" id="markdown-toc-heading-156-cookie和session区别">1.5.6 Cookie和Session区别</a></li>
+          <li><a href="#heading-157-浏览器输入url过程" id="markdown-toc-heading-157-浏览器输入url过程">1.5.7 浏览器输入URL过程</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#heading-2操作系统基础" id="markdown-toc-heading-2操作系统基础">2.操作系统基础</a>    <ul>
+      <li><a href="#heading-21-进程和线程" id="markdown-toc-heading-21-进程和线程">2.1 进程和线程</a></li>
+      <li><a href="#heading-22-进程间通信方式ipc" id="markdown-toc-heading-22-进程间通信方式ipc">2.2 进程间通信方式IPC</a>        <ul>
+          <li><a href="#heading-221-管道pipe" id="markdown-toc-heading-221-管道pipe">2.2.1 管道pipe：</a></li>
+          <li><a href="#heading-222-信号" id="markdown-toc-heading-222-信号">2.2.2 信号：</a></li>
+          <li><a href="#heading-223-消息队列" id="markdown-toc-heading-223-消息队列">2.2.3 消息队列：</a></li>
+          <li><a href="#heading-224-共享内存share-memory" id="markdown-toc-heading-224-共享内存share-memory">2.2.4 共享内存(share memory)：</a></li>
+          <li><a href="#heading-225-信号量semaphores-" id="markdown-toc-heading-225-信号量semaphores-">2.2.5 信号量(Semaphores) ：</a></li>
+          <li><a href="#heading-226-套接字sockets" id="markdown-toc-heading-226-套接字sockets">2.2.6 套接字(Sockets):</a></li>
+        </ul>
+      </li>
+      <li><a href="#heading-23-用户态和核心态" id="markdown-toc-heading-23-用户态和核心态">2.3 用户态和核心态</a>        <ul>
+          <li><a href="#heading-231-用户态" id="markdown-toc-heading-231-用户态">2.3.1 用户态：</a></li>
+          <li><a href="#heading-232-核心态" id="markdown-toc-heading-232-核心态">2.3.2 核心态：</a></li>
+          <li><a href="#heading-233-为什么要有用户态和内核态" id="markdown-toc-heading-233-为什么要有用户态和内核态">2.3.3 为什么要有用户态和内核态：</a></li>
+          <li><a href="#heading-234-用户态切换到内核态的3种方式" id="markdown-toc-heading-234-用户态切换到内核态的3种方式">2.3.4 用户态切换到内核态的3种方式：</a></li>
+        </ul>
+      </li>
+      <li><a href="#heading-24-操作系统的进程空间" id="markdown-toc-heading-24-操作系统的进程空间">2.4 操作系统的进程空间</a></li>
+      <li><a href="#heading-25-操作系统内存管理" id="markdown-toc-heading-25-操作系统内存管理">2.5 操作系统内存管理</a>        <ul>
+          <li><a href="#heading-251-分段管理" id="markdown-toc-heading-251-分段管理">2.5.1 分段管理：</a></li>
+          <li><a href="#heading-252-分页管理" id="markdown-toc-heading-252-分页管理">2.5.2 分页管理：</a></li>
+          <li><a href="#heading-253-段页式管理" id="markdown-toc-heading-253-段页式管理">2.5.3 段页式管理：</a></li>
+        </ul>
+      </li>
+      <li><a href="#heading-26-页面置换算法fifolru" id="markdown-toc-heading-26-页面置换算法fifolru">2.6 页面置换算法FIFO、LRU</a>        <ul>
+          <li><a href="#heading-261-先进先出fifo" id="markdown-toc-heading-261-先进先出fifo">2.6.1 先进先出FIFO：</a></li>
+          <li><a href="#heading-262-最近最久未使用lru" id="markdown-toc-heading-262-最近最久未使用lru">2.6.2 最近最久未使用LRU</a></li>
+          <li><a href="#heading-263-最佳置换算法opt" id="markdown-toc-heading-263-最佳置换算法opt">2.6.3 最佳置换算法OPT:</a></li>
+        </ul>
+      </li>
+      <li><a href="#heading-27-死锁条件解决方式" id="markdown-toc-heading-27-死锁条件解决方式">2.7 死锁条件、解决方式</a>        <ul>
+          <li><a href="#heading-271-死锁的条件" id="markdown-toc-heading-271-死锁的条件">2.7.1 死锁的条件：</a></li>
+          <li><a href="#heading-272-解决方法破坏死锁的任意一条件" id="markdown-toc-heading-272-解决方法破坏死锁的任意一条件">2.7.2 解决方法：破坏死锁的任意一条件</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#heading-3java基础" id="markdown-toc-heading-3java基础">3.java基础</a>    <ul>
+      <li><a href="#heading-31-面向对象三大特性" id="markdown-toc-heading-31-面向对象三大特性">3.1 面向对象三大特性</a>        <ul>
+          <li><a href="#heading-311-java与c的区别" id="markdown-toc-heading-311-java与c的区别">3.1.1 java与c++的区别</a></li>
+          <li><a href="#heading-312-多态实现原理" id="markdown-toc-heading-312-多态实现原理">3.1.2 多态实现原理</a></li>
+          <li><a href="#heading-313-static和final关键字" id="markdown-toc-heading-313-static和final关键字">3.1.3 static和final关键字</a></li>
+          <li><a href="#heading-314-抽象类和接口" id="markdown-toc-heading-314-抽象类和接口">3.1.4 抽象类和接口</a></li>
+          <li><a href="#heading-315-泛型以及泛型擦除" id="markdown-toc-heading-315-泛型以及泛型擦除">3.1.5 泛型以及泛型擦除</a></li>
+          <li><a href="#heading-315-反射原理以及使用场景" id="markdown-toc-heading-315-反射原理以及使用场景">3.1.5 反射原理以及使用场景</a></li>
+          <li><a href="#heading-316-类加载" id="markdown-toc-heading-316-类加载">3.1.6 类加载</a></li>
+          <li><a href="#heading-317-java异常体系" id="markdown-toc-heading-317-java异常体系">3.1.7 Java异常体系</a></li>
+        </ul>
+      </li>
+      <li><a href="#heading-32-java数据结构" id="markdown-toc-heading-32-java数据结构">3.2 java数据结构</a>        <ul>
+          <li><a href="#heading-321-arraylist和linkedlist" id="markdown-toc-heading-321-arraylist和linkedlist">3.2.1 ArrayList和LinkedList</a></li>
+          <li><a href="#heading-322-list遍历快速失败和安全失败" id="markdown-toc-heading-322-list遍历快速失败和安全失败">3.2.2 List遍历快速失败和安全失败</a></li>
+          <li><a href="#heading-323-hashmap" id="markdown-toc-heading-323-hashmap">3.2.3 HashMap</a></li>
+          <li><a href="#heading-324-concurrenthashmap" id="markdown-toc-heading-324-concurrenthashmap">3.2.4 ConcurrentHashMap</a></li>
+          <li><a href="#heading-325-序列化和反序列化" id="markdown-toc-heading-325-序列化和反序列化">3.2.5 序列化和反序列化</a></li>
+          <li><a href="#heading-326-string" id="markdown-toc-heading-326-string">3.2.6 String</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#heading-4-设计模式" id="markdown-toc-heading-4-设计模式">4 设计模式</a></li>
+  <li><a href="#heading-理论提升篇" id="markdown-toc-heading-理论提升篇"><center>理论提升篇</center></a></li>
+  <li><a href="#heading-java并发编程" id="markdown-toc-heading-java并发编程">java并发编程</a></li>
+  <li><a href="#heading-jvm" id="markdown-toc-heading-jvm">JVM</a></li>
+  <li><a href="#heading-数据结构与算法" id="markdown-toc-heading-数据结构与算法">数据结构与算法</a></li>
+  <li><a href="#heading-分布式" id="markdown-toc-heading-分布式">分布式</a></li>
+  <li><a href="#heading-工具应用篇" id="markdown-toc-heading-工具应用篇">工具应用篇</a></li>
+  <li><a href="#heading-sping" id="markdown-toc-heading-sping">Sping</a></li>
+  <li><a href="#heading-spingcloud" id="markdown-toc-heading-spingcloud">SpingCloud</a></li>
+  <li><a href="#heading-数据库" id="markdown-toc-heading-数据库">数据库</a>    <ul>
+      <li><a href="#heading-mysql" id="markdown-toc-heading-mysql">Mysql</a></li>
+    </ul>
+  </li>
+  <li><a href="#heading-缓存" id="markdown-toc-heading-缓存">缓存</a>    <ul>
+      <li><a href="#heading-redis" id="markdown-toc-heading-redis">Redis</a></li>
+    </ul>
+  </li>
+  <li><a href="#heading-搜索引擎" id="markdown-toc-heading-搜索引擎">搜索引擎</a>    <ul>
+      <li><a href="#heading-es" id="markdown-toc-heading-es">ES</a></li>
+    </ul>
+  </li>
+  <li><a href="#heading-消息队列" id="markdown-toc-heading-消息队列">消息队列</a>    <ul>
+      <li><a href="#heading-kafaka" id="markdown-toc-heading-kafaka">kafaka</a></li>
+    </ul>
+  </li>
+  <li><a href="#heading-dockerk8s篇" id="markdown-toc-heading-dockerk8s篇">Docker&amp;K8S篇</a></li>
+  <li><a href="#heading-netty" id="markdown-toc-heading-netty">netty</a></li>
+  <li><a href="#heading-leecode" id="markdown-toc-heading-leecode">LeeCode</a></li>
+  <li><a href="#heading-附录-资料补充" id="markdown-toc-heading-附录-资料补充">附录-资料补充</a>    <ul>
+      <li><a href="#heading-1书单" id="markdown-toc-heading-1书单">1.书单</a></li>
+      <li><a href="#heading-2参考链接" id="markdown-toc-heading-2参考链接">2.参考链接</a></li>
+    </ul>
+  </li>
+  <li><a href="#heading-2-技能清单" id="markdown-toc-heading-2-技能清单">2 技能清单</a>    <ul>
+      <li><a href="#heading-21-java开发" id="markdown-toc-heading-21-java开发">2.1 java开发</a></li>
+      <li><a href="#heading-22-一致性协议" id="markdown-toc-heading-22-一致性协议">2.2 一致性协议</a></li>
+      <li><a href="#heading-23-数据存储与搜索" id="markdown-toc-heading-23-数据存储与搜索">2.3 数据存储与搜索</a></li>
+      <li><a href="#heading-24-网络编程" id="markdown-toc-heading-24-网络编程">2.4 网络编程</a></li>
+      <li><a href="#heading-25-源码" id="markdown-toc-heading-25-源码">2.5 源码</a></li>
+      <li><a href="#heading-26-其他" id="markdown-toc-heading-26-其他">2.6 其他</a></li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <h1 id="heading-理论基础篇"><center>理论基础篇</center></h1>
 </blockquote>
 
 <h1 id="heading-1网络基础">1.网络基础</h1>
@@ -689,13 +819,13 @@
 <h3 id="heading-312-多态实现原理">3.1.2 多态实现原理</h3>
 <p>多态的底层实现是动态绑定，即在运行时才把方法调用与方法实现关联起来。</p>
 
-<h4 id="heading-3121-静态绑定与动态绑定">3.1.2.1 静态绑定与动态绑定</h4>
+<h4 id="heading-静态绑定与动态绑定">静态绑定与动态绑定</h4>
 <ul>
   <li>一种是在编译期确定，被称为静态分派，比如方法的重载；</li>
   <li>​一种是在运行时确定，被称为动态分派，比如方法的覆盖（重写）和接口的实现。</li>
 </ul>
 
-<h4 id="heading-3122-多态的实现">3.1.2.2 多态的实现</h4>
+<h4 id="heading-多态的实现">多态的实现</h4>
 <p>​虚拟机栈中会存放当前方法调用的栈帧（局部变量表、操作栈、动态连接 、返回地址）。多态的实现过程，就是方法调用动态分派的过程，如果子类覆盖了父类的方法，则在多态调用中，动态绑定过程会首先确定实际类型是子类，从而先搜索到子类中的方法。这个过程便是方法覆盖的本质。</p>
 
 <h3 id="heading-313-static和final关键字">3.1.3 static和final关键字</h3>
@@ -704,22 +834,22 @@
   <li>final：关键字主要⽤在三个地⽅：变量、⽅法、类。</li>
 </ul>
 
-<h4 id="heading-3131-static修饰属性">3.1.3.1 static修饰属性：</h4>
+<h4 id="heading-static修饰属性">static修饰属性：</h4>
 <p>类级别属性，所有对象共享一份，随着类的加载而加载（只加载一次），先于对象的创建；可以使用类名直接调用。</p>
 
-<h4 id="heading-3132-static修饰方法">3.1.3.2 static修饰方法：</h4>
+<h4 id="heading-static修饰方法">static修饰方法：</h4>
 <p>随着类的加载而加载；可以使用类名直接调用；静态方法中，只能调用静态的成员，不可用this；</p>
 
-<h4 id="heading-3133-final修饰变量">3.1.3.3 final修饰变量：</h4>
+<h4 id="heading-final修饰变量">final修饰变量：</h4>
 <ul>
   <li>如果是基本数据类型的变量，则其数值⼀旦在初始化之后便不能更改；</li>
   <li>如果是引⽤类型的变量，则在对其初始化之后便不能再让其指向另⼀个对象。</li>
 </ul>
 
-<h4 id="heading-3134-final修饰方法">3.1.3.4 final修饰方法：</h4>
+<h4 id="heading-final修饰方法">final修饰方法：</h4>
 <p>把⽅法锁定，以防任何继承类修改它的含义（重写）；类中所有的private⽅法都隐式地指定为final。</p>
 
-<h4 id="heading-3135-final修饰类">3.1.3.5 final修饰类：</h4>
+<h4 id="heading-final修饰类">final修饰类：</h4>
 <ul>
   <li>final修饰类时，表明这个类不能被继承。final类中的所有成员⽅法都会被隐式地指定为final⽅法。</li>
   <li>一个类不能被继承，除了final关键字之外，还有可以私有化构造器。（内部类无效）</li>
@@ -731,13 +861,13 @@
   <li>接口：接口是一个抽象类型，是抽象方法的集合，接口支持多继承，接口中定义的方法，默认是public abstract修饰的抽象方法</li>
 </ul>
 
-<h4 id="heading-3141-相同点">3.1.4.1 相同点：</h4>
+<h4 id="heading-相同点">相同点：</h4>
 <ul>
   <li>抽象类和接口都不能被实例化</li>
   <li>抽象类和接口都可以定义抽象方法，子类/实现类必须覆写这些抽象方法</li>
 </ul>
 
-<h4 id="heading-3142-不同点">3.1.4.2 不同点：</h4>
+<h4 id="heading-不同点">不同点：</h4>
 <ul>
   <li>抽象类有构造方法，接口没有构造方法</li>
   <li>抽象类可以包含普通方法，接口中只能是public abstract修饰抽象方法（Java8之后可以）</li>
@@ -745,38 +875,38 @@
   <li>抽象类可以定义各种类型的成员变量，接口中只能是public static final修饰的静态常量</li>
 </ul>
 
-<h4 id="heading-3143-抽象类的使用场景">3.1.4.3 抽象类的使用场景：</h4>
+<h4 id="heading-抽象类的使用场景">抽象类的使用场景：</h4>
 <p>既想约束子类具有共同的行为（但不再乎其如何实现），又想拥有缺省的方法，又能拥有实例变量</p>
 
-<h4 id="heading-3144-接口的应用场景">3.1.4.4 接口的应用场景：</h4>
+<h4 id="heading-接口的应用场景">接口的应用场景：</h4>
 <p>约束多个实现类具有统一的行为，但是不在乎每个实现类如何具体实现；实现类中各个功能之间可能没有任何联系</p>
 
 <h3 id="heading-315-泛型以及泛型擦除">3.1.5 泛型以及泛型擦除</h3>
 <p>参考：https://blog.csdn.net/baoyinwang/article/details/107341997?spm=ata.21736010.0.0.75877ec0O2Mxvm</p>
 
-<h4 id="heading-3151-泛型">3.1.5.1 泛型：</h4>
+<h4 id="heading-泛型">泛型：</h4>
 <p>泛型的本质是参数化类型。这种参数类型可以用在类、接口和方法的创建中，分别称为泛型类、泛型接口和泛型方法。</p>
 
-<h4 id="heading-3142-泛型擦除">3.1.4.2 泛型擦除：</h4>
+<h4 id="heading-泛型擦除">泛型擦除：</h4>
 <p>Java的泛型是伪泛型，使用泛型的时候加上类型参数，在编译器编译生成的字节码的时候会去掉，这个过程成为类型擦除。
 如List等类型，在编译之后都会变成 List。JVM看到的只是List，而由泛型附加的类型信息对JVM来说是不可见的。
 可以通过反射添加其它类型元素。</p>
 
 <h3 id="heading-315-反射原理以及使用场景">3.1.5 反射原理以及使用场景</h3>
-<h4 id="heading-3151-java反射">3.1.5.1 Java反射：</h4>
+<h4 id="heading-java反射">Java反射：</h4>
 <p>是指在运行状态中，对于任意一个类都能够知道这个类所有的属性和方法；并且都能够调用它的任意一个方法；</p>
 
-<h4 id="heading-3152-反射原理">3.1.5.2 反射原理：</h4>
+<h4 id="heading-反射原理">反射原理：</h4>
 <p>反射首先是能够获取到Java中的反射类的字节码，然后将字节码中的方法、变量、构造函数等映射成相应的Method、Filed、Constructor等类</p>
 
-<h4 id="heading-3153-如何得到class的实例">3.1.5.3 如何得到Class的实例:</h4>
+<h4 id="heading-如何得到class的实例">如何得到Class的实例:</h4>
 <ul>
   <li>类名.class(就是一份字节码)</li>
   <li>Class.forName(String className);根据一个类的全限定名来构建Class对象</li>
   <li>每一个对象都有getClass()方法:obj.getClass();返回对象的真实类型</li>
 </ul>
 
-<h4 id="heading-3154-使用场景">3.1.5.4 使用场景：</h4>
+<h4 id="heading-使用场景">使用场景：</h4>
 <ul>
   <li>开发通用框架 - 反射最重要的用途就是开发各种通用框架。很多框架（比如 Spring）都是配置化的（比如通过XML文件配置JavaBean、Filter 等），为了保证框架的通用性，需要根据配置文件运行时动态加载不同的对象或类，调用不同的方法。</li>
   <li>动态代理 - 在切面编程（AOP）中，需要拦截特定的方法，通常，会选择动态代理方式。这时，就需要反射技术来实现了。
@@ -792,20 +922,20 @@
 <p>待补充</p>
 
 <h3 id="heading-317-java异常体系">3.1.7 Java异常体系</h3>
-<h4 id="heading-3171-throwable">3.1.7.1 Throwable</h4>
+<h4 id="heading-throwable">Throwable</h4>
 <p>是Java语言中所有错误或异常的超类。下一层分为 Error 和 Exception</p>
 
-<h4 id="heading-3172-error">3.1.7.2 Error</h4>
+<h4 id="heading-error">Error</h4>
 <p>是指java运行时系统的内部错误和资源耗尽错误。应用程序不会抛出该类对象。如果出现了这样的错误，除了告知用户，剩下的就是尽力使程序安全的终止。</p>
 
-<h4 id="heading-3173-exception">3.1.7.3 Exception</h4>
+<h4 id="heading-exception">Exception</h4>
 <p>包含：RuntimeException 、CheckedException</p>
 <ul>
   <li>RuntimeException：运行时异常，程序应该从逻辑角度尽可能避免这类异常的发生。如NullPointerException、ClassCastException；</li>
   <li>CheckedException：受检异常，程序使用trycatch进行捕捉处理。如IOException、SQLException、NotFoundException；</li>
 </ul>
 
-<h4 id="heading-3174-编程错误">3.1.7.4 编程错误</h4>
+<h4 id="heading-编程错误">编程错误</h4>
 <p>编程错误可以分成三类：语法错误、逻辑错误和运行错误。</p>
 <ul>
   <li>语法错误（也称编译错误）是在编译过程中出现的错误，由编译器检查发现语法错误</li>
@@ -906,7 +1036,7 @@ fail-fast主要是体现在当我们在遍历集合元素的时候，经常会�
   <li>反序列化：将字节序列转化为java对象的过程。</li>
 </ul>
 
-<h4 id="heading-使用场景">使用场景</h4>
+<h4 id="heading-使用场景-1">使用场景</h4>
 <ul>
   <li>数据的持久化，通过序列化可以把数据永久地保存到硬盘上（通常存放在文件里）Redis的RDB</li>
   <li>利用序列化实现远程通信，即在网络上传送对象的字节序列。 Google的protoBuf</li>
@@ -924,7 +1054,7 @@ fail-fast主要是体现在当我们在遍历集合元素的时候，经常会�
 <h1 id="heading-4-设计模式">4 设计模式</h1>
 
 <blockquote>
-  <h3 id="heading-理论提升篇"><center>理论提升篇</center></h3>
+  <h1 id="heading-理论提升篇"><center>理论提升篇</center></h1>
 </blockquote>
 
 <h1 id="heading-java并发编程">java并发编程</h1>
