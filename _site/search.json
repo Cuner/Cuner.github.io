@@ -155,15 +155,22 @@
     } ,
   
     {
-      "title"      : "理论基础篇",
-      "url"        : "/blog/0001/01/01/primary/",
-      "date"       : "0001-01-01 00:00:00 +0800",
-      "shortdate"  : "January 01, 0001"
+      "title"      : "JVM",
+      "url"        : "/blog/0001/01/04/jvm/",
+      "date"       : "0001-01-04 00:00:00 +0800",
+      "shortdate"  : "January 04, 0001"
     } ,
   
     {
-      "title"      : "学习清单",
-      "url"        : "/blog/0001/01/01/book-list/",
+      "title"      : "java并发编程",
+      "url"        : "/blog/0001/01/03/java-concurrent/",
+      "date"       : "0001-01-03 00:00:00 +0800",
+      "shortdate"  : "January 03, 0001"
+    } ,
+  
+    {
+      "title"      : "理论基础篇",
+      "url"        : "/blog/0001/01/01/primary/",
       "date"       : "0001-01-01 00:00:00 +0800",
       "shortdate"  : "January 01, 0001"
     } 

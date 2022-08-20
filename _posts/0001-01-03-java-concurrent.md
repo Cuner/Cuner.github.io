@@ -325,3 +325,100 @@ HashMap有可能会发生死循环并且造成CPU100% ，这种情况发生最�
 * 可以很方便地用作HashMap的key。通常建议把不可变对象作为HashMap的key
 * hashCode生成后就不会改变，使用时无需重新计算
 * 线程安全，因为具备不变性的对象一定是线程安全的
+
+# 4. 内存模型
+Java内存模型（Java Memory Model，JMM）就是一种符合内存模型规范的，屏蔽了各种硬件和操作系统的访问差异的，保证了Java程序在各种平台下对内存的访问都能保证效果一致的机制及规范。
+
+​JMM是一种规范，是解决由于多线程通过共享内存进行通信时，存在的本地内存数据不一致、编译器会对代码指令重排序、处理器会对代码乱序执行等带来的问题。目的是保证并发编程场景中的原子性、可见性和有序性。
+
+* 原子性：在 Java 中，为了保证原子性，提供了两个高级的字节码指令 Monitorenter 和 Monitorexit。这两个字节码，在Java中对应的关键字就是Synchronized。因此，在Java中可以使用Synchronized来保证方法和代码块内的操作是原子性的。
+* 可见性：Java中的Volatile关键字修饰的变量在被修改后可以立即同步到主内存。被其修饰的变量在每次使用之前都从主内存刷新。因此，可以使用Volatile来保证多线程操作时变量的可见性。除了Volatile，Java中的Synchronized和Final两个关键字也可以实现可见性。只不过实现方式不同
+* 有序性：在Java中，可以使用Synchronized和Volatile来保证多线程之间操作的有序性。区别：Volatile 禁止指令重排。Synchronized 保证同一时刻只允许一条线程操作。
+
+## 4.1 volatile底层实现
+### 作用
+* 保证数据的“可见性”：被volatile修饰的变量能够保证每个线程能够获取该变量的最新值，从而避免出现数据脏读的现象。
+* 禁止指令重排：在多线程操作情况下，指令重排会导致计算结果不一致
+
+### 底层实现
+“观察加入volatile关键字和没有加入volatile关键字时所生成的汇编代码发现，加入volatile关键字时，会多出一个lock前缀指令”
+lock前缀指令实际上相当于一个内存屏障（也成内存栅栏），内存屏障会提供3个功能：
+* 它确保指令重排序时不会把其后面的指令排到内存屏障之前的位置，也不会把前面的指令排到内存屏障的后面；
+* 它会强制将对缓存的修改操作立即写入主存；
+* 如果是写操作，它会导致其他CPU中对应的缓存行无效。
+
+### 单例模式中volatile的作用
+防止代码读取到instance不为null时，instance引用的对象有可能还没有完成初始化。
+
+```java
+class Singleton {    
+    private volatile static Singleton instance = null;   //禁止指令重排    
+    private Singleton() {             
+        
+    }    
+    public static Singleton getInstance() {        
+        if(instance==null) { //减少加锁的损耗            
+            synchronized (Singleton.class) {                
+                if(instance==null) //确认是否初始化完成                    
+                     instance = new Singleton();            
+            }        
+        }        return instance;    
+    }
+}
+
+```
+
+## 4.2 AQS思想
+AQS的全称为（AbstractQueuedSynchronizer）抽象的队列式的同步器，是⼀个⽤来构建锁和同步器的框架，使⽤AQS能简单且⾼效地构造出应⽤⼴泛的⼤量的同步器，如：基于AQS实现的lock, CountDownLatch、CyclicBarrier、Semaphore
+
+需解决的问题：状态的原子性管理线程的阻塞与解除阻塞队列的管理
+
+​AQS核⼼思想是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的⼯作线程，并且将共享资源设置为锁定状态。如果被请求的共享资源被占⽤，那么就需要⼀套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS是⽤CLH（虚拟的双向队列）队列锁实现的，即将暂时获取不到锁的线程加⼊到队列中。
+
+### lock
+是一种可重入锁，除了能完成synchronized所能完成的所有工作外，还提供了诸如可响应中断锁、可轮询锁请求、定时锁等避免多线程死锁的方法。默认为非公平锁，但可以初始化为公平锁； 通过方法 lock()与 unlock()来进行加锁与解锁操作；
+
+### CountDownLatch
+通过计数法（倒计时器），让一些线程堵塞直到另一个线程完成一系列操作后才被唤醒；该⼯具通常⽤来控制线程等待，它可以让某⼀个线程等待直到倒计时结束，再开始执⾏。具体可以使用countDownLatch.await()来等待结果。多用于多线程信息汇总。
+
+### CompletableFuture
+通过设置参数，可以完成CountDownLatch同样的多平台响应问题，但是可以针对其中部分返回结果做更加灵活的展示。
+
+### CyclicBarrier
+字面意思是可循环(Cyclic)使用的屏障（Barrier）。他要做的事情是，让一组线程到达一个屏障（也可以叫同步点）时被阻塞，直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续干活，线程进入屏障通过CyclicBarrier的await()方法。可以用于批量发送消息队列信息、异步限流。
+
+### Semaphore
+信号量主要用于两个目的AQS的全称为（AbstractQueuedSynchronizer）抽象的队列式的同步器，是⼀个⽤来构建锁和同步器的框架，使⽤AQS能简单且⾼效地构造出应⽤⼴泛的⼤量的同步器，如：基于AQS实现的lock, CountDownLatch、CyclicBarrier、Semaphore需解决的问题：
+
+状态的原子性管理线程的阻塞与解除阻塞队列的管理
+​ AQS核⼼思想是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的⼯作线程，并且将共享资源设置为锁定状态。如果被请求的共享资源被占⽤，那么就需要⼀套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS是⽤CLH（虚拟的双向队列）队列锁实现的，即将暂时获取不到锁的线程加⼊到队列中。
+
+lock：
+
+​ 是一种可重入锁，除了能完成 synchronized 所能完成的所有工作外，还提供了诸如可响应中断锁、可轮询锁请求、定时锁等避免多线程死锁的方法。默认为非公平锁，但可以初始化为公平锁； 通过方法 lock()与 unlock()来进行加锁与解锁操作；
+
+CountDownLatch：
+
+​ 通过计数法（倒计时器），让一些线程堵塞直到另一个线程完成一系列操作后才被唤醒；该⼯具通常⽤来控制线程等待，它可以让某⼀个线程等待直到倒计时结束，再开始执⾏。具体可以使用countDownLatch.await()来等待结果。多用于多线程信息汇总。
+
+CompletableFuture：
+
+​ 通过设置参数，可以完成CountDownLatch同样的多平台响应问题，但是可以针对其中部分返回结果做更加灵活的展示。
+
+CyclicBarrier：
+
+​ 字面意思是可循环(Cyclic)使用的屏障（Barrier）。他要做的事情是，让一组线程到达一个屏障（也可以叫同步点）时被阻塞，直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续干活，线程进入屏障通过CyclicBarrier的await()方法。可以用于批量发送消息队列信息、异步限流。
+
+Semaphore：
+
+​ 信号量主要用于两个目的，一个是用于多个共享资源的互斥作用，另一个用于并发线程数的控制。SpringHystrix限流的思想
+
+3、happens-before
+​ 用来描述和可见性相关问题：如果第一个操作 happens-before 第二个操作，那么我们就说第一个操作对于第二个操作是可见的
+
+​ 常见的happens-before：volatile 、锁、线程生命周期。，一个是用于多个共享资源的互斥作用，另一个用于并发线程数的控制。SpringHystrix限流的思想
+
+## 4.3happens-before
+​用来描述和可见性相关问题：如果第一个操作 happens-before 第二个操作，那么我们就说第一个操作对于第二个操作是可见的
+
+​常见的happens-before：volatile 、锁、线程生命周期。
