@@ -5,7 +5,7 @@ description: "java并发编程"
 categories: [学习清单]
 tags: [学习清单]
 redirect_from:
-  - /0001/01/03/
+  - /0001/01/05/
 ---
 
 * table of contents
