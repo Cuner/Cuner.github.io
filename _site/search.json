@@ -155,22 +155,43 @@
     } ,
   
     {
-      "title"      : "JVM",
-      "url"        : "/blog/0001/01/04/jvm/",
+      "title"      : "Java虚拟机",
+      "url"        : "/blog/0001/01/06/jvm/",
+      "date"       : "0001-01-06 00:00:00 +0800",
+      "shortdate"  : "January 06, 0001"
+    } ,
+  
+    {
+      "title"      : "java并发编程",
+      "url"        : "/blog/0001/01/05/java-concurrent/",
+      "date"       : "0001-01-05 00:00:00 +0800",
+      "shortdate"  : "January 05, 0001"
+    } ,
+  
+    {
+      "title"      : "设计模式",
+      "url"        : "/blog/0001/01/04/design-pattern/",
       "date"       : "0001-01-04 00:00:00 +0800",
       "shortdate"  : "January 04, 0001"
     } ,
   
     {
-      "title"      : "java并发编程",
-      "url"        : "/blog/0001/01/03/java-concurrent/",
+      "title"      : "java基础",
+      "url"        : "/blog/0001/01/03/java-base/",
       "date"       : "0001-01-03 00:00:00 +0800",
       "shortdate"  : "January 03, 0001"
     } ,
   
     {
-      "title"      : "理论基础篇",
-      "url"        : "/blog/0001/01/01/primary/",
+      "title"      : "操作系统基础",
+      "url"        : "/blog/0001/01/02/operating-system/",
+      "date"       : "0001-01-02 00:00:00 +0800",
+      "shortdate"  : "January 02, 0001"
+    } ,
+  
+    {
+      "title"      : "网络基础",
+      "url"        : "/blog/0001/01/01/internet-base/",
       "date"       : "0001-01-01 00:00:00 +0800",
       "shortdate"  : "January 01, 0001"
     } 
