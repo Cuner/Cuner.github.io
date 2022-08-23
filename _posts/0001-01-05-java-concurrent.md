@@ -267,7 +267,12 @@ CAS就是compare and swap（比较交换），是一种很出名的无锁的算�
 ​同步代码块是利用 monitorenter 和 monitorexit 指令实现的，而同步方法则是利用 flags 实现的。
 
 ## 4.3 ReenTrantLock底层实现
-ReentrantLock是java.util.concurrent包下提供的一套互斥锁，相比Synchronized，ReentrantLock类提供了一些高级功能
+ReentrantLock是java.util.concurrent包下提供的一套互斥锁，相比synchronized，ReentrantLock类除了提供与synchronized相同的互斥性、内存可见性以及可重入的加锁语义以外，提供了更高的灵活性：
+* 可轮训获取锁-tryLock()
+* 可定时获取锁-tryLock(long timeout, TimeUnit unit)
+* 可中断获取锁-lockInterruptibly()
+* 公平性
+* 非块结构的加锁
 
 ### 使用方法
 基于API层面的互斥锁，需要lock()和unlock()方法配合try/finally语句块来完成
