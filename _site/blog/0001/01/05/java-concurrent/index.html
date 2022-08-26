@@ -625,7 +625,14 @@ PS：ExecutorCompletionService 使用BlockQueue保存callable任务执行结果<
 <p>​同步代码块是利用 monitorenter 和 monitorexit 指令实现的，而同步方法则是利用 flags 实现的。</p>
 
 <h2 id="heading-43-reentrantlock底层实现">4.3 ReenTrantLock底层实现</h2>
-<p>ReentrantLock是java.util.concurrent包下提供的一套互斥锁，相比Synchronized，ReentrantLock类提供了一些高级功能</p>
+<p>ReentrantLock是java.util.concurrent包下提供的一套互斥锁，相比synchronized，ReentrantLock类除了提供与synchronized相同的互斥性、内存可见性以及可重入的加锁语义以外，提供了更高的灵活性：</p>
+<ul>
+  <li>可轮训获取锁-tryLock()</li>
+  <li>可定时获取锁-tryLock(long timeout, TimeUnit unit)</li>
+  <li>可中断获取锁-lockInterruptibly()</li>
+  <li>公平性</li>
+  <li>非块结构的加锁</li>
+</ul>
 
 <h3 id="heading-使用方法">使用方法</h3>
 <p>基于API层面的互斥锁，需要lock()和unlock()方法配合try/finally语句块来完成</p>
