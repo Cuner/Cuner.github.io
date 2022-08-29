@@ -348,6 +348,7 @@ ReentrantReadWriteLock 是一个读写锁，读操作加读锁，可并发读，
 
 ### 原理
 
+
 ​* 首先ThreadLocal 是一个泛型类，保证可以接受任何类型的对象。因为一个线程内可以存在多个ThreadLocal对象，所以其实是ThreadLocal内部维护了一个Map，是ThreadLocal实现的一个叫做ThreadLocalMap的静态内部类。
 * 最终的变量是放在了当前线程的 ThreadLocalMap 中，并不是存在ThreadLocal上，ThreadLocal可以理解为只是ThreadLocalMap的封装，传递了变量值。
 * 我们使用的 get()、set() 方法其实都是调用了这个ThreadLocalMap类对应的 get()、set() 方法
@@ -447,35 +448,8 @@ AQS的全称为（AbstractQueuedSynchronizer）抽象的队列式的同步器，
 字面意思是可循环(Cyclic)使用的屏障（Barrier）。他要做的事情是，让一组线程到达一个屏障（也可以叫同步点）时被阻塞，直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续干活，线程进入屏障通过CyclicBarrier的await()方法。可以用于批量发送消息队列信息、异步限流。
 
 ### Semaphore
-信号量主要用于两个目的AQS的全称为（AbstractQueuedSynchronizer）抽象的队列式的同步器，是⼀个⽤来构建锁和同步器的框架，使⽤AQS能简单且⾼效地构造出应⽤⼴泛的⼤量的同步器，如：基于AQS实现的lock, CountDownLatch、CyclicBarrier、Semaphore需解决的问题：
-
-状态的原子性管理线程的阻塞与解除阻塞队列的管理
-​ AQS核⼼思想是，如果被请求的共享资源空闲，则将当前请求资源的线程设置为有效的⼯作线程，并且将共享资源设置为锁定状态。如果被请求的共享资源被占⽤，那么就需要⼀套线程阻塞等待以及被唤醒时锁分配的机制，这个机制AQS是⽤CLH（虚拟的双向队列）队列锁实现的，即将暂时获取不到锁的线程加⼊到队列中。
-
-lock：
-
-​ 是一种可重入锁，除了能完成 synchronized 所能完成的所有工作外，还提供了诸如可响应中断锁、可轮询锁请求、定时锁等避免多线程死锁的方法。默认为非公平锁，但可以初始化为公平锁； 通过方法 lock()与 unlock()来进行加锁与解锁操作；
-
-CountDownLatch：
-
-​ 通过计数法（倒计时器），让一些线程堵塞直到另一个线程完成一系列操作后才被唤醒；该⼯具通常⽤来控制线程等待，它可以让某⼀个线程等待直到倒计时结束，再开始执⾏。具体可以使用countDownLatch.await()来等待结果。多用于多线程信息汇总。
-
-CompletableFuture：
-
-​ 通过设置参数，可以完成CountDownLatch同样的多平台响应问题，但是可以针对其中部分返回结果做更加灵活的展示。
-
-CyclicBarrier：
-
-​ 字面意思是可循环(Cyclic)使用的屏障（Barrier）。他要做的事情是，让一组线程到达一个屏障（也可以叫同步点）时被阻塞，直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续干活，线程进入屏障通过CyclicBarrier的await()方法。可以用于批量发送消息队列信息、异步限流。
-
-Semaphore：
 
 ​ 信号量主要用于两个目的，一个是用于多个共享资源的互斥作用，另一个用于并发线程数的控制。SpringHystrix限流的思想
-
-3、happens-before
-​ 用来描述和可见性相关问题：如果第一个操作 happens-before 第二个操作，那么我们就说第一个操作对于第二个操作是可见的
-
-​ 常见的happens-before：volatile 、锁、线程生命周期。，一个是用于多个共享资源的互斥作用，另一个用于并发线程数的控制。SpringHystrix限流的思想
 
 ## 5.3 happens-before
 ​用来描述和可见性相关问题：如果第一个操作 happens-before 第二个操作，那么我们就说第一个操作对于第二个操作是可见的
