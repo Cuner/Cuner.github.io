@@ -155,6 +155,20 @@
     } ,
   
     {
+      "title"      : "附录",
+      "url"        : "/blog/0001/01/31/booklist/",
+      "date"       : "0001-01-31 00:00:00 +0800",
+      "shortdate"  : "January 31, 0001"
+    } ,
+  
+    {
+      "title"      : "MySQL",
+      "url"        : "/blog/0001/01/07/mysql/",
+      "date"       : "0001-01-07 00:00:00 +0800",
+      "shortdate"  : "January 07, 0001"
+    } ,
+  
+    {
       "title"      : "Java虚拟机",
       "url"        : "/blog/0001/01/06/jvm/",
       "date"       : "0001-01-06 00:00:00 +0800",
